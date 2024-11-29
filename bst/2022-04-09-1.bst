@@ -1,0 +1,1 @@
+% // SEQUENCERA : S1%// CHORDSS1, 7-35.11, 0, 128;%// PARTS>> A 128;@xc 1 16 128;1,0,32,0,0.25,0.5, Y=sin(3*2*PI*X);@xm 1 28 100 :: mp "Y=sqrt(T)" 32, mpDur "Y=(1+cos(T*4*PI)*0.25)*D";128, FF FF, 1, -3 1 1 1;%// VARIATIONS

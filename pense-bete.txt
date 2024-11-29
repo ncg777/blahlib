@@ -1,0 +1,64 @@
+﻿==Unary phrase operations==
+  #types are: 0 is up, 1 is down, 2 is updown, 3 is downup, can be jagged intseq
+arp(ph,l,typ[,shuffarp])
+gatedarp(ph,l,typ, velocities[,shuffarp])
+bingate(ph, str)
+  # ph: multichannel phrase
+  # str: gate hexString 0s are rests, 1s are chunks, separates the phrase as a whole
+  # s0: sequence of channels (0-based) for every 1, recycled
+binpart(ph,str,s0) 
+binseqgate(ph, str)
+bintpat(ph,str,bitlen,p_durratio) 
+bounce_pitch_octave(ph, p_min_oct, p_amp_in_oct)
+chiasm8(ph,l)
+chop(ph, ln, st)
+durratio(ph,ratseq)
+durseq(ph, strDurSeq)
+echo2(ph,num,rtime,rfactor)
+echobin(ph, num, rtime, rf, str)
+flip2(ph)
+fold(ph, n)
+inv(ph,n)
+  # Y = f(T)
+mp(ph, fn,len)
+  # Y = f(T, V)
+mpVelo(ph,fn,len)
+  # Y = f(T, D)
+mpDur(ph,fn,len)
+	# cuts a in n parts then pastes it according to sequence
+phns(ph,n,s)
+power_permutate(ph, c, p0)
+preecho2(ph, num, rtime, ratio)
+preechobin(ph, num, rtime, rf, str)
+retr(ph,cl,n)
+retrauto(ph,len)
+retrbin(ph, cl, n, str)
+retrscavolbin(ph, cl, n, ratio, str)
+reverse2(ph)
+revli(ph,l)
+rhythmictransform(ph,n,k)
+rhythmictransforms(ph,n,kseq)
+rot(ph, len)
+scadurbin(ph, ratio, str)
+scavolbin(ph, ratio, str)
+shuffl(ph,l)
+  # the direction specified by dir (0 is up, 1 is down) dir may be seqstr
+stencil(ph, intervals,scale_factor)
+stoch_echo(ph, rtime, rfactor, stochpc in (0,100))
+strum(ph,ncl0,dir) 
+strumseq(ph,ncl0,seq0)
+vel4(ph, strVelSeq, l)
+vel5(ph, strVelSeq, l)
+velseq(ph, strVelSeq, l)
+volratio(ph, ratseq)
+  #window resize. phrase is cut in chunks of length 'a' steps that are pasted back together as if the
+  #chunks where of length 'b' steps. A kind of overlapping is possible if (b<a) is true.
+wr(ph,a,b)
+wrap_pitch_octave(ph, p_min_oct, p_amp_in_oct)
+wrapph(ph, ln)
+
+==Multi-phrase operations:==
+mel_time(mel_ph,time_ph)
+  #a gets priority over b; notes in b with notes in a at the same time get erased
+prio(a,b)
+mergeph(l, ph1, ph2, ..., phn)

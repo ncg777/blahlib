@@ -1,0 +1,1 @@
+% // SEQUENCERTEMPO : ALL || A : S1%// CHORDSS1, 7-35.11, 0, 8;ALL, 12-1.00, 0, 32;%// PARTS>> xTEMPO 16;@t;set, 60;>> A 128;@xs 1 22-30 120;128, FF FF, l, 0 4 2 4 5 4 2 4;%// VARIATIONS

@@ -1,0 +1,1321 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="docu.xsl" ?>
+
+<!DOCTYPE docu 
+[
+	<!ATTLIST docu
+			  title		CDATA	#REQUIRED >
+			  
+	<!ELEMENT docu (section*)>
+	  <!ELEMENT section (desc?, (sublib* | class* | appendix*)) >
+	  <!ATTLIST section
+				title     CDATA   #REQUIRED
+				name      CDATA   #REQUIRED>
+				
+		<!ELEMENT sublib (desc?, example*, ilink*, elink*, function*) >
+		<!ATTLIST sublib
+			  name		CDATA	#REQUIRED
+			  title     CDATA   #REQUIRED
+			  filename  CDATA   #REQUIRED>
+
+		  <!ELEMENT function (desc, example*, ilink*, elink*) >
+		  <!ATTLIST function
+					signature CDATA   #REQUIRED
+					alias   CDATA   #IMPLIED>
+
+				
+		<!ELEMENT class (desc?, method*, example*) >
+		<!ATTLIST class
+				  name		CDATA	#REQUIRED
+				  title     CDATA   #REQUIRED
+				  filename  CDATA   #REQUIRED>
+				  
+		  <!ELEMENT method (desc, example*, ilink*, elink*) >
+		  <!ATTLIST method
+					signature CDATA   #REQUIRED>
+		
+		<!ELEMENT appendix (desc?, (scale_table | update_log))>
+		<!ATTLIST appendix
+				  name     CDATA    #REQUIRED
+				  title    CDATA    #REQUIRED>
+				  
+		  <!ELEMENT scale_table (scale, scale*)>
+		  <!ELEMENT scale EMPTY>
+		  <!ATTLIST scale
+					full_name   CDATA   #REQUIRED
+					short_name  CDATA   #REQUIRED
+					intervals   CDATA   #REQUIRED>
+		  
+		  <!ELEMENT update_log (update, update*) >
+			<!ELEMENT update (change*, name_change*) >
+			<!ATTLIST update
+					  date      CDATA   #REQUIRED>
+					  
+			  <!ELEMENT change (#PCDATA) >
+			  <!ELEMENT name_change EMPTY>
+			  <!ATTLIST name_change
+						old_name  CDATA  #REQUIRED
+						new_name  CDATA  #REQUIRED>
+			  
+			  
+		<!ELEMENT desc ANY >
+		
+		<!ELEMENT ilink EMPTY>
+		<!ATTLIST ilink
+				  href  CDATA   #REQUIRED>
+		
+		<!ELEMENT elink EMPTY>
+		<!ATTLIST elink
+				  href  CDATA   #REQUIRED>
+		
+		<!ELEMENT example EMPTY>
+		<!ATTLIST example
+				  signature  CDATA   #REQUIRED>
+				  
+	    
+
+]>
+
+<docu title="Blah lib">
+  <!--
+	<section title="Installation notes" name="inst">
+		<desc>
+			<p>You should set the global variable ArraySort to 1 in keylocal.k. I use the 'in' operator often and sometimes strange results can be obtained if ArraySort is not set to 1.</p>
+
+			<p>These functions are often not adapted to deal with phrases having notes with negative times.</p>
+		</desc>
+	</section>
+  -->
+	<section title="Sub-libraries" name="sublibs">
+		<sublib title="Phrase functions" filename="phrasef.k" name="phrasef">
+			<desc>
+      <p>All lengths are specified in ticks. A tick is any number of clicks. The number or clicks in a tick is set in a global variable named Td (tick duration). My default is to set it to 24 (sixteenth) in the keylocal.k file.</p>
+      <p>Functions marked with a * also work with sequences.</p>
+      
+      
+      </desc>
+
+			<function signature="arp(ph,l,typ,oct[,shuffle])">
+				<desc>
+				An arpeggiator. ph is the chord phrase, l is the duration in ticks of each note outputted, type is 0 for up, 1 for down, 2 for updown, 3 for downup, oct is the number of octaves traversed. shuffle is an optional parameter; if anything it will shuffle the arpeggio sequence (using shuffseq). 
+				</desc>
+			</function>
+
+			<function signature="chop(ph,ln,[start])*">
+				<desc>
+				Chops a phrase or a sequence. ln is length (in ticks for phrases). start (optional) is where to begin.
+				</desc>
+			</function>
+
+			<function signature="chopl(ph,l)*">
+				<desc>
+				Chops a phrase (or sequence) in chunks of l ticks, returns the sequence of chunks. l should divide the length of the phrase in ticks. 
+				</desc>
+			</function>
+
+			<function signature="chopn(ph,n)*">
+				<desc>
+				Chops a phrase (or sequence) in n chunks of equal length, returns the sequence of chunks. n should divide the length of the phrase in ticks. 
+				</desc>
+			</function>
+
+			<function signature="filter(ph,f,t)">
+				<desc>
+				Phrase filter. f is filter as a sequence, t is type; "p" is pitch, "n" is note number, "t" is time in steps, "d" is duration in steps, "s" is place in sequence (see phtoseq), "o" is pitch class (that is notes within an octave as number from 0 to 11). The function returns an array. At index 0 is the notes selected by the filter, at index 1 is the rest of the phrase.
+				</desc>
+			</function>
+
+			<function signature="info(ph)">
+				<desc>
+				Prints useful informations about a phrase.
+				</desc>
+			</function>
+
+			<function signature="inv(ph,n)">
+				<desc>
+				Inverts a phrase in the spirit of chord inversion. n is the inversion number; if your phrase has x distinct pitches, n can range from -x to x. 0 doesn't change a thing, [1 to x] puts the n lowest values higher, [-1 to -x] puts the n highest values lower. The extremes (x and -x) are mere transpositions rather than inversions. Notes need not to be simultaneous.
+				</desc>
+			</function>
+
+			<function signature="mergeph(l, ph1, ph2, ..., phx)">
+				<desc>
+				Merges phrases using chunks of l ticks. Phrases need not be of same size in wich case shorter phrases will be repeated to match longest phrase. l needs to divide the length of the longest phrase.
+				</desc>
+			</function>
+
+			<function signature="mel_time(mel_ph,time_ph)">
+				<desc>
+				Combines the timing (time, duration) of time_ph with the melodic content of mel_ph. The sequences of the phrases are used so simultaneous notes in mel_ph will remain simultaneous in the result. 
+				</desc>
+			</function>
+
+			<function signature="octint(monoph)">
+				<desc>
+				Takes a monophonic phrase as a parameter and maps all intervals within an octave; no interval in the result will be greater than an octave up or down.
+				</desc>
+			</function>
+
+			<function signature="overwrite(a,b,pos)*">
+				<desc>
+				Overwrites phrase or sequence a with phrase or sequence b at position pos.
+				</desc>
+			</function>
+
+			<function signature="map_oct(ph[, m])">
+				<desc>
+				Octave map. without map : returns an ordered sequence of distinct pitch class numbers. With map : applies new pitches [a=x, b=y, c=z]. 
+				</desc>
+				<ilink href="seqf_map_seq" />
+			</function>
+
+			<function signature="map_oct_rnd(ph)">
+				<desc>
+				Remaps with map_oct randomly.
+				</desc>
+			</function>
+
+			<function signature="phtoseq(ph)">
+				<desc>
+				Turns a phrase into a sequence of smaller phrases using starting times as a basis.
+				</desc>
+			</function>
+
+			<function signature="phns(ph,n,s)">
+				<desc>
+				Chops a phrase in n equal chunks and pastes it back together using sequence s.
+				</desc>
+			</function>
+
+			<function signature="map_pch(ph[, m])">
+				<desc>
+				Pitch map. without map : returns an ordered sequence of distinct pitch numbers. With map : applies new pitches [a=x, b=y, c=z]. 
+				</desc>
+				<ilink href="seqf_map_seq" />
+			</function>
+
+			<function signature="map_pch_rnd(ph)">
+				<desc>
+				Remaps with map_pch randomly.
+				</desc>
+			</function>
+
+			<function signature="prio(a,b)">
+				<desc>
+				Phrase a gets priority over phrase b; notes in b with notes in a at the same time get erased.
+				</desc>
+			</function>
+
+			<function signature="randchopn(ph,n)">
+				<desc>
+				Chops a phrase into n parts of random lengths in ticks.
+				</desc>
+				<ilink href="combinatorics_randkncomp" />
+			</function>
+
+			<function signature="retr(ph,cl,n)">
+				<desc>
+				Applies retrigger to a phrase. Each subphrase (it uses phtoseq) is repeated n times at time intervals of cl clicks.
+				</desc>
+			</function>
+
+			<function signature="rot(a,len)*">
+				<desc>
+				Rotates sequence or phrase.
+				</desc>
+			</function>
+
+			<function signature="seqtoph(seq)">
+				<desc>
+				Pastes a sequence of phrases one after the other. 
+				</desc>
+			</function>
+
+			<function signature="shuffl(ph,l)">
+				<desc>
+				Shuffles a phrase using chunks of l ticks.
+				</desc>
+			</function>
+      <!--
+			<function signature="stochph(ph,pc)">
+				<desc>
+				Only a percentage (pc) of the notes are kept randomly.
+				</desc>
+				<ilink href="phrasef_phtoseq" />
+			</function>
+      -->
+			<function signature="strum(ph,ncl,dir)">
+				<desc>
+				Strums a phrase's simultaneous notes. Notes are separated by ncl clicks and it follows the direction specified by dir (0 is down, 1 is up). Down really is up and up down if you take the pitch as a reference.
+				</desc>
+			</function>
+
+			<function signature="voices(ph)">
+				<desc>
+				Separates a phrase into a sequence of separate voices based on pitches.
+				</desc>
+				<ilink href="revisedf_mono2" />
+			</function>
+
+			<function signature="wr(ph,a,b)">
+				<desc>
+				Window resize. Chops a phrase in chunks of a ticks and pastes it back together as if chunks were b ticks long.
+				</desc>
+			</function>
+		</sublib>
+		<sublib title="Sequence functions" filename="seqf.k" name="seqf">
+			<desc>
+				<p>Functions to manipulate and generate various types of sequences.</p>
+			
+				<p>Some functions categorized in phrasef.k not listed here also manipulate sequences (chop, chopn, chopl, overwrite, rot).</p>
+			</desc>
+			<function signature="bounceseq(inp, mini, amp)">
+			<desc>
+			Sequence's values are bounced into limits. mini is the minimum value, amp is the amplitude of allowed values. For example, bounceseq(seq(1,2,3,4),1,3) returns seq(1,2,3,2).
+			</desc></function>
+
+
+			<!-- <function signature="cg(x)">
+			<desc>
+			"Complete graph". It's not a graphical function: it generates a sequence of x*(x-1) items with a complete graph of x nodes in mind. Every possible edge of a complete graph of x element makes 2 elements in the result.
+			</desc></function> -->
+			
+			<function signature="diff(s)">
+			<desc>
+			Differentiate the sequence. The result is a sequence of equal length - 1 containing the differences between the elements. For example : diff(seq(1,4,3)) returns seq(3,-1). 
+			</desc></function>
+
+      <function signature="eq_seq">
+      <desc>
+      Tests the equality of two sequences.      
+      </desc>
+      </function>  
+      
+      <function signature="eq_neck">
+      <desc>
+      Tests the equality of two sequences under rotation (necklace).
+      </desc>
+      </function>
+      
+      <function signature="eq_brac">
+      <desc>
+      Tests the equality of two sequences under rotation and inversion (bracelet).
+      </desc>
+      </function>
+
+			<function signature="flipseq(s)">
+			<desc>
+			Flips a sequence upside down. seq(1,2,3) becomes seq(3,2,1). Recursive.
+			</desc></function>
+
+			<function signature="inte(a,k)">
+			<desc>
+			"Integrates" a sequence using k as initial value. The opposite of diff(). The name provided may not be exact for this operation.
+			</desc></function>
+
+			<function signature="invseq(s,r,n)">
+			<desc>
+			Inverts a sequence in the spirit of chord inversion. s is the sequence, r would be the number of note in an octave (or the number of notes per octave in your scale). n is the inversion number; if your sequence has x distinct values, n can range from -x to x. 0 doesn't change a thing, [1 to x] puts the n lowest values higher, [-1 to -x] puts the n highest values lower.
+			</desc></function>
+			
+			<function signature="juxt(s1,s2,...,sn)">
+			<desc>
+			Juxtaposes content of sequences.
+			</desc></function>
+
+			<function signature="kisins(k,s)">
+			<desc>
+			Returns true if k is in sequence s.
+			</desc></function>
+
+			<function signature="line(v1, t1, v2, ...)">
+			<desc>
+			Linearly interpolates between values for specified numbers of steps (t1...). You can specify as many values as you need as long as there is one more value than numbers of steps.
+			</desc></function>
+			
+			<function signature="mergeseq(n, s1, s2, ..., sn)">
+			<desc>
+			Merge sequences using chunks of n elements. Phrase need not be of same size in which case shorter sequences will be repeated to match the longest. n needs to divide the length of the longest sequence.
+			</desc></function>
+
+			<function signature="mods(m1, m2,..., mn)">
+			<desc>
+			Takes moduli numbers as parameters. Returns a numerical sequence whose length is the largest of the moduli. #x=x%m0%m1... of course moduli are applied to the index in decreasing order. For example mods(8,3) returns seq(0,1,2,0,1,2,0,1).
+			</desc>
+			<elink href="http://en.wikipedia.org/wiki/Modular_arithmetic" />
+			</function>
+			
+			<function signature="modsf(m1,m2,...,mn)">
+			<desc>
+			The index value of every zeros in the result given by mods is put in a sequence. The largest moduli is added at the end. Meant to generate sequence to be used as a filters (see function filt) for syncopation and such.
+			</desc>
+			<ilink href="seqf_mods" />
+			</function>
+			
+			<function signature="norepseq(s)">
+			<desc>
+			Eliminates repetition from a sequence by replacing repeating values with another one as close as possible in the alphabet of the input (uses function map_seq). 
+      Items may be numbers or tuples. Repetition between last and first items is also checked.
+			</desc>
+			<ilink href="scale_norep" />
+			</function>
+
+			<function signature="randseq0(n, min, amp)">
+			<desc>
+			Random sequence 0 : simple random sequence ranging from minimum to minimum + amp.
+			</desc></function>
+
+			<function signature="randseq1(n, min, amp, [nodup])">
+			<desc>
+			Random sequence 1 : no successive repetition (even if the sequence is repeated; the first and last element won't be equal). If you want a sequence with no duplicates give 1 as 4th argument and make sure amp is greater than n.
+			</desc></function>
+
+			<function signature="randseq2(n, min, amp, minabsdiff, diffrangeamp, [illegaldiff])">
+			<desc>
+			Random sequence 2 : computed values range from min to min+amp. Differences between successive values will range from minabsdiff to minabsdiff+diffrangeamp or from -minabsdiff to -(minabsdiff+diffrangeamp). An optional parameter illegaldiff is an illegal difference that will not appear in the sequence.
+			</desc></function>
+
+			<function signature="randseq3(min, amp, s, k)">
+			<desc>
+			Random sequence 3 : a random sequence of the same size as sequence s ranging from min to min+amp is computed. Every value is then multiplied with its counterpart in s. s is an integer sequence usually ranging from -1 to 1. The result is integrated (function inte) using k. The idea behind this is to specify an overall direction to the phrase while the values remain random.
+			</desc></function>
+
+			<function signature="removeat(s,i)">
+			<desc>
+			Returns a sequence that is s with all indexes specified by i removed. 'i' may be a sequence or an integer.
+			</desc></function>
+			
+			<function signature="repseq(s,n)">
+			<desc>
+			Repeats sequence s n times. s may also be something else. In that case, a sequence of whatever input was supplied repeated n times will be returned.
+			</desc></function>
+
+			<function signature="revseq(arr)">
+			<desc>
+			Reverses sequence.
+			</desc></function>
+
+			<function signature="reptest(s)">
+			<desc>
+			Returns true if there are two successive identical values in a sequence. Whether the last and first values are equal is also tested.
+			</desc></function>
+			
+			<function signature="saddk(s, k)">
+			<desc>
+			Adds k to sequence s. If k is a sequence then the result is the juxtaposition of saddk(a,k[0]), saddk(a,k[1]) ... Sequence s may contain other sequence since the function is recursive. Of course the sequences must contain numbers.
+			</desc></function>
+			
+			<function signature="sadds(s1, s2)">
+			<desc>
+			Adds 2 sequences; each value in s1 is added to the value with the same index in s2. If the sequence are not of the same size, the result will have the size of the longer sequence and the function will loop in the smaller sequence. Input sequences can only contain numbers (not other arrays).
+			</desc></function>
+			
+			<function signature="seed()">
+			<desc>
+			Seeds the random number generator with the current time.
+			</desc></function>
+			
+			<function signature="seq()">
+			<desc>
+			Creates a sequence with values being the arguments.
+			</desc></function>
+
+			<function signature="seqmax(s)">
+			<desc>
+			Returns the maximum value of sequence s. Recursive.
+			</desc></function>
+
+			<function signature="seqmin(s)">
+			<desc>
+			Returns the minimum value of sequence s. Recursive.
+			</desc></function>
+
+			<function signature="seqrem(s, n)">
+			<desc>
+			Returns a sequence containing all values of s except n.
+			</desc></function>
+
+			<function signature="seqi(s, i)">
+			<desc>
+			Sequence and index sequence. For example seqi(seq(7,8,9),seq(2,1,0)) returns seq(9,8,7). Recursive.
+			</desc></function>
+
+			<function signature="seqinsert(s, index, item)">
+			<desc>
+			Insert item (which may be a list in which case it will be inserted in the flow of the sequence) in a sequence s. 
+			</desc></function>
+
+			<function signature="shuffseq(s)">
+			<desc>
+			Shuffles a sequence. The principle is the same as the shuffle function in the keykit library.
+			</desc></function>
+
+			<function signature="sigma(k)">
+			<desc>
+			Sum of all integers smaller or equal to k.
+			</desc></function>
+			
+			<function signature="sigmaseq(k)">
+			<desc>
+			The best way to explain this one is with an example: sigmaseq(3) -> seq(0,0,1,0,1,2), that is 0 then 0, 1 then 0, 1, 2. The number of elements in the sequence is equal to the sum of all integers smaller or equal to k.
+			</desc></function>
+
+			<function signature="map_seq(s[,m])">
+			<desc>
+			Sequence map. without map : returns an ordered sequence of distinct values . With map : applies map [a=x, b=y, c=z].
+			For example map_seq(seq(4,5,6),[4=1,5=2,6=3]) would return seq(1,2,3). Recursive.
+			<ilink href="phrasef_map_pch" />
+			<ilink href="phrasef_map_oct" />
+			</desc></function>
+
+			<function signature="smulk(s, k)">
+			<desc>
+			Multiplies the items in sequence s by k. If k is a sequence then the result is the juxtaposition of smulk(a,k[0]), smulk(a,k[1]) .. Sequence s may contain other sequences since the function is recursive. Of course the sequences must contain numbers.
+			</desc></function>
+
+			<function signature="stair(o, l, [d])">
+			<desc>
+			Stair function. o is origin, l is length, d is delta. For example stair(2,4,4) would return seq(2,6,10,14). Similar to Python's range() function.
+			</desc></function>
+
+			<function signature="sum(s)">
+			<desc>
+			Returns the sum of the items in a sequence.
+			</desc></function>
+			
+			<function signature="scopy(tg, src)">
+			<desc>
+			Copies source array into target array. Recursive.
+			</desc></function>
+
+			<function signature="tri(o, l [, d])">
+			<desc>
+			Triangle function; juxtaposes two stair sequences to form some sort of triangle. For example tri(0,4) returns seq(0,1,2,3,4,3,2,1).
+			</desc>
+      <ilink href="seqf_stair" />
+      </function>
+			
+			<function signature="wrapseq(inp, mini, amp)">
+			<desc>
+			Sequence's values are wrapped into limits. mini is the minimum value, amp is the amplitude of allowed values. For example, wrapseq(seq(1,2,3,4),1,3) returns seq(1,2,3,1).
+			</desc></function>
+				
+		</sublib>
+		<sublib title="Combinatorics functions" filename="combinatorics.k" name="combinatorics">
+			<function signature="binomial(n,k)">
+			<desc>
+			Returns the binomial coefficient n choose k. n must be greater or equal to k.
+			</desc></function>
+
+			<function signature="cycles(s,cycle1[, cycle2,..., cycleN])">
+			<desc>
+			Permutes sequence s using disjoint cycles. Cycles are expressed as sequences. Note that the validity of the parameters aren't verified so if your cycles are not disjoint or if they refer to indexes greater or equal to the size of s, it will give chaotic results.
+			</desc>
+			<elink href="http://en.wikipedia.org/wiki/Permutation#Notation" />
+			</function>
+			
+			<function signature="factorial(n)">
+			<desc>
+			Returns the factorial of n, that is n!.
+			</desc></function>
+			
+			<function signature="full_cycle(s,cycle1[, cycle2,..., cycleN])">
+			<desc>The permutation is applied to s k times where k is the least common multiple of the cycles' lengths. No error-checking so be careful.</desc>
+			<ilink href="combinatorics_cycles" />
+			</function>
+			
+			<function signature="gen_kncomb(k,n)">
+			<desc>
+			Generates all k-combinations of n elements.
+			</desc></function>
+			
+			<function signature="gen_permu(k)">
+			<desc>
+			Generates all permutations of k elements in lexicographic order so there are k! elements in the resulting array.
+			</desc></function>
+			
+			<function signature="randkncomb(k,n)">
+			<desc>
+			Generates a random combination of n choose k elements.
+			</desc></function>
+			
+			<function signature="randkncomp(k,n)">
+			<desc>
+			Generates a random composition of n with k elements.
+			</desc></function>
+
+			<function signature="next_permu(permu)">
+			<desc>
+			Generates the next permutation in lexicographic order. Algorithm taken from Discrete mathematics and its applications' by Kenneth H. Rosen.
+			</desc></function>
+			
+			<function signature="raise(s,k)">
+			<desc>
+			Let's say you juxtapose n permutations of k elements. All values in the sequence will range from 0 to k-1. This function raises every permutation k above the preceding one starting from 0. So if you have 4 juxtaposed permutations of 5 elements in sequence s and apply raise(s,5), the first one will range from 0 to 4, the second one from 5 to 9, the third from 10 to 14, the fourth from 15 to 19.
+			</desc></function>
+			
+			<function signature="randpermu(k)">
+			<desc>
+			Generates a random permutation of k elements.
+			</desc></function>
+			<!--
+			<function signature="stochcomp(n,percent)">
+			<desc>
+			Generates a random composition (mathematical) of n. The higher percent is, the more values there will be in the composition. 
+			</desc></function>
+      -->
+		</sublib>
+		<sublib title="Binary functions" filename="binf.k" name="binf">
+			<desc>
+				<p>Function based on the binary representation of numbers. These functions use a global variable named Bpn that you should set in keylocal.k. Bpn is the number if bits per number. Numbers are specified with a space between them in strings. With Bpn set to 4 or 8, numbers must be specified in hexadecimal without the preceding 0x characters so something like "af 12" would be equal to 175 followed by 18. When Bpn is set to 3 or 6, numbers must be specified in octal (base 8). For all other values of Bpn, numbers must be specified in decimal.</p>
+			</desc>
+
+			<function signature="binab(a,b,str[,bitlen])">
+			<desc>
+			Using a binary sequence defined by Bpn and str. a and b can be either phrases or sequences. 0s are a, 1 are b. In the case of phrases, each bit corresponds to bitlen ticks, which defaults to 1.
+			</desc></function>
+
+
+			<function signature="binseqtostr(x)">
+			<desc>
+			Takes a bit string and converts it to a string of numbers according to Bpn.
+			</desc></function>
+			
+			<function signature="pseudo_base(s)">
+			<desc>
+			The function counts from 0 to square of the length of s minus 1 and generates a sequence using sequence s instead of the powers of 2. For example if you call pseudo_base(seq(x,y)) it will return seq(0, x, y, x+y).
+			</desc></function>
+
+			<function signature="binfo(ph)">
+			<desc>
+			Prints and returns a string of space separated numbers corresponding to rhythm of the phrase.
+			</desc></function>
+
+			<function signature="bingate(ph,str, bitlen)">
+			<desc>
+			Using a binary sequence defined by str, leaves or remove chunks of length bitlen in the phrase ph.
+			</desc></function>
+
+			<function signature="bitcount(str)">
+			<desc>
+			Counts bits in the number string.
+			</desc></function>
+
+			<function signature="dectobin(n)">
+			<desc>
+			Converts a decimal number into a string containing an hexadecimal representation. It's meant to be used in conjunction with ntobinseq() based functions, functions in binf.k that accepts a string parameter and use the global variable Bpn.
+			</desc></function>
+
+			<function signature="mergestr(n,str1,str2,... strx)">
+			<desc>
+			Merges the sequence of number strings with mergeseq.
+			</desc></function>
+
+			<function signature="modstostr(m1,m2,...,mx)">
+			<desc>
+			Uses modsf to generate a number string.
+			</desc>
+			<ilink href="seqf_modsf" />
+			</function>
+
+			<function signature="morphabseq(a,b)">
+			<desc>
+			Sequence a and sequence b must be of same size. Morphs sequence a into sequence b using binary numbers. 0s are a, 1s are b. Counts from 0 to 2^length-1.
+			</desc></function>
+
+			<function signature="ntobinseq(str)">
+			<desc>
+			Converts a string of space separated numbers into a binary sequence. (Basic function). The bits are ordered from greater to lower, just like when you write a number greater powers of the base are placed firts (we write 10 for ten, not 01).
+			</desc></function>
+
+			<function signature="nnbits(n, nbits)">
+			<desc>
+			Converts a decimal n to a binary sequence of length nbits. n must be smaller 2^nbits.
+			</desc></function>
+
+			<function signature="phbin(ph,str)">
+			<desc>
+			This function uses the sequence of phrase ph and the rhythm (each bit is a tick) of the binary sequence of ntobinseq(mode, str) to generate a phrase. ph may also be a sequence of phrases. If the number of elements in the phrase sequence and the number of bits in the rhythm are not equal, the function loops in the phrase sequence and repeats the whole rhythm so that the whole phrase sequence (or the whole rhythm) is played at least once. It will always output a multiple of the length implied by str.
+			</desc></function>
+			
+			<function signature="randrhythm(ph)">
+			<desc>
+			Changes the rhythm of a phrase randomly. The order of the notes remain the same.
+			</desc></function>
+			
+			<function signature="randstr(n)">
+			<desc>
+			Generates a string of n space separated numbers.
+			</desc></function>
+			
+			<function signature="randstrnk(n,k)">
+			<desc>
+			Generates a string of n space separated numbers with k being the number of bits of value 1.
+			</desc></function>
+			
+			<function signature="randstrnkand(str,k)">
+			<desc>
+			Provided a string of space separated numbers, this function will generate a string of space separated numbers with k bits set to 1 with these k bits occuring in places where there are bits set to 1 in the input string.
+			</desc></function>
+			
+			<function signature="randstrnkxor(str,k)">
+			<desc>
+			Provided a string of space separated numbers, this function will generate a string of space separated numbers with k bits set to 1 with these k bits not occuring in places where there are bits set to 1 in the input string.
+			</desc></function>
+			
+			<function signature="rotbin(str,n)">
+			<desc>
+			Rotates the bits in a number string.
+			</desc></function>
+			
+			<function signature="seqtostr(s)">
+			<desc>
+			Generates a string of numbers with bits at values contained in the sequence. The largest value determines the length of the string. For example, with Bpn set to 8 and the sequence seq(0,2,5,7) it would return A5. Add 8 at the end of the sequence and you get A5 80.
+			</desc></function>
+			<!--
+			<function signature="stochstr(nb,percent)">
+			<desc>
+			Generates a string of nb space-separated numbers pseudo-stochastically. The higher the percent the more bits there will be.
+			</desc></function>
+			-->
+			<function signature="xpstr(bytes,power,fill, shift)">
+			<desc>
+			"Expands" a string of numbers. Each bit becomes 2^power bits. If fill is set to 1, the new bits will be set to 1 otherwise 0. Every 2^power bits is rotated according to shift which may or may not be a sequence.
+			</desc></function>
+			
+			<function signature="and(), or(), xor(), not()">
+			<desc>
+			These function simulate logical operators on number strings given as parameters.
+			</desc></function>
+		</sublib>
+		<sublib title="Revised functions" filename="revisedf.k" name="revisedf">
+
+			<function signature="quantize2(phrase, quant [,limit ])">
+			<desc>
+			An exact copy of the core Keykit library function quantize. The only difference is that the phrase's length is preserved.
+			</desc>
+			</function>
+			
+			<function signature="bpm2(bpm)">
+			<desc>
+			Sets bpm and returns a tempo message using the bpm.
+			</desc></function>
+
+			<function signature="flip2(ph)">
+			<desc>
+			Uses the flip method of the scale class with a scale containing all pitches.
+			</desc>
+			<ilink href="scale_flip" />
+			</function>
+
+			<function signature="legato2(ph)">
+			<desc>
+			Legato that modifies the duration of the last note using the length of ph.
+			</desc></function>
+			
+			<function signature="mono2(ph,type)">
+			<desc>
+			Generates a monophonic phrase from a polyphonic phrase. Type is 0 for highest note, 1 for lowest note, 2 for random. The difference with the function mono from the core Keykit library is that mono2 uses phtoseq.
+			</desc></function>
+			
+		</sublib>
+		<sublib title="Control functions" filename="ctlf.k" name="ctlf">
+			<desc>
+				<p>Functions that generate controller messages or tempo messages.</p>
+			</desc>
+
+			<function signature="gate(monoph, ch)">
+			<desc>
+			Uses a monophonic phrase to generate a gate phrase on channel ch. A controller 7 (volume) of the velocity of the note will be written for every noteon. A controller 7 of value 0 will be written at every noteoff.
+			</desc></function>
+
+			<function signature="seqtobpm(s [,rate])">
+			<desc>
+			Generates a tempo phrase using the values of sequence s as bpm. If a rate is provided, only every 'rate'th value will be used.
+			</desc></function>
+
+			<function signature="seqtoctl(ch, cn, s [,rate])">
+			<desc>
+			Takes a channel number, a controller number, a sequence of numbers and an optional rate. For every value of sequence s, a controller message of number cn will be written to channel ch. The index of the sequence specifies the time in clicks. If a rate is provided, only every 'rate'th value will be used.
+			</desc></function>
+
+			<function signature="seqtopbend(ch, s [,rate])">
+			<desc>
+			Takes a channel number, a sequence of numbers and an optional rate. For every value of sequence s, a pitchbend message will be written to channel ch. The index of the sequence specifies the time in clicks. If a rate is provided, only every 'rate'th value will be used.
+			</desc></function>
+
+			<function signature="swing(bpm, percent, len)">
+			<desc>
+			Generates swinging (also sometimes called shuffle or groove) that is it makes the bpm alternates between 2 values. It can be more complex but this function is pretty simple. Provide the average bpm, the percentage of swinging (0 to 99) and the length of the swinging phrase in ticks. It adds a funky feeling.
+			</desc></function>
+		</sublib>
+		<sublib title="String functions" filename="stringf.k" name="stringf">
+
+			<function signature="join(s)">
+			<desc>
+			The oposite of the split library function. Takes a sequence of elements and makes a string of these separated by spaces.
+			</desc></function>
+
+			<function signature="repstr(str,n)">
+			<desc>
+			Concatenates string str n times.
+			</desc></function>
+			
+			<function signature="trim(str)">
+			<desc>
+			Trims space at the beginning and end of a string.
+			</desc></function>
+			
+		</sublib>
+	</section>
+	
+	<section title="Classes" name="classes">
+		<class title="Scale" filename="scale.k" name="scale">
+		<ilink href="appendix_scales" />
+			<desc>
+				<p>The purpose of this class is to generate and manipulate phrases in a specified scale.</p>
+
+				<p>The constructor of a scale object accepts the same parameters as the set() method documented below.</p>
+
+				<p>The scale object methods use a sequence of all the midi notes that are on it's scale : the pitch map. Pitches refer to the index in the pitch map.</p>
+
+			</desc>
+
+			<method signature="bounce(inp,mini,amp)">
+			<desc>
+			Bounces pitches on the scale.
+			</desc></method>
+
+			<method signature="decluster(ph)">
+			<desc>
+			Takes an on-scale polyphonic phrase as input. Minor seconds are dissonant. This function eliminates simultaneous consecutive tones by transposition on the scale. 
+			</desc>
+			<elink href="http://en.wikipedia.org/wiki/Tone_clusters" />
+			</method>
+
+			<method signature="flip(ph)">
+			<desc>
+			Flips the phrase on scale. The phrase should be on scale, otherwise it may give erratic results. 
+      The phrase is flipped using the average pitch of the phrase (in relation to the scale) as the axis; lowest become highest, highest becomes lowest.
+			</desc></method>
+
+			<method signature="gen(p,d)">
+			<desc>
+			Generates a phrase using a pitch sequence (in scale steps), a duration sequence (in ticks). p and d may be single values (if they are, they will be reused). 
+      If both parameters are sequences, the number of notes generated will be equal to the number of elements in the longest sequence. 
+      The pitch sequence may contain sequences; they will be interpreted as simultaneous notes (chords).
+			</desc></method>
+
+			<method signature="norep(monoph)">
+			<desc>
+			Eliminates repetition from a phrase by changing notes and chords. It works with monophonic and polyphonic phrases.
+			</desc>
+			<ilink href="seqf_norepseq" />
+			</method>
+			
+			<method signature="play()">
+			<desc>
+			Plays the scale.
+			</desc></method>
+
+			<method signature="set()">
+			<desc>
+			Set scale. Forms: set(scale abbreviation, root as number from 0 to 11), set(non repeating sequence of numbers from 0 to 11), set(phrase) .
+			</desc>
+			<ilink href="appendix_scales" />
+			</method>
+
+			<method signature="trans(ph, s [, nb_iteration, chromatic_switch])">
+			<desc>
+			Transposes a phrase by s scale steps. s may be a sequence and if so, you can specify the number of times you want the sequence repeated (nb_ite). 
+      If the chromatic_switch parameter is set to 1, the input phrase need not be on scale, otherwise it has to. 
+      In the case of chromatic transposition : shift_in_semitones=pitch_map[s].  
+			</desc></method>
+
+			<method signature="wrap(inp,mini,amp)">
+			<desc>
+			Wraps pitches on the scale. mini and amp are indexes of notes on scale.
+			</desc></method>
+
+		</class>
+		
+		
+		<class title="Midi lfo" filename="mlfo.k" name="mlfo">
+			<desc>
+				<p>These shiny little objects let you generate periodic sequences. These periodic sequences can then be used to generate controller messages with seqtoctl, tempo messages with seqtobpm or whatever you want them to.</p>
+
+				<p>They can modulate each other in 3 ways: amplitude modulation, frequency modulation and addition.</p>
+
+				<p>The constructor need 5 parameters : shape, period, offset, amp, phase.</p>
+
+				<p>The shape is specified with a number:</p>
+				<ul>
+					<li>0 : sine</li>
+					<li>1 : square</li>
+					<li>2 : triangle</li>
+					<li>3 : sawtooth</li>
+					<li>4 : reverse sawtooth</li>
+					<li>5 : random (a new value is computed every time the phase crosses 0)</li>
+				</ul>
+				<p>The period is the inverse of the frequency. It should be a number of clicks if you want to generate controller messages.</p>
+
+				<p>The offset is a value that is added to the result.</p>
+
+				<p>amp is the amplitude of the wave. Values will range from (offset-amp) to (offset+amp).</p>
+
+				<p>The phase is specified as a real number from 0 to 1.</p>
+
+				<p>You can set every parameter using the appropriate methods.</p>
+			</desc>
+
+			<method signature="calc(n)">
+			<desc>
+			Calculates n values. All connected lfos will also be computed to generate the result. Note that mlfo objects do not keep track of the phase state between calls to calc.
+			</desc></method>
+
+			<method signature="setShape(shape)">
+			<desc>
+			Sets the shape number. Look above for accepted values and their corresponding shape.
+			</desc></method>
+			
+			<method signature="setPeriod(period)">
+			<desc>
+			Sets the period.
+			</desc></method>
+			
+			<method signature="setOffset(offset)">
+			<desc>
+			Sets the offset.
+			</desc></method>
+			
+			<method signature="setAmp(amp)">
+			<desc>
+			Sets amplitude.
+			</desc></method>
+			
+			<method signature="setPhase(phase)">
+			<desc>
+			Sets phase.
+			</desc></method>
+			
+			<method signature="setAdd(mlfo_object)">
+			<desc>
+			Sets the lfo to be added to the current lfo.
+			</desc></method>
+			
+			<method signature="setAM(mlfo_object)">
+			<desc>
+			Sets the lfo to modulate the amplitude. The amplitude is multiplied by the modulator.
+			</desc></method>
+			
+			<method signature="setFM(mlfo_object)">
+			<desc>
+			Sets the lfo to modulate the frequency. I found that modulating the period gives erratic results. It's more appropriate to modulate the frequency. The frequency is multiplied by the modulator.
+			</desc></method>
+
+			<method signature="unsetAdd()">
+			<desc>
+			Unset the lfo added to the current lfo.
+			</desc></method>
+			
+			<method signature="unsetAm()">
+			<desc>
+			Unset the amplitude modulation lfo.
+			</desc></method>
+			
+			<method signature="unsetFM()">
+			<desc>
+			Unset the frequency modulation lfo.
+			</desc></method>
+		</class>
+		
+		<class title="Maptron" filename="maptron.k" name="maptron">
+			<desc>
+			<p>The idea behind this class is to map the times of a phrase according to a mathematical formula.</p>
+			<p>The formulas are saved in an associative array as strings of the form "Y=X" to be evaluated. X and Y must be in capital letters. </p>
+			<p>The length of the phrase is mapped to the interval that goes from 0 to 1. For example, Y=1-X reverses the phrase, no matter what length it is.</p>
+			
+			</desc>
+			
+			<method signature="set(fn)">
+				<desc>
+				I defined 4 basic functions in maptron.k : "halfsine", "pow2", "pow3" and "rev". Add your own!
+				</desc>
+			</method>
+			
+			<method signature="apply(ph[,n])">
+				<desc>
+				Applies the function to phrase ph. Optionally applied to n chunks of the phrase.
+				</desc>
+			</method>
+		</class>
+	</section>
+
+	<section title="Appendix" name="appendix">
+		<appendix title="Scales" name="scales">
+			<scale_table>
+				<scale full_name="Harmonic minor" short_name="harmin" pitchclasses="0,2,3,5,7,8,11" intervals="2,1,2,2,1,3,1" />
+				<scale full_name="Melodic minor" short_name="melmin" pitchclasses="0,2,3,5,7,9,11" intervals="2,1,2,2,2,2,1" />
+				<scale full_name="Hungarian minor scale" short_name="hung" pitchclasses="0,2,3,6,7,8,11" intervals="2,1,3,1,1,3,1" />
+				<scale full_name="Oriental" short_name="orient" pitchclasses="0,2,4,7,9" intervals="2,2,3,2,3" />
+				<scale full_name="Pentatonic" short_name="pent" pitchclasses="0,2,4,7,11" intervals="2,2,3,4,1" />	
+				<scale full_name="Jazz" short_name="jazz" pitchclasses="0,3,5,6,7,10" intervals="3,2,1,1,3,2" />
+				<scale full_name="Major" short_name="maj" pitchclasses="0,2,4,5,7,9,11" intervals="2,2,1,2,2,2,1"	/>
+				<scale full_name="Octatonic" short_name="oct" pitchclasses="0,2,3,5,6,8,9,11" intervals="2,1,2,1,2,1,2,1" />
+				<scale full_name="1-1" short_name="1-1" pitchclasses="0" intervals="12" />
+				<scale full_name="2-1" short_name="2-1" pitchclasses="0,1" intervals="1,11" />
+				<scale full_name="2-2" short_name="2-2" pitchclasses="0,2" intervals="2,10" />
+				<scale full_name="2-3" short_name="2-3" pitchclasses="0,3" intervals="3,9" />
+				<scale full_name="2-4" short_name="2-4" pitchclasses="0,4" intervals="4,8" />
+				<scale full_name="2-5" short_name="2-5" pitchclasses="0,5" intervals="5,7" />
+				<scale full_name="2-6" short_name="2-6" pitchclasses="0,6" intervals="6,6" />
+				<scale full_name="3-1" short_name="3-1" pitchclasses="0,1,2" intervals="1,1,10" />
+				<scale full_name="3-2A" short_name="3-2A" pitchclasses="0,1,3" intervals="1,2,9" />
+				<scale full_name="3-2B" short_name="3-2B" pitchclasses="0,2,3" intervals="2,1,9" />
+				<scale full_name="3-3A" short_name="3-3A" pitchclasses="0,1,4" intervals="1,3,8" />
+				<scale full_name="3-3B" short_name="3-3B" pitchclasses="0,3,4" intervals="3,1,8" />
+				<scale full_name="3-4A" short_name="3-4A" pitchclasses="0,1,5" intervals="1,4,7" />
+				<scale full_name="3-4B" short_name="3-4B" pitchclasses="0,4,5" intervals="4,1,7" />
+				<scale full_name="3-5A" short_name="3-5A" pitchclasses="0,1,6" intervals="1,5,6" />
+				<scale full_name="3-5B" short_name="3-5B" pitchclasses="0,5,6" intervals="5,1,6" />
+				<scale full_name="3-6" short_name="3-6" pitchclasses="0,2,4" intervals="2,2,8" />
+				<scale full_name="3-7A" short_name="3-7A" pitchclasses="0,2,5" intervals="2,3,7" />
+				<scale full_name="3-7B" short_name="3-7B" pitchclasses="0,3,5" intervals="3,2,7" />
+				<scale full_name="3-8A" short_name="3-8A" pitchclasses="0,2,6" intervals="2,4,6" />
+				<scale full_name="3-8B" short_name="3-8B" pitchclasses="0,4,6" intervals="4,2,6" />
+				<scale full_name="3-9" short_name="3-9" pitchclasses="0,2,7" intervals="2,5,5" />
+				<scale full_name="3-10" short_name="3-10" pitchclasses="0,3,6" intervals="3,3,6" />
+				<scale full_name="3-11A" short_name="3-11A" pitchclasses="0,3,7" intervals="3,4,5" />
+				<scale full_name="3-11B" short_name="3-11B" pitchclasses="0,4,7" intervals="4,3,5" />
+				<scale full_name="3-12" short_name="3-12" pitchclasses="0,4,8" intervals="4,4,4" />
+				<scale full_name="4-1" short_name="4-1" pitchclasses="0,1,2,3" intervals="1,1,1,9" />
+				<scale full_name="4-2A" short_name="4-2A" pitchclasses="0,1,2,4" intervals="1,1,2,8" />
+				<scale full_name="4-2B" short_name="4-2B" pitchclasses="0,2,3,4" intervals="2,1,1,8" />
+				<scale full_name="4-3" short_name="4-3" pitchclasses="0,1,3,4" intervals="1,2,1,8" />
+				<scale full_name="4-4A" short_name="4-4A" pitchclasses="0,1,2,5" intervals="1,1,3,7" />
+				<scale full_name="4-4B" short_name="4-4B" pitchclasses="0,3,4,5" intervals="3,1,1,7" />
+				<scale full_name="4-5A" short_name="4-5A" pitchclasses="0,1,2,6" intervals="1,1,4,6" />
+				<scale full_name="4-5B" short_name="4-5B" pitchclasses="0,4,5,6" intervals="4,1,1,6" />
+				<scale full_name="4-6" short_name="4-6" pitchclasses="0,1,2,7" intervals="1,1,5,5" />
+				<scale full_name="4-7" short_name="4-7" pitchclasses="0,1,4,5" intervals="1,3,1,7" />
+				<scale full_name="4-8" short_name="4-8" pitchclasses="0,1,5,6" intervals="1,4,1,6" />
+				<scale full_name="4-9" short_name="4-9" pitchclasses="0,1,6,7" intervals="1,5,1,5" />
+				<scale full_name="4-10" short_name="4-10" pitchclasses="0,2,3,5" intervals="2,1,2,7" />
+				<scale full_name="4-11A" short_name="4-11A" pitchclasses="0,1,3,5" intervals="1,2,2,7" />
+				<scale full_name="4-11B" short_name="4-11B" pitchclasses="0,2,4,5" intervals="2,2,1,7" />
+				<scale full_name="4-12A" short_name="4-12A" pitchclasses="0,2,3,6" intervals="2,1,3,6" />
+				<scale full_name="4-12B" short_name="4-12B" pitchclasses="0,3,4,6" intervals="3,1,2,6" />
+				<scale full_name="4-13A" short_name="4-13A" pitchclasses="0,1,3,6" intervals="1,2,3,6" />
+				<scale full_name="4-13B" short_name="4-13B" pitchclasses="0,3,5,6" intervals="3,2,1,6" />
+				<scale full_name="4-14A" short_name="4-14A" pitchclasses="0,2,3,7" intervals="2,1,4,5" />
+				<scale full_name="4-14B" short_name="4-14B" pitchclasses="0,4,5,7" intervals="4,1,2,5" />
+				<scale full_name="4-z15A" short_name="4-z15A" pitchclasses="0,1,4,6" intervals="1,3,2,6" />
+				<scale full_name="4-z15B" short_name="4-z15B" pitchclasses="0,2,5,6" intervals="2,3,1,6" />
+				<scale full_name="4-16A" short_name="4-16A" pitchclasses="0,1,5,7" intervals="1,4,2,5" />
+				<scale full_name="4-16B" short_name="4-16B" pitchclasses="0,2,6,7" intervals="2,4,1,5" />
+				<scale full_name="4-17" short_name="4-17" pitchclasses="0,3,4,7" intervals="3,1,3,5" />
+				<scale full_name="4-18A" short_name="4-18A" pitchclasses="0,1,4,7" intervals="1,3,3,5" />
+				<scale full_name="4-18B" short_name="4-18B" pitchclasses="0,3,6,7" intervals="3,3,1,5" />
+				<scale full_name="4-19A" short_name="4-19A" pitchclasses="0,1,4,8" intervals="1,3,4,4" />
+				<scale full_name="4-19B" short_name="4-19B" pitchclasses="0,3,4,8" intervals="3,1,4,4" />
+				<scale full_name="4-20" short_name="4-20" pitchclasses="0,1,5,8" intervals="1,4,3,4" />
+				<scale full_name="4-21" short_name="4-21" pitchclasses="0,2,4,6" intervals="2,2,2,6" />
+				<scale full_name="4-22A" short_name="4-22A" pitchclasses="0,2,4,7" intervals="2,2,3,5" />
+				<scale full_name="4-22B" short_name="4-22B" pitchclasses="0,3,5,7" intervals="3,2,2,5" />
+				<scale full_name="4-23" short_name="4-23" pitchclasses="0,2,5,7" intervals="2,3,2,5" />
+				<scale full_name="4-24" short_name="4-24" pitchclasses="0,2,4,8" intervals="2,2,4,4" />
+				<scale full_name="4-25" short_name="4-25" pitchclasses="0,2,6,8" intervals="2,4,2,4" />
+				<scale full_name="4-26" short_name="4-26" pitchclasses="0,3,5,8" intervals="3,2,3,4" />
+				<scale full_name="4-27A" short_name="4-27A" pitchclasses="0,2,5,8" intervals="2,3,3,4" />
+				<scale full_name="4-27B" short_name="4-27B" pitchclasses="0,3,6,8" intervals="3,3,2,4" />
+				<scale full_name="4-28" short_name="4-28" pitchclasses="0,3,6,9" intervals="3,3,3,3" />
+				<scale full_name="4-z29A" short_name="4-z29A" pitchclasses="0,1,3,7" intervals="1,2,4,5" />
+				<scale full_name="4-z29B" short_name="4-z29B" pitchclasses="0,4,6,7" intervals="4,2,1,5" />
+				<scale full_name="5-1" short_name="5-1" pitchclasses="0,1,2,3,4" intervals="1,1,1,1,8" />
+				<scale full_name="5-2A" short_name="5-2A" pitchclasses="0,1,2,3,5" intervals="1,1,1,2,7" />
+				<scale full_name="5-2B" short_name="5-2B" pitchclasses="0,2,3,4,5" intervals="2,1,1,1,7" />
+				<scale full_name="5-3A" short_name="5-3A" pitchclasses="0,1,2,4,5" intervals="1,1,2,1,7" />
+				<scale full_name="5-3B" short_name="5-3B" pitchclasses="0,1,3,4,5" intervals="1,2,1,1,7" />
+				<scale full_name="5-4A" short_name="5-4A" pitchclasses="0,1,2,3,6" intervals="1,1,1,3,6" />
+				<scale full_name="5-4B" short_name="5-4B" pitchclasses="0,3,4,5,6" intervals="3,1,1,1,6" />
+				<scale full_name="5-5A" short_name="5-5A" pitchclasses="0,1,2,3,7" intervals="1,1,1,4,5" />
+				<scale full_name="5-5B" short_name="5-5B" pitchclasses="0,4,5,6,7" intervals="4,1,1,1,5" />
+				<scale full_name="5-6A" short_name="5-6A" pitchclasses="0,1,2,5,6" intervals="1,1,3,1,6" />
+				<scale full_name="5-6B" short_name="5-6B" pitchclasses="0,1,4,5,6" intervals="1,3,1,1,6" />
+				<scale full_name="5-7A" short_name="5-7A" pitchclasses="0,1,2,6,7" intervals="1,1,4,1,5" />
+				<scale full_name="5-7B" short_name="5-7B" pitchclasses="0,1,5,6,7" intervals="1,4,1,1,5" />
+				<scale full_name="5-8" short_name="5-8" pitchclasses="0,2,3,4,6" intervals="2,1,1,2,6" />
+				<scale full_name="5-9A" short_name="5-9A" pitchclasses="0,1,2,4,6" intervals="1,1,2,2,6" />
+				<scale full_name="5-9B" short_name="5-9B" pitchclasses="0,2,4,5,6" intervals="2,2,1,1,6" />
+				<scale full_name="5-10A" short_name="5-10A" pitchclasses="0,1,3,4,6" intervals="1,2,1,2,6" />
+				<scale full_name="5-10B" short_name="5-10B" pitchclasses="0,2,3,5,6" intervals="2,1,2,1,6" />
+				<scale full_name="5-11A" short_name="5-11A" pitchclasses="0,2,3,4,7" intervals="2,1,1,3,5" />
+				<scale full_name="5-11B" short_name="5-11B" pitchclasses="0,3,4,5,7" intervals="3,1,1,2,5" />
+				<scale full_name="5-z12" short_name="5-z12" pitchclasses="0,1,3,5,6" intervals="1,2,2,1,6" />
+				<scale full_name="5-13A" short_name="5-13A" pitchclasses="0,1,2,4,8" intervals="1,1,2,4,4" />
+				<scale full_name="5-13B" short_name="5-13B" pitchclasses="0,2,3,4,8" intervals="2,1,1,4,4" />
+				<scale full_name="5-14A" short_name="5-14A" pitchclasses="0,1,2,5,7" intervals="1,1,3,2,5" />
+				<scale full_name="5-14B" short_name="5-14B" pitchclasses="0,2,5,6,7" intervals="2,3,1,1,5" />
+				<scale full_name="5-15" short_name="5-15" pitchclasses="0,1,2,6,8" intervals="1,1,4,2,4" />
+				<scale full_name="5-16A" short_name="5-16A" pitchclasses="0,1,3,4,7" intervals="1,2,1,3,5" />
+				<scale full_name="5-16B" short_name="5-16B" pitchclasses="0,3,4,6,7" intervals="3,1,2,1,5" />
+				<scale full_name="5-z17" short_name="5-z17" pitchclasses="0,1,3,4,8" intervals="1,2,1,4,4" />
+				<scale full_name="5-z18A" short_name="5-z18A" pitchclasses="0,1,4,5,7" intervals="1,3,1,2,5" />
+				<scale full_name="5-z18B" short_name="5-z18B" pitchclasses="0,2,3,6,7" intervals="2,1,3,1,5" />
+				<scale full_name="5-19A" short_name="5-19A" pitchclasses="0,1,3,6,7" intervals="1,2,3,1,5" />
+				<scale full_name="5-19B" short_name="5-19B" pitchclasses="0,1,4,6,7" intervals="1,3,2,1,5" />
+				<scale full_name="5-20A" short_name="5-20A" pitchclasses="0,1,5,6,8" intervals="1,4,1,2,4" />
+				<scale full_name="5-20B" short_name="5-20B" pitchclasses="0,2,3,7,8" intervals="2,1,4,1,4" />
+				<scale full_name="5-21A" short_name="5-21A" pitchclasses="0,1,4,5,8" intervals="1,3,1,3,4" />
+				<scale full_name="5-21B" short_name="5-21B" pitchclasses="0,3,4,7,8" intervals="3,1,3,1,4" />
+				<scale full_name="5-22" short_name="5-22" pitchclasses="0,1,4,7,8" intervals="1,3,3,1,4" />
+				<scale full_name="5-23A" short_name="5-23A" pitchclasses="0,2,3,5,7" intervals="2,1,2,2,5" />
+				<scale full_name="5-23B" short_name="5-23B" pitchclasses="0,2,4,5,7" intervals="2,2,1,2,5" />
+				<scale full_name="5-24A" short_name="5-24A" pitchclasses="0,1,3,5,7" intervals="1,2,2,2,5" />
+				<scale full_name="5-24B" short_name="5-24B" pitchclasses="0,2,4,6,7" intervals="2,2,2,1,5" />
+				<scale full_name="5-25A" short_name="5-25A" pitchclasses="0,2,3,5,8" intervals="2,1,2,3,4" />
+				<scale full_name="5-25B" short_name="5-25B" pitchclasses="0,3,5,6,8" intervals="3,2,1,2,4" />
+				<scale full_name="5-26A" short_name="5-26A" pitchclasses="0,2,4,5,8" intervals="2,2,1,3,4" />
+				<scale full_name="5-26B" short_name="5-26B" pitchclasses="0,3,4,6,8" intervals="3,1,2,2,4" />
+				<scale full_name="5-27A" short_name="5-27A" pitchclasses="0,1,3,5,8" intervals="1,2,2,3,4" />
+				<scale full_name="5-27B" short_name="5-27B" pitchclasses="0,3,5,7,8" intervals="3,2,2,1,4" />
+				<scale full_name="5-28A" short_name="5-28A" pitchclasses="0,2,3,6,8" intervals="2,1,3,2,4" />
+				<scale full_name="5-28B" short_name="5-28B" pitchclasses="0,2,5,6,8" intervals="2,3,1,2,4" />
+				<scale full_name="5-29A" short_name="5-29A" pitchclasses="0,1,3,6,8" intervals="1,2,3,2,4" />
+				<scale full_name="5-29B" short_name="5-29B" pitchclasses="0,2,5,7,8" intervals="2,3,2,1,4" />
+				<scale full_name="5-30A" short_name="5-30A" pitchclasses="0,1,4,6,8" intervals="1,3,2,2,4" />
+				<scale full_name="5-30B" short_name="5-30B" pitchclasses="0,2,4,7,8" intervals="2,2,3,1,4" />
+				<scale full_name="5-31A" short_name="5-31A" pitchclasses="0,1,3,6,9" intervals="1,2,3,3,3" />
+				<scale full_name="5-31B" short_name="5-31B" pitchclasses="0,2,3,6,9" intervals="2,1,3,3,3" />
+				<scale full_name="5-32A" short_name="5-32A" pitchclasses="0,1,4,6,9" intervals="1,3,2,3,3" />
+				<scale full_name="5-32B" short_name="5-32B" pitchclasses="0,3,5,8,9" intervals="3,2,3,1,3" />
+				<scale full_name="5-33" short_name="5-33" pitchclasses="0,2,4,6,8" intervals="2,2,2,2,4" />
+				<scale full_name="5-34" short_name="5-34" pitchclasses="0,2,4,6,9" intervals="2,2,2,3,3" />
+				<scale full_name="5-35" short_name="5-35" pitchclasses="0,2,4,7,9" intervals="2,2,3,2,3" />
+				<scale full_name="5-z36A" short_name="5-z36A" pitchclasses="0,1,2,4,7" intervals="1,1,2,3,5" />
+				<scale full_name="5-z36B" short_name="5-z36B" pitchclasses="0,3,5,6,7" intervals="3,2,1,1,5" />
+				<scale full_name="5-z37" short_name="5-z37" pitchclasses="0,3,4,5,8" intervals="3,1,1,3,4" />
+				<scale full_name="5-z38A" short_name="5-z38A" pitchclasses="0,1,2,5,8" intervals="1,1,3,3,4" />
+				<scale full_name="5-z38B" short_name="5-z38B" pitchclasses="0,3,6,7,8" intervals="3,3,1,1,4" />
+				<scale full_name="6-1" short_name="6-1" pitchclasses="0,1,2,3,4,5" intervals="1,1,1,1,1,7" />
+				<scale full_name="6-2A" short_name="6-2A" pitchclasses="0,1,2,3,4,6" intervals="1,1,1,1,2,6" />
+				<scale full_name="6-2B" short_name="6-2B" pitchclasses="0,2,3,4,5,6" intervals="2,1,1,1,1,6" />
+				<scale full_name="6-z3A" short_name="6-z3A" pitchclasses="0,1,2,3,5,6" intervals="1,1,1,2,1,6" />
+				<scale full_name="6-z3B" short_name="6-z3B" pitchclasses="0,1,3,4,5,6" intervals="1,2,1,1,1,6" />
+				<scale full_name="6-z4" short_name="6-z4" pitchclasses="0,1,2,4,5,6" intervals="1,1,2,1,1,6" />
+				<scale full_name="6-5A" short_name="6-5A" pitchclasses="0,1,2,3,6,7" intervals="1,1,1,3,1,5" />
+				<scale full_name="6-5B" short_name="6-5B" pitchclasses="0,1,4,5,6,7" intervals="1,3,1,1,1,5" />
+				<scale full_name="6-z6" short_name="6-z6" pitchclasses="0,1,2,5,6,7" intervals="1,1,3,1,1,5" />
+				<scale full_name="6-7" short_name="6-7" pitchclasses="0,1,2,6,7,8" intervals="1,1,4,1,1,4" />
+				<scale full_name="6-8" short_name="6-8" pitchclasses="0,2,3,4,5,7" intervals="2,1,1,1,2,5" />
+				<scale full_name="6-9A" short_name="6-9A" pitchclasses="0,1,2,3,5,7" intervals="1,1,1,2,2,5" />
+				<scale full_name="6-9B" short_name="6-9B" pitchclasses="0,2,4,5,6,7" intervals="2,2,1,1,1,5" />
+				<scale full_name="6-z10A" short_name="6-z10A" pitchclasses="0,1,3,4,5,7" intervals="1,2,1,1,2,5" />
+				<scale full_name="6-z10B" short_name="6-z10B" pitchclasses="0,2,3,4,6,7" intervals="2,1,1,2,1,5" />
+				<scale full_name="6-z11A" short_name="6-z11A" pitchclasses="0,1,2,4,5,7" intervals="1,1,2,1,2,5" />
+				<scale full_name="6-z11B" short_name="6-z11B" pitchclasses="0,2,3,5,6,7" intervals="2,1,2,1,1,5" />
+				<scale full_name="6-z12A" short_name="6-z12A" pitchclasses="0,1,2,4,6,7" intervals="1,1,2,2,1,5" />
+				<scale full_name="6-z12B" short_name="6-z12B" pitchclasses="0,1,3,5,6,7" intervals="1,2,2,1,1,5" />
+				<scale full_name="6-z13" short_name="6-z13" pitchclasses="0,1,3,4,6,7" intervals="1,2,1,2,1,5" />
+				<scale full_name="6-14A" short_name="6-14A" pitchclasses="0,1,3,4,5,8" intervals="1,2,1,1,3,4" />
+				<scale full_name="6-14B" short_name="6-14B" pitchclasses="0,3,4,5,7,8" intervals="3,1,1,2,1,4" />
+				<scale full_name="6-15A" short_name="6-15A" pitchclasses="0,1,2,4,5,8" intervals="1,1,2,1,3,4" />
+				<scale full_name="6-15B" short_name="6-15B" pitchclasses="0,3,4,6,7,8" intervals="3,1,2,1,1,4" />
+				<scale full_name="6-16A" short_name="6-16A" pitchclasses="0,1,4,5,6,8" intervals="1,3,1,1,2,4" />
+				<scale full_name="6-16B" short_name="6-16B" pitchclasses="0,2,3,4,7,8" intervals="2,1,1,3,1,4" />
+				<scale full_name="6-z17A" short_name="6-z17A" pitchclasses="0,1,2,4,7,8" intervals="1,1,2,3,1,4" />
+				<scale full_name="6-z17B" short_name="6-z17B" pitchclasses="0,1,4,6,7,8" intervals="1,3,2,1,1,4" />
+				<scale full_name="6-18A" short_name="6-18A" pitchclasses="0,1,2,5,7,8" intervals="1,1,3,2,1,4" />
+				<scale full_name="6-18B" short_name="6-18B" pitchclasses="0,1,3,6,7,8" intervals="1,2,3,1,1,4" />
+				<scale full_name="6-z19A" short_name="6-z19A" pitchclasses="0,1,3,4,7,8" intervals="1,2,1,3,1,4" />
+				<scale full_name="6-z19B" short_name="6-z19B" pitchclasses="0,1,4,5,7,8" intervals="1,3,1,2,1,4" />
+				<scale full_name="6-20" short_name="6-20" pitchclasses="0,1,4,5,8,9" intervals="1,3,1,3,1,3" />
+				<scale full_name="6-21A" short_name="6-21A" pitchclasses="0,2,3,4,6,8" intervals="2,1,1,2,2,4" />
+				<scale full_name="6-21B" short_name="6-21B" pitchclasses="0,2,4,5,6,8" intervals="2,2,1,1,2,4" />
+				<scale full_name="6-22A" short_name="6-22A" pitchclasses="0,1,2,4,6,8" intervals="1,1,2,2,2,4" />
+				<scale full_name="6-22B" short_name="6-22B" pitchclasses="0,2,4,6,7,8" intervals="2,2,2,1,1,4" />
+				<scale full_name="6-z23" short_name="6-z23" pitchclasses="0,2,3,5,6,8" intervals="2,1,2,1,2,4" />
+				<scale full_name="6-z24A" short_name="6-z24A" pitchclasses="0,1,3,4,6,8" intervals="1,2,1,2,2,4" />
+				<scale full_name="6-z24B" short_name="6-z24B" pitchclasses="0,2,4,5,7,8" intervals="2,2,1,2,1,4" />
+				<scale full_name="6-z25A" short_name="6-z25A" pitchclasses="0,1,3,5,6,8" intervals="1,2,2,1,2,4" />
+				<scale full_name="6-z25B" short_name="6-z25B" pitchclasses="0,2,3,5,7,8" intervals="2,1,2,2,1,4" />
+				<scale full_name="6-z26" short_name="6-z26" pitchclasses="0,1,3,5,7,8" intervals="1,2,2,2,1,4" />
+				<scale full_name="6-27A" short_name="6-27A" pitchclasses="0,1,3,4,6,9" intervals="1,2,1,2,3,3" />
+				<scale full_name="6-27B" short_name="6-27B" pitchclasses="0,3,5,6,8,9" intervals="3,2,1,2,1,3" />
+				<scale full_name="6-z28" short_name="6-z28" pitchclasses="0,1,3,5,6,9" intervals="1,2,2,1,3,3" />
+				<scale full_name="6-z29" short_name="6-z29" pitchclasses="0,2,3,6,7,9" intervals="2,1,3,1,2,3" />
+				<scale full_name="6-30A" short_name="6-30A" pitchclasses="0,1,3,6,7,9" intervals="1,2,3,1,2,3" />
+				<scale full_name="6-30B" short_name="6-30B" pitchclasses="0,2,3,6,8,9" intervals="2,1,3,2,1,3" />
+				<scale full_name="6-31A" short_name="6-31A" pitchclasses="0,1,4,5,7,9" intervals="1,3,1,2,2,3" />
+				<scale full_name="6-31B" short_name="6-31B" pitchclasses="0,2,4,5,8,9" intervals="2,2,1,3,1,3" />
+				<scale full_name="6-32" short_name="6-32" pitchclasses="0,2,4,5,7,9" intervals="2,2,1,2,2,3" />
+				<scale full_name="6-33A" short_name="6-33A" pitchclasses="0,2,3,5,7,9" intervals="2,1,2,2,2,3" />
+				<scale full_name="6-33B" short_name="6-33B" pitchclasses="0,2,4,6,7,9" intervals="2,2,2,1,2,3" />
+				<scale full_name="6-34A" short_name="6-34A" pitchclasses="0,1,3,5,7,9" intervals="1,2,2,2,2,3" />
+				<scale full_name="6-34B" short_name="6-34B" pitchclasses="0,2,4,6,8,9" intervals="2,2,2,2,1,3" />
+				<scale full_name="6-35" short_name="6-35" pitchclasses="0,2,4,6,8,10" intervals="2,2,2,2,2,2" />
+				<scale full_name="6-z36A" short_name="6-z36A" pitchclasses="0,1,2,3,4,7" intervals="1,1,1,1,3,5" />
+				<scale full_name="6-z36B" short_name="6-z36B" pitchclasses="0,3,4,5,6,7" intervals="3,1,1,1,1,5" />
+				<scale full_name="6-z37" short_name="6-z37" pitchclasses="0,1,2,3,4,8" intervals="1,1,1,1,4,4" />
+				<scale full_name="6-z38" short_name="6-z38" pitchclasses="0,1,2,3,7,8" intervals="1,1,1,4,1,4" />
+				<scale full_name="6-z39A" short_name="6-z39A" pitchclasses="0,2,3,4,5,8" intervals="2,1,1,1,3,4" />
+				<scale full_name="6-z39B" short_name="6-z39B" pitchclasses="0,3,4,5,6,8" intervals="3,1,1,1,2,4" />
+				<scale full_name="6-z40A" short_name="6-z40A" pitchclasses="0,1,2,3,5,8" intervals="1,1,1,2,3,4" />
+				<scale full_name="6-z40B" short_name="6-z40B" pitchclasses="0,3,5,6,7,8" intervals="3,2,1,1,1,4" />
+				<scale full_name="6-z41A" short_name="6-z41A" pitchclasses="0,1,2,3,6,8" intervals="1,1,1,3,2,4" />
+				<scale full_name="6-z41B" short_name="6-z41B" pitchclasses="0,2,5,6,7,8" intervals="2,3,1,1,1,4" />
+				<scale full_name="6-z42" short_name="6-z42" pitchclasses="0,1,2,3,6,9" intervals="1,1,1,3,3,3" />
+				<scale full_name="6-z43A" short_name="6-z43A" pitchclasses="0,1,2,5,6,8" intervals="1,1,3,1,2,4" />
+				<scale full_name="6-z43B" short_name="6-z43B" pitchclasses="0,2,3,6,7,8" intervals="2,1,3,1,1,4" />
+				<scale full_name="6-z44A" short_name="6-z44A" pitchclasses="0,1,2,5,6,9" intervals="1,1,3,1,3,3" />
+				<scale full_name="6-z44B" short_name="6-z44B" pitchclasses="0,3,4,7,8,9" intervals="3,1,3,1,1,3" />
+				<scale full_name="6-z45" short_name="6-z45" pitchclasses="0,2,3,4,6,9" intervals="2,1,1,2,3,3" />
+				<scale full_name="6-z46A" short_name="6-z46A" pitchclasses="0,1,2,4,6,9" intervals="1,1,2,2,3,3" />
+				<scale full_name="6-z46B" short_name="6-z46B" pitchclasses="0,3,5,7,8,9" intervals="3,2,2,1,1,3" />
+				<scale full_name="6-z47A" short_name="6-z47A" pitchclasses="0,1,2,4,7,9" intervals="1,1,2,3,2,3" />
+				<scale full_name="6-z47B" short_name="6-z47B" pitchclasses="0,2,5,7,8,9" intervals="2,3,2,1,1,3" />
+				<scale full_name="6-z48" short_name="6-z48" pitchclasses="0,1,2,5,7,9" intervals="1,1,3,2,2,3" />
+				<scale full_name="6-z49" short_name="6-z49" pitchclasses="0,1,3,4,7,9" intervals="1,2,1,3,2,3" />
+				<scale full_name="6-z50" short_name="6-z50" pitchclasses="0,1,4,6,7,9" intervals="1,3,2,1,2,3" />
+				<scale full_name="7-1" short_name="7-1" pitchclasses="0,1,2,3,4,5,6" intervals="1,1,1,1,1,1,6" />
+				<scale full_name="7-2A" short_name="7-2A" pitchclasses="0,1,2,3,4,5,7" intervals="1,1,1,1,1,2,5" />
+				<scale full_name="7-2B" short_name="7-2B" pitchclasses="0,2,3,4,5,6,7" intervals="2,1,1,1,1,1,5" />
+				<scale full_name="7-3A" short_name="7-3A" pitchclasses="0,1,2,3,4,5,8" intervals="1,1,1,1,1,3,4" />
+				<scale full_name="7-3B" short_name="7-3B" pitchclasses="0,3,4,5,6,7,8" intervals="3,1,1,1,1,1,4" />
+				<scale full_name="7-4A" short_name="7-4A" pitchclasses="0,1,2,3,4,6,7" intervals="1,1,1,1,2,1,5" />
+				<scale full_name="7-4B" short_name="7-4B" pitchclasses="0,1,3,4,5,6,7" intervals="1,2,1,1,1,1,5" />
+				<scale full_name="7-5A" short_name="7-5A" pitchclasses="0,1,2,3,5,6,7" intervals="1,1,1,2,1,1,5" />
+				<scale full_name="7-5B" short_name="7-5B" pitchclasses="0,1,2,4,5,6,7" intervals="1,1,2,1,1,1,5" />
+				<scale full_name="7-6A" short_name="7-6A" pitchclasses="0,1,2,3,4,7,8" intervals="1,1,1,1,3,1,4" />
+				<scale full_name="7-6B" short_name="7-6B" pitchclasses="0,1,4,5,6,7,8" intervals="1,3,1,1,1,1,4" />
+				<scale full_name="7-7A" short_name="7-7A" pitchclasses="0,1,2,3,6,7,8" intervals="1,1,1,3,1,1,4" />
+				<scale full_name="7-7B" short_name="7-7B" pitchclasses="0,1,2,5,6,7,8" intervals="1,1,3,1,1,1,4" />
+				<scale full_name="7-8" short_name="7-8" pitchclasses="0,2,3,4,5,6,8" intervals="2,1,1,1,1,2,4" />
+				<scale full_name="7-9A" short_name="7-9A" pitchclasses="0,1,2,3,4,6,8" intervals="1,1,1,1,2,2,4" />
+				<scale full_name="7-9B" short_name="7-9B" pitchclasses="0,2,4,5,6,7,8" intervals="2,2,1,1,1,1,4" />
+				<scale full_name="7-10A" short_name="7-10A" pitchclasses="0,1,2,3,4,6,9" intervals="1,1,1,1,2,3,3" />
+				<scale full_name="7-10B" short_name="7-10B" pitchclasses="0,2,3,4,5,6,9" intervals="2,1,1,1,1,3,3" />
+				<scale full_name="7-11A" short_name="7-11A" pitchclasses="0,1,3,4,5,6,8" intervals="1,2,1,1,1,2,4" />
+				<scale full_name="7-11B" short_name="7-11B" pitchclasses="0,2,3,4,5,7,8" intervals="2,1,1,1,2,1,4" />
+				<scale full_name="7-z12" short_name="7-z12" pitchclasses="0,1,2,3,4,7,9" intervals="1,1,1,1,3,2,3" />
+				<scale full_name="7-13A" short_name="7-13A" pitchclasses="0,1,2,4,5,6,8" intervals="1,1,2,1,1,2,4" />
+				<scale full_name="7-13B" short_name="7-13B" pitchclasses="0,2,3,4,6,7,8" intervals="2,1,1,2,1,1,4" />
+				<scale full_name="7-14A" short_name="7-14A" pitchclasses="0,1,2,3,5,7,8" intervals="1,1,1,2,2,1,4" />
+				<scale full_name="7-14B" short_name="7-14B" pitchclasses="0,1,3,5,6,7,8" intervals="1,2,2,1,1,1,4" />
+				<scale full_name="7-15" short_name="7-15" pitchclasses="0,1,2,4,6,7,8" intervals="1,1,2,2,1,1,4" />
+				<scale full_name="7-16A" short_name="7-16A" pitchclasses="0,1,2,3,5,6,9" intervals="1,1,1,2,1,3,3" />
+				<scale full_name="7-16B" short_name="7-16B" pitchclasses="0,1,3,4,5,6,9" intervals="1,2,1,1,1,3,3" />
+				<scale full_name="7-z17" short_name="7-z17" pitchclasses="0,1,2,4,5,6,9" intervals="1,1,2,1,1,3,3" />
+				<scale full_name="7-z18A" short_name="7-z18A" pitchclasses="0,1,4,5,6,7,9" intervals="1,3,1,1,1,2,3" />
+				<scale full_name="7-z18B" short_name="7-z18B" pitchclasses="0,1,4,6,7,8,9" intervals="1,3,2,1,1,1,3" />
+				<scale full_name="7-19A" short_name="7-19A" pitchclasses="0,1,2,3,6,7,9" intervals="1,1,1,3,1,2,3" />
+				<scale full_name="7-19B" short_name="7-19B" pitchclasses="0,1,2,3,6,8,9" intervals="1,1,1,3,2,1,3" />
+				<scale full_name="7-20A" short_name="7-20A" pitchclasses="0,1,2,5,6,7,9" intervals="1,1,3,1,1,2,3" />
+				<scale full_name="7-20B" short_name="7-20B" pitchclasses="0,1,2,5,7,8,9" intervals="1,1,3,2,1,1,3" />
+				<scale full_name="7-21A" short_name="7-21A" pitchclasses="0,1,2,4,5,8,9" intervals="1,1,2,1,3,1,3" />
+				<scale full_name="7-21B" short_name="7-21B" pitchclasses="0,1,3,4,5,8,9" intervals="1,2,1,1,3,1,3" />
+				<scale full_name="7-22" short_name="7-22" pitchclasses="0,1,2,5,6,8,9" intervals="1,1,3,1,2,1,3" />
+				<scale full_name="7-23A" short_name="7-23A" pitchclasses="0,2,3,4,5,7,9" intervals="2,1,1,1,2,2,3" />
+				<scale full_name="7-23B" short_name="7-23B" pitchclasses="0,2,4,5,6,7,9" intervals="2,2,1,1,1,2,3" />
+				<scale full_name="7-24A" short_name="7-24A" pitchclasses="0,1,2,3,5,7,9" intervals="1,1,1,2,2,2,3" />
+				<scale full_name="7-24B" short_name="7-24B" pitchclasses="0,2,4,6,7,8,9" intervals="2,2,2,1,1,1,3" />
+				<scale full_name="7-25A" short_name="7-25A" pitchclasses="0,2,3,4,6,7,9" intervals="2,1,1,2,1,2,3" />
+				<scale full_name="7-25B" short_name="7-25B" pitchclasses="0,2,3,5,6,7,9" intervals="2,1,2,1,1,2,3" />
+				<scale full_name="7-26A" short_name="7-26A" pitchclasses="0,1,3,4,5,7,9" intervals="1,2,1,1,2,2,3" />
+				<scale full_name="7-26B" short_name="7-26B" pitchclasses="0,2,4,5,6,8,9" intervals="2,2,1,1,2,1,3" />
+				<scale full_name="7-27A" short_name="7-27A" pitchclasses="0,1,2,4,5,7,9" intervals="1,1,2,1,2,2,3" />
+				<scale full_name="7-27B" short_name="7-27B" pitchclasses="0,2,4,5,7,8,9" intervals="2,2,1,2,1,1,3" />
+				<scale full_name="7-28A" short_name="7-28A" pitchclasses="0,1,3,5,6,7,9" intervals="1,2,2,1,1,2,3" />
+				<scale full_name="7-28B" short_name="7-28B" pitchclasses="0,2,3,4,6,8,9" intervals="2,1,1,2,2,1,3" />
+				<scale full_name="7-29A" short_name="7-29A" pitchclasses="0,1,2,4,6,7,9" intervals="1,1,2,2,1,2,3" />
+				<scale full_name="7-29B" short_name="7-29B" pitchclasses="0,2,3,5,7,8,9" intervals="2,1,2,2,1,1,3" />
+				<scale full_name="7-30A" short_name="7-30A" pitchclasses="0,1,2,4,6,8,9" intervals="1,1,2,2,2,1,3" />
+				<scale full_name="7-30B" short_name="7-30B" pitchclasses="0,1,3,5,7,8,9" intervals="1,2,2,2,1,1,3" />
+				<scale full_name="7-31A" short_name="7-31A" pitchclasses="0,1,3,4,6,7,9" intervals="1,2,1,2,1,2,3" />
+				<scale full_name="7-31B" short_name="7-31B" pitchclasses="0,2,3,5,6,8,9" intervals="2,1,2,1,2,1,3" />
+				<scale full_name="7-32A" short_name="7-32A" pitchclasses="0,1,3,4,6,8,9" intervals="1,2,1,2,2,1,3" />
+				<scale full_name="7-32B" short_name="7-32B" pitchclasses="0,1,3,5,6,8,9" intervals="1,2,2,1,2,1,3" />
+				<scale full_name="7-33" short_name="7-33" pitchclasses="0,1,2,4,6,8,10" intervals="1,1,2,2,2,2,2" />
+				<scale full_name="7-34" short_name="7-34" pitchclasses="0,1,3,4,6,8,10" intervals="1,2,1,2,2,2,2" />
+				<scale full_name="7-35" short_name="7-35" pitchclasses="0,1,3,5,6,8,10" intervals="1,2,2,1,2,2,2" />
+				<scale full_name="7-z36A" short_name="7-z36A" pitchclasses="0,1,2,3,5,6,8" intervals="1,1,1,2,1,2,4" />
+				<scale full_name="7-z36B" short_name="7-z36B" pitchclasses="0,2,3,5,6,7,8" intervals="2,1,2,1,1,1,4" />
+				<scale full_name="7-z37" short_name="7-z37" pitchclasses="0,1,3,4,5,7,8" intervals="1,2,1,1,2,1,4" />
+				<scale full_name="7-z38A" short_name="7-z38A" pitchclasses="0,1,2,4,5,7,8" intervals="1,1,2,1,2,1,4" />
+				<scale full_name="7-z38B" short_name="7-z38B" pitchclasses="0,1,3,4,6,7,8" intervals="1,2,1,2,1,1,4" />
+				<scale full_name="8-1" short_name="8-1" pitchclasses="0,1,2,3,4,5,6,7" intervals="1,1,1,1,1,1,1,5" />
+				<scale full_name="8-2A" short_name="8-2A" pitchclasses="0,1,2,3,4,5,6,8" intervals="1,1,1,1,1,1,2,4" />
+				<scale full_name="8-2B" short_name="8-2B" pitchclasses="0,2,3,4,5,6,7,8" intervals="2,1,1,1,1,1,1,4" />
+				<scale full_name="8-3" short_name="8-3" pitchclasses="0,1,2,3,4,5,6,9" intervals="1,1,1,1,1,1,3,3" />
+				<scale full_name="8-4A" short_name="8-4A" pitchclasses="0,1,2,3,4,5,7,8" intervals="1,1,1,1,1,2,1,4" />
+				<scale full_name="8-4B" short_name="8-4B" pitchclasses="0,1,3,4,5,6,7,8" intervals="1,2,1,1,1,1,1,4" />
+				<scale full_name="8-5A" short_name="8-5A" pitchclasses="0,1,2,3,4,6,7,8" intervals="1,1,1,1,2,1,1,4" />
+				<scale full_name="8-5B" short_name="8-5B" pitchclasses="0,1,2,4,5,6,7,8" intervals="1,1,2,1,1,1,1,4" />
+				<scale full_name="8-6" short_name="8-6" pitchclasses="0,1,2,3,5,6,7,8" intervals="1,1,1,2,1,1,1,4" />
+				<scale full_name="8-7" short_name="8-7" pitchclasses="0,1,2,3,4,5,8,9" intervals="1,1,1,1,1,3,1,3" />
+				<scale full_name="8-8" short_name="8-8" pitchclasses="0,1,2,3,4,7,8,9" intervals="1,1,1,1,3,1,1,3" />
+				<scale full_name="8-9" short_name="8-9" pitchclasses="0,1,2,3,6,7,8,9" intervals="1,1,1,3,1,1,1,3" />
+				<scale full_name="8-10" short_name="8-10" pitchclasses="0,2,3,4,5,6,7,9" intervals="2,1,1,1,1,1,2,3" />
+				<scale full_name="8-11A" short_name="8-11A" pitchclasses="0,1,2,3,4,5,7,9" intervals="1,1,1,1,1,2,2,3" />
+				<scale full_name="8-11B" short_name="8-11B" pitchclasses="0,2,4,5,6,7,8,9" intervals="2,2,1,1,1,1,1,3" />
+				<scale full_name="8-12A" short_name="8-12A" pitchclasses="0,1,3,4,5,6,7,9" intervals="1,2,1,1,1,1,2,3" />
+				<scale full_name="8-12B" short_name="8-12B" pitchclasses="0,2,3,4,5,6,8,9" intervals="2,1,1,1,1,2,1,3" />
+				<scale full_name="8-13A" short_name="8-13A" pitchclasses="0,1,2,3,4,6,7,9" intervals="1,1,1,1,2,1,2,3" />
+				<scale full_name="8-13B" short_name="8-13B" pitchclasses="0,2,3,5,6,7,8,9" intervals="2,1,2,1,1,1,1,3" />
+				<scale full_name="8-14A" short_name="8-14A" pitchclasses="0,1,2,4,5,6,7,9" intervals="1,1,2,1,1,1,2,3" />
+				<scale full_name="8-14B" short_name="8-14B" pitchclasses="0,2,3,4,5,7,8,9" intervals="2,1,1,1,2,1,1,3" />
+				<scale full_name="8-z15A" short_name="8-z15A" pitchclasses="0,1,2,3,4,6,8,9" intervals="1,1,1,1,2,2,1,3" />
+				<scale full_name="8-z15B" short_name="8-z15B" pitchclasses="0,1,3,5,6,7,8,9" intervals="1,2,2,1,1,1,1,3" />
+				<scale full_name="8-16A" short_name="8-16A" pitchclasses="0,1,2,3,5,7,8,9" intervals="1,1,1,2,2,1,1,3" />
+				<scale full_name="8-16B" short_name="8-16B" pitchclasses="0,1,2,4,6,7,8,9" intervals="1,1,2,2,1,1,1,3" />
+				<scale full_name="8-17" short_name="8-17" pitchclasses="0,1,3,4,5,6,8,9" intervals="1,2,1,1,1,2,1,3" />
+				<scale full_name="8-18A" short_name="8-18A" pitchclasses="0,1,2,3,5,6,8,9" intervals="1,1,1,2,1,2,1,3" />
+				<scale full_name="8-18B" short_name="8-18B" pitchclasses="0,1,3,4,6,7,8,9" intervals="1,2,1,2,1,1,1,3" />
+				<scale full_name="8-19A" short_name="8-19A" pitchclasses="0,1,2,4,5,6,8,9" intervals="1,1,2,1,1,2,1,3" />
+				<scale full_name="8-19B" short_name="8-19B" pitchclasses="0,1,3,4,5,7,8,9" intervals="1,2,1,1,2,1,1,3" />
+				<scale full_name="8-20" short_name="8-20" pitchclasses="0,1,2,4,5,7,8,9" intervals="1,1,2,1,2,1,1,3" />
+				<scale full_name="8-21" short_name="8-21" pitchclasses="0,1,2,3,4,6,8,10" intervals="1,1,1,1,2,2,2,2" />
+				<scale full_name="8-22A" short_name="8-22A" pitchclasses="0,1,2,3,5,6,8,10" intervals="1,1,1,2,1,2,2,2" />
+				<scale full_name="8-22B" short_name="8-22B" pitchclasses="0,1,2,3,5,7,9,10" intervals="1,1,1,2,2,2,1,2" />
+				<scale full_name="8-23" short_name="8-23" pitchclasses="0,1,2,3,5,7,8,10" intervals="1,1,1,2,2,1,2,2" />
+				<scale full_name="8-24" short_name="8-24" pitchclasses="0,1,2,4,5,6,8,10" intervals="1,1,2,1,1,2,2,2" />
+				<scale full_name="8-25" short_name="8-25" pitchclasses="0,1,2,4,6,7,8,10" intervals="1,1,2,2,1,1,2,2" />
+				<scale full_name="8-26" short_name="8-26" pitchclasses="0,1,3,4,5,7,8,10" intervals="1,2,1,1,2,1,2,2" />
+				<scale full_name="8-27A" short_name="8-27A" pitchclasses="0,1,2,4,5,7,8,10" intervals="1,1,2,1,2,1,2,2" />
+				<scale full_name="8-27B" short_name="8-27B" pitchclasses="0,1,2,4,6,7,9,10" intervals="1,1,2,2,1,2,1,2" />
+				<scale full_name="8-28" short_name="8-28" pitchclasses="0,1,3,4,6,7,9,10" intervals="1,2,1,2,1,2,1,2" />
+				<scale full_name="8-z29A" short_name="8-z29A" pitchclasses="0,1,2,3,5,6,7,9" intervals="1,1,1,2,1,1,2,3" />
+				<scale full_name="8-z29B" short_name="8-z29B" pitchclasses="0,2,3,4,6,7,8,9" intervals="2,1,1,2,1,1,1,3" />
+				<scale full_name="9-1" short_name="9-1" pitchclasses="0,1,2,3,4,5,6,7,8" intervals="1,1,1,1,1,1,1,1,4" />
+				<scale full_name="9-2A" short_name="9-2A" pitchclasses="0,1,2,3,4,5,6,7,9" intervals="1,1,1,1,1,1,1,2,3" />
+				<scale full_name="9-2B" short_name="9-2B" pitchclasses="0,2,3,4,5,6,7,8,9" intervals="2,1,1,1,1,1,1,1,3" />
+				<scale full_name="9-3A" short_name="9-3A" pitchclasses="0,1,2,3,4,5,6,8,9" intervals="1,1,1,1,1,1,2,1,3" />
+				<scale full_name="9-3B" short_name="9-3B" pitchclasses="0,1,3,4,5,6,7,8,9" intervals="1,2,1,1,1,1,1,1,3" />
+				<scale full_name="9-4A" short_name="9-4A" pitchclasses="0,1,2,3,4,5,7,8,9" intervals="1,1,1,1,1,2,1,1,3" />
+				<scale full_name="9-4B" short_name="9-4B" pitchclasses="0,1,2,4,5,6,7,8,9" intervals="1,1,2,1,1,1,1,1,3" />
+				<scale full_name="9-5A" short_name="9-5A" pitchclasses="0,1,2,3,4,6,7,8,9" intervals="1,1,1,1,2,1,1,1,3" />
+				<scale full_name="9-5B" short_name="9-5B" pitchclasses="0,1,2,3,5,6,7,8,9" intervals="1,1,1,2,1,1,1,1,3" />
+				<scale full_name="9-6" short_name="9-6" pitchclasses="0,1,2,3,4,5,6,8,10" intervals="1,1,1,1,1,1,2,2,2" />
+				<scale full_name="9-7A" short_name="9-7A" pitchclasses="0,1,2,3,4,5,7,8,10" intervals="1,1,1,1,1,2,1,2,2" />
+				<scale full_name="9-7B" short_name="9-7B" pitchclasses="0,1,2,3,4,5,7,9,10" intervals="1,1,1,1,1,2,2,1,2" />
+				<scale full_name="9-8A" short_name="9-8A" pitchclasses="0,1,2,3,4,6,7,8,10" intervals="1,1,1,1,2,1,1,2,2" />
+				<scale full_name="9-8B" short_name="9-8B" pitchclasses="0,1,2,3,4,6,8,9,10" intervals="1,1,1,1,2,2,1,1,2" />
+				<scale full_name="9-9" short_name="9-9" pitchclasses="0,1,2,3,5,6,7,8,10" intervals="1,1,1,2,1,1,1,2,2" />
+				<scale full_name="9-10" short_name="9-10" pitchclasses="0,1,2,3,4,6,7,9,10" intervals="1,1,1,1,2,1,2,1,2" />
+				<scale full_name="9-11A" short_name="9-11A" pitchclasses="0,1,2,3,5,6,7,9,10" intervals="1,1,1,2,1,1,2,1,2" />
+				<scale full_name="9-11B" short_name="9-11B" pitchclasses="0,1,2,3,5,6,8,9,10" intervals="1,1,1,2,1,2,1,1,2" />
+				<scale full_name="9-12" short_name="9-12" pitchclasses="0,1,2,4,5,6,8,9,10" intervals="1,1,2,1,1,2,1,1,2" />
+				<scale full_name="10-1" short_name="10-1" pitchclasses="0,1,2,3,4,5,6,7,8,9" intervals="1,1,1,1,1,1,1,1,1,3" />
+				<scale full_name="10-2" short_name="10-2" pitchclasses="0,1,2,3,4,5,6,7,8,10" intervals="1,1,1,1,1,1,1,1,2,2" />
+				<scale full_name="10-3" short_name="10-3" pitchclasses="0,1,2,3,4,5,6,7,9,10" intervals="1,1,1,1,1,1,1,2,1,2" />
+				<scale full_name="10-4" short_name="10-4" pitchclasses="0,1,2,3,4,5,6,8,9,10" intervals="1,1,1,1,1,1,2,1,1,2" />
+				<scale full_name="10-5" short_name="10-5" pitchclasses="0,1,2,3,4,5,7,8,9,10" intervals="1,1,1,1,1,2,1,1,1,2" />
+				<scale full_name="10-6" short_name="10-6" pitchclasses="0,1,2,3,4,6,7,8,9,10" intervals="1,1,1,1,2,1,1,1,1,2" />
+				<scale full_name="11-1" short_name="11-1" pitchclasses="0,1,2,3,4,5,6,7,8,9,10" intervals="1,1,1,1,1,1,1,1,1,1,2" />
+				<scale full_name="12-1" short_name="12-1" pitchclasses="0,1,2,3,4,5,6,7,8,9,10,11" intervals="1,1,1,1,1,1,1,1,1,1,1,1" />
+			</scale_table>	
+		
+		</appendix>
+		
+	</section>
+
+</docu>

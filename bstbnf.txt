@@ -1,0 +1,187 @@
+integer ::= [sign] digit {digit}
+sign ::= "+" | "-"
+digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+float_number ::= [sign] integer_part "." fraction_part
+integer_part ::= digit {digit}
+fraction_part ::= digit {digit}
+
+intseq ::= integer [intseq]
+
+tribble_sequence ::= hex_word48 {space hex_word48}
+hex_word48 ::= hex_word12 space hex_word12 space hex_word12 space hex_word12
+hex_word12 ::= hex_digit hex_digit hex_digit
+octal_sequence ::= octal_word12 {space octal_word12}
+octal_word12 ::= octal_word space octal_word
+octal_word6 ::= octal_digit octal_digit
+octal_digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7"
+
+hex_sequence ::= hex_word {space hex_word}
+hex_word ::= hex_digit hex_digit space hex_digit hex_digit
+hex_digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "A" | "B" | "C" | "D" | "E" | "F"
+space ::= " "
+letter ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+
+symbol ::= letter {letter | digit | "_"}
+
+chordseqs ::= chordseq ";" [chords]
+chordseq ::= chordid "," chords "," transpose "," segmentation;
+chordid ::= symbol
+chords :: = chord {chords}
+chord ::= symbol
+segmentation ::= intseq
+
+parts ::= part [parts]
+part ::= ">>" {"o"|"x"|"X"} partid [length] ";" bursts
+bursts ::= burst [bursts]
+burst ::= mburst | dburst | sburst | xmburst | xdburst | xsburst | omburst | odburst | osburst | Xmburst | Xdburst | Xsburst| tburst | cburst | xpmburst | opmburst | Xpmburst | xpdburst | opdburst | Xpdburst
+lenth ::= integer
+
+pattern ::= intseq
+rpattern ::= intseq
+xpattern ::= hex_sequence;
+opattern ::= octal_sequence;
+Xpattern ::= tribble_sequence;
+dpattern ::= intseq
+mpattern ::= intseq
+
+channel :: = integer
+velocity :: = integer
+pitch :: = integer
+
+int_plus ::= integer ["+" int_plus]
+pitch_plus ::= pitch "+" int_plus
+pitch_range ::= pitch "-" pitch
+
+mburst ::= "@m" channel [pitch | pitch_plus | pitch_range] velocity ["::" commands]; mblines
+mblines ::= mbline ";" [mblines]
+mblines ::= s ";" mblines "rep" space integer ";"
+mbline ::= length "," rpattern "," dpattern "," mpattern ";"
+
+xmburst ::= "@xm" channel [pitch | pitch_plus | pitch_range] velocity ["::" commands]; xmblines
+xmblines ::= xmbline ";" [xmblines]
+xmblines ::= s ";" xmblines "rep" space integer ";"
+xmbline ::= length "," xpattern "," dpattern "," mpattern ";"
+
+omburst ::= "@om" channel [pitch | pitch_plus | pitch_range] velocity ["::" commands]; omblines
+omblines ::= ombline ";" [omblines]
+omblines ::= s ";" omblines "rep" space integer ";"
+ombline ::= length "," opattern "," dpattern "," mpattern ";"
+
+Xmburst ::= "@Xm" channel [pitch | pitch_plus | pitch_range] velocity ["::" commands]; Xmblines
+Xmblines ::= Xmbline ";" [Xmblines]
+Xmblines ::= s ";" Xmblines "rep" space integer ";"
+Xmbline ::= length "," Xpattern "," dpattern "," mpattern ";"
+
+dburst ::= "@d" channel velocity pitch ["::" commands] ";" dblines
+dblines ::= dbline [dblines]
+dblines ::= s ";" dblines rep int ";"
+dbline ::= length "," rpattern "," dpattern ";"
+
+xdburst ::= "@xd" channel velocity pitch ["::" commands] ";" xdblines
+xdblines ::= xdbline [xdblines]
+xdblines ::= s ";" xdblines rep int ";"
+xdbline ::= length "," xpattern "," dpattern ";"
+
+Xdburst ::= "@Xd" channel velocity pitch ["::" commands] ";" Xdblines
+Xdblines ::= Xdbline [Xdblines]
+Xdblines ::= s ";" Xdblines rep int ";"
+Xdbline ::= length "," Xpattern "," dpattern ";"
+
+odburst ::= "@od" channel velocity pitch ["::" commands] ";" odblines
+odblines ::= odbline [odblines]
+odblines ::= s ";" odblines rep int ";"
+odbline ::= length "," opattern "," dpattern ";"
+
+bpm ::= integer
+swingpercent ::= integer
+tburst ::= "set" "," bpm ";"
+tburst ::= "swing" "," bpm "," swingpercent ";"
+
+sburst ::= "@s" channel [pitch+pitch+...+pitch|"all"] vel[:: commands] ";" slines ";"
+slines ::= sline ";" [slines]
+sline ::= length "," pattern "," dpattern "," spattern ";"
+spattern ::= intseq
+
+xsburst ::= "@xs" channel [pitch+pitch+...+pitch|"all"] vel[:: commands] ";" xslines;
+xslines ::= xsline; [xslines]
+xsline ::= length "," xpattern "," dpattern "," spattern ";"
+
+Xsburst ::= "@Xs" channel [pitch+pitch+...+pitch|"all"] vel[:: commands] ";" Xslines;
+Xslines ::= Xsline; [Xslines]
+Xsline ::= length "," Xpattern "," dpattern "," spattern ";"
+
+osburst ::= "@os" channel [pitch+pitch+...+pitch|"all"] vel[:: commands] ";" oslines;
+oslines ::= osline; [oslines]
+osline ::= length "," opattern "," dpattern "," spattern ";"
+
+xpdburst ::= "@xpd" channel velocity offset["::" commands] ";" xpdlines ";"
+xpdlines ::= xpdline ";" [xpdlines]
+xpdline ::= len "," xpatterns "," sequences
+
+opdburst ::= "@xpd" channel velocity offset["::" commands] ";" opdlines ";"
+opdlines ::= opdline ";" [opdlines]
+opdline ::= len "," xpatterns "," sequences
+
+Xpdburst ::= "@xpd" channel velocity offset["::" commands] ";" Xpdlines ";"
+Xpdlines ::= opdline ";" [opdlines]
+Xpdline ::= len "," xpatterns "," sequences
+
+xpmburst ::= "@xpm" channel velocity offset["::" commands] ";" xpmlines ";"
+xpmlines ::= xpmline ";" [xpmlines]
+xpmline ::= len "," xpatterns "," sequences
+
+opmburst ::= "@xpm" channel velocity offset["::" commands] ";" opmlines ";"
+opmlines ::= xpmline ";" [opmlines]
+opmline ::= len "," xpatterns "," sequences
+
+Xpmburst ::= "@xpm" channel velocity offset["::" commands] ";" Xpmlines ";"
+Xpmlines ::= Xpmline ";" [Xpmlines]
+Xpmline ::= len "," Xpatterns "," sequences
+
+xrburst ::= "@xr" channel veloc pitch["::" commands] ";" xrlines;
+xrlines ::= xrline ";"  [xrlines]
+xrline ::= len "," xpattern "," floatsequence
+
+Xrburst ::= "@Xr" channel veloc pitch["::" commands] ";" Xrlines;
+Xrlines ::= xrline ";"  [xrlines]
+Xrline ::= len "," Xpattern "," floatsequence
+
+orburst ::= "@Xr" channel veloc pitch["::" commands] ";" orlines;
+orlines ::= xrline ";"  [xrlines]
+orline ::= len "," opattern "," floatsequence
+
+lfoid ::= symbol
+shape ::= integer
+period ::= float
+offset ::= float
+amp ::= float
+phase :: phase
+
+cburst ::= "@c" channel ctlno len ";" lfodefs
+lfodefs ::= lfodef ";" [lfodefs]
+lfodef ::= lfoid "," shape "," period "," offset "," amp "," phase["," waveshapingfn]
+lfodef ::= add|am|fm, lfoid, lfoid;
+lfodef ::= set, value;
+
+# Phases are from 0 to 1
+# LFOs oscillate in [-1,1]
+
+sequence ::= simultaneousitem ["," sequence]
+simultaneousitem ::= simultaneous ":" chordid
+simultaneous ::= partid ["|" simultaneous]
+sequence ::= sequence "||" sequence
+sequence ::= sequence "--" sequence
+bst ::= "%" sequence "%" chords "%" parts "%" variations
+
+# shapes :
+#	0 : sine
+#	1 : square
+#	2 : triangle
+#	3 : sawtooth
+#	4 : reverse sawtooth
+#	5 : random
+
+# WAVESHAPINGFN :
+#	function in a string (no " in burst)of the form Y=X (case is important)
+# 	example Y=cos(2*X)
