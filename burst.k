@@ -488,7 +488,7 @@ function readbst(fn)
 
 function remspec(str)
 {
-	lines = explode(str, "\r");
+	lines = explode(str_remove(str,"\n"), "\r");
 	lines2 = []
 	il = 0
 	str_seq = []

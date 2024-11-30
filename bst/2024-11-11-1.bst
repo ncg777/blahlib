@@ -1,4 +1,4 @@
-% 
+%
 // SEQUENCER
 TEMPO : ALL --
 P0A : S0A || P0B : S0B --
