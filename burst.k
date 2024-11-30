@@ -1,11 +1,11 @@
 function newBST(ct, templateName){
-  tfn = "../liblocal/bst/_TEMPLATE " + templateName + ".bst"
+  tfn = "./bst/_TEMPLATE " + templateName + ".bst"
   
-  h = open("../liblocal/bst/__.txt", "w")
+  h = open("./bst/__.txt", "w")
   put(h, ct)
   close(h)
   
-  h = open("../liblocal/bst/" + ct + ".bst", "w")
+  h = open("./bst/" + ct + ".bst", "w")
   put(h, readfile(tfn))
   close(h)
 }
@@ -13,16 +13,15 @@ function newBST(ct, templateName){
 function lastBST(){
   rep = 1
   if(argv(0)!="") { rep = argv(0) }
-  fn = readfile("../liblocal/bst/__.txt")
-  u = readbst("../liblocal/bst/" + fn + ".bst")
-  midifile(sep_channels(u), "../liblocal/bst/" + fn + ".mid")
+  fn = readfile("./bst/__.txt")
+  u = renderBST(fn)
   return(repeat(u,rep))
 }
 
 function renderBST(fn) {
   print("Rendering " + fn + "...")
-  u = readbst("../liblocal/bst/" + fn + ".bst")
-  midifile(sep_channels(u), "../liblocal/bst/" + fn + ".mid")
+  u = readbst("./bst/" + fn + ".bst")
+  midifile(sep_channels(u), "./bst/" + fn + ".mid")
   return(u)
 }
 
