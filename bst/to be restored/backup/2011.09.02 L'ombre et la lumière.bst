@@ -1,5 +1,5 @@
 // MACROS
-// L'ombre et la lumière (20110902)
+// L'ombre et la lumiï¿½re (20110902)
 % 
 // SEQUENCER
 T5|DR1K|A1 : SC1,
