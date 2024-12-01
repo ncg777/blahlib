@@ -62,8 +62,9 @@ function chiasm8(ph) {
   s = chopl(ph, l)
   n = sizeof(s)
   
-  if(n%2 == 1){
+  if((n%2) == 1){
     print("n must be even")
+	print("n = " + string(n))
     return(ph)
   }
   
