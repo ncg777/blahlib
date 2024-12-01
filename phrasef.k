@@ -129,6 +129,20 @@ function velseq(ph, strVelSeq) {
   return(output|other);
 }
 
+function vel4(ph, strVelSeq) {
+  if(typeof(strVelSeq) == "string"){strVelSeq = string_to_intseq(strVelSeq)}
+  strVelSeq = seqi(strVelSeq, seq(0, 1, 2, 3, 2, 1))
+  
+  return(velseq(ph, strVelSeq, argv(2)));
+}
+
+function vel5(ph, strVelSeq) {
+  if(typeof(strVelSeq) == "string"){strVelSeq = string_to_intseq(strVelSeq)}
+  strVelSeq = seqi(strVelSeq, seq(0, 1, 2, 3, 4, 3, 2, 1))
+  
+  return(velseq(ph, strVelSeq, argv(2)));
+}
+
 function power_permutate(ph, c, p0) {
   s = power_permutation(c,p0)
   return(phns(ph, sizeof(s), s))
