@@ -4,18 +4,30 @@ class maptron
   {
 
     $.fn=""
-    $.fn_arr=["trance"="Y=abs(sin(4*PI*T))",
-			  "halfsine"="Y=sin(PI*T)",
-              "pow2"="Y=pow(T,2.0)",
-              "pow3"="Y=pow(T,3.0)",
+    $.fn_arr=[
+        "halfsine"=halfSinePowerModel1(1.0),
+        "hspm3"=halfSinePowerModel1(-3.0),
+        "hspm2"=halfSinePowerModel1(-2.0),
+        "hspm1"=halfSinePowerModel1(-1.0),
+        "hspp1"=halfSinePowerModel1(+1.0),
+        "hspp2"=halfSinePowerModel1(+2.0),
+        "hspp3"=halfSinePowerModel1(+3.0),
+        "rev"=reversePowerModel1(1.0),
+        "rpm3"=reversePowerModel1(-3.0),
+        "rpm2"=reversePowerModel1(-2.0),
+        "rpm1"=reversePowerModel1(-1.0),
+        "rpp1"=reversePowerModel1(+1.0),
+        "rpp2"=reversePowerModel1(+2.0),
+        "rpp3"=reversePowerModel1(+3.0),
+        "pow2"="Y=pow(T,2.0)",
+        "pow3"="Y=pow(T,3.0)",
 			  "sqrt"="Y=sqrt(T)",
-              "rev"="Y=(1-T)",
-              "f1"="Y=(wform(T*8,0,0.25,1,0.25,0,0.25,-2)*(1/16.0))+wform(T,0,1,1)",
-              "f2"="Y=stowform(T,seq(0,5,6,7,4,1,2,5,8))",
-              "f3"="Y=stowform(T,seq(1,0,2))",
-              "f4"="Y=stowform(T,seq(0,4,2,1,4))",              
+        "f1"="Y=(wform(T*8,0,0.25,1,0.25,0,0.25,-2)*(1/16.0))+wform(T,0,1,1)",
+        "f2"="Y=stowform(T,seq(0,5,6,7,4,1,2,5,8))",
+        "f3"="Y=stowform(T,seq(1,0,2))",
+        "f4"="Y=stowform(T,seq(0,4,2,1,4))",              
 			  "f5"="Y=wform(T,0,0.0625,0.0625,0,0.3125,0.125,0.4375,0,0.1875,0.0625,0.25,0,0.5,0.25,0.75,0,0.25,0.0625,0.3125,0,0.8125,0.125,0.9375,0,0.4375,0.0625,0.5,0,0.75,0.0625,0.8125,0,0.0625,0.125,0.1875,0,0.9375,0.0625,1)",
-              "f6"="Y=wform(T,0,0.25,0.25,0,0.375,0.25,0.625,0,0.75,0.125,0.875,0,0.25,0.125,0.375,0,0.875,0.125,1,0,0.625,0.125,0.75)",
+        "f6"="Y=wform(T,0,0.25,0.25,0,0.375,0.25,0.625,0,0.75,0.125,0.875,0,0.25,0.125,0.375,0,0.875,0.125,1,0,0.625,0.125,0.75)",
 			  "sin+x"="Y=(T+sin(8*PI*T)*0.125)",
 			  "f7"="Y=T+triangle_wform(T/2.0)*0.25*triangle_wform(8*T)",
 			  "f8"="Y=T+triangle_wform(T/2.0)*0.25*saw_wform(8*T)",
@@ -23,7 +35,8 @@ class maptron
 			  "fm1"=fmModel1(0.25,8,3,0.125),
 			  "fm2"=fmModel1(0.25,4,7,0.25),
 			  "fm3"=fmModel1(0.25,16,4,0.125),
-			  "fm4"=fmModel1(0.25,12,7,0.25)
+			  "fm4"=fmModel1(0.25,12,7,0.25),
+        "trance"="Y=abs(sin(4*PI*T))"
 			  ]
               
     $.set(varg(argv(0,nargs())))

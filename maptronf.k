@@ -43,6 +43,14 @@ function fmModel1(amp,freq,modfreq,modindex) {
 	return(sprintf("Y=T+sin(PI*T)*%f*sin(%f*2*PI*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
 }
 
+function reversePowerModel1(exponent) {
+	return(sprintf("Y=pow(1.0-T,%f)", exponent))
+}
+
+function halfSinePowerModel1(exponent) {
+  return(sprintf("Y=pow(sin(PI*T),%f)", exponent))
+}
+
 #Simulates a periodic function. returns value at x.
 #args : val1 dur1 val2 dur 2 val3 ...dur_n-1 val_n
 function wform(x)
