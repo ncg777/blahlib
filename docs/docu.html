@@ -1,0 +1,3161 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Blah lib</title>
+<style type="text/css" media="all">
+			body
+			{
+				font-family:tahoma;
+				font-size:10pt;
+				background-color:white;
+        text-align:center;
+			}
+			a:link
+			{
+        color:rgb(0,20,0);
+      }
+      
+      a:visited
+      {
+        color:rgb(0,20,0);
+      }
+			#all
+			{
+			  text-align:left;
+				width:8.5in;
+				margin-left:auto;
+				margin-right:auto;
+				/* background-color:rgb(255,231,159); */
+				
+				padding:20px;
+			}
+			
+			h1,h2,h3
+			{
+				margin-top:1em;
+				margin-bottom:1em;
+			}
+
+			h1
+			{
+			  background-color:rgb(255,113,69);
+			  text-align:center;
+				margin-top:0;
+				margin-bottom:0;
+				font-size:44pt;
+				letter-spacing:5px;
+				border:4px black solid;
+			}
+			h2
+			{
+			    font-size:22pt;
+			    text-align:right;
+			    border-bottom:2px solid black;
+			    
+			}
+			h3
+			{
+				font-size:15pt;
+				padding-top:20px;
+				border-bottom:1px solid black;
+			}
+
+			#scales
+			{
+				border-collapse:collapse;
+				margin-left:auto;
+				margin-right:auto;
+			}
+			#scales th, #scales td
+			{
+				padding:2px;
+				border:solid 1px black;
+				text-align:left;
+				width:200px;
+			}
+			
+			#scales th
+			{
+				text-align:center;
+				font-weight:bold;
+			}
+			
+			dt
+			{
+        font-size:10pt;
+    	  font-weight:bold;
+				margin-top:1em;
+				text-decoration:underline;
+			}
+			
+			dd
+			{
+			  font-size:10pt;
+				margin-left:20px;
+				padding-left:0px;
+				padding-bottom:5px;
+				padding-top:10px;
+			}
+			
+			#bas
+			{
+				margin-left:auto;
+				margin-right:auto;
+				margin-top:2em;
+				padding-top:2em;
+				padding-bottom:2em;
+				width:400px;
+				text-align:center;
+				border:solid 1px black;
+				position:relative;
+				background-color:rgb(170,170,170);
+			}
+
+			.centre
+			{
+				text-align:center;
+			}
+			pre 
+			{
+				font-family:sans-serif;
+				margin-left:auto;
+				margin-right:auto;
+				
+				
+			}
+			strong
+			{
+				font-style:italic;
+			}
+			
+			hr
+      {
+        page-break-after:always;
+        border:0;
+      }
+		
+		</style>
+</head>
+<body>
+<a name="top"></a><div id="all">
+<h1>Blah lib</h1>
+<ul>
+<li>
+<a href="#section_sublibs">Sub-libraries</a><ul>
+<li><a href="#sublib_phrasef">Phrase functions</a></li>
+<li><a href="#sublib_seqf">Sequence functions</a></li>
+<li><a href="#sublib_combinatorics">Combinatorics functions</a></li>
+<li><a href="#sublib_binf">Binary functions</a></li>
+<li><a href="#sublib_revisedf">Revised functions</a></li>
+<li><a href="#sublib_ctlf">Control functions</a></li>
+<li><a href="#sublib_stringf">String functions</a></li>
+</ul>
+</li>
+<li>
+<a href="#section_classes">Classes</a><ul>
+<li><a href="#class_scale">Scale</a></li>
+<li><a href="#class_mlfo">Midi lfo</a></li>
+<li><a href="#class_maptron">Maptron</a></li>
+</ul>
+</li>
+<li>
+<a href="#section_appendix">Appendix</a><ul><li><a href="#appendix_scales">Scales</a></li></ul>
+</li>
+</ul>
+<h2>
+<a name="section_sublibs"></a>Sub-libraries</h2>
+<h3>
+<a name="sublib_binf"></a>Binary functions (file binf.k)</h3>
+<desc>
+				<p>Function based on the binary representation of numbers. These functions use a global variable named Bpn that you should set in keylocal.k. Bpn is the number if bits per number. Numbers are specified with a space between them in strings. With Bpn set to 4 or 8, numbers must be specified in hexadecimal without the preceding 0x characters so something like "af 12" would be equal to 175 followed by 18. When Bpn is set to 3 or 6, numbers must be specified in octal (base 8). For all other values of Bpn, numbers must be specified in decimal.</p>
+			</desc><dl>
+<dt>
+<a name="binf_and"></a>and(), or(), xor(), not()</dt>
+<dd><desc>
+			These function simulate logical operators on number strings given as parameters.
+			</desc></dd>
+<dt>
+<a name="binf_binab"></a>binab(a,b,str[,bitlen])</dt>
+<dd><desc>
+			Using a binary sequence defined by Bpn and str. a and b can be either phrases or sequences. 0s are a, 1 are b. In the case of phrases, each bit corresponds to bitlen ticks, which defaults to 1.
+			</desc></dd>
+<dt>
+<a name="binf_binfo"></a>binfo(ph)</dt>
+<dd><desc>
+			Prints and returns a string of space separated numbers corresponding to rhythm of the phrase.
+			</desc></dd>
+<dt>
+<a name="binf_bingate"></a>bingate(ph,str, bitlen)</dt>
+<dd><desc>
+			Using a binary sequence defined by str, leaves or remove chunks of length bitlen in the phrase ph.
+			</desc></dd>
+<dt>
+<a name="binf_binseqtostr"></a>binseqtostr(x)</dt>
+<dd><desc>
+			Takes a bit string and converts it to a string of numbers according to Bpn.
+			</desc></dd>
+<dt>
+<a name="binf_bitcount"></a>bitcount(str)</dt>
+<dd><desc>
+			Counts bits in the number string.
+			</desc></dd>
+<dt>
+<a name="binf_dectobin"></a>dectobin(n)</dt>
+<dd><desc>
+			Converts a decimal number into a string containing an hexadecimal representation. It's meant to be used in conjunction with ntobinseq() based functions, functions in binf.k that accepts a string parameter and use the global variable Bpn.
+			</desc></dd>
+<dt>
+<a name="binf_mergestr"></a>mergestr(n,str1,str2,... strx)</dt>
+<dd><desc>
+			Merges the sequence of number strings with mergeseq.
+			</desc></dd>
+<dt>
+<a name="binf_modstostr"></a>modstostr(m1,m2,...,mx)</dt>
+<dd>
+<desc>
+			Uses modsf to generate a number string.
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_modsf">modsf</a></li></ul></p>
+</dd>
+<dt>
+<a name="binf_morphabseq"></a>morphabseq(a,b)</dt>
+<dd><desc>
+			Sequence a and sequence b must be of same size. Morphs sequence a into sequence b using binary numbers. 0s are a, 1s are b. Counts from 0 to 2^length-1.
+			</desc></dd>
+<dt>
+<a name="binf_nnbits"></a>nnbits(n, nbits)</dt>
+<dd><desc>
+			Converts a decimal n to a binary sequence of length nbits. n must be smaller 2^nbits.
+			</desc></dd>
+<dt>
+<a name="binf_ntobinseq"></a>ntobinseq(str)</dt>
+<dd><desc>
+			Converts a string of space separated numbers into a binary sequence. (Basic function). The bits are ordered from greater to lower, just like when you write a number greater powers of the base are placed firts (we write 10 for ten, not 01).
+			</desc></dd>
+<dt>
+<a name="binf_phbin"></a>phbin(ph,str)</dt>
+<dd><desc>
+			This function uses the sequence of phrase ph and the rhythm (each bit is a tick) of the binary sequence of ntobinseq(mode, str) to generate a phrase. ph may also be a sequence of phrases. If the number of elements in the phrase sequence and the number of bits in the rhythm are not equal, the function loops in the phrase sequence and repeats the whole rhythm so that the whole phrase sequence (or the whole rhythm) is played at least once. It will always output a multiple of the length implied by str.
+			</desc></dd>
+<dt>
+<a name="binf_pseudo_base"></a>pseudo_base(s)</dt>
+<dd><desc>
+			The function counts from 0 to square of the length of s minus 1 and generates a sequence using sequence s instead of the powers of 2. For example if you call pseudo_base(seq(x,y)) it will return seq(0, x, y, x+y).
+			</desc></dd>
+<dt>
+<a name="binf_randrhythm"></a>randrhythm(ph)</dt>
+<dd><desc>
+			Changes the rhythm of a phrase randomly. The order of the notes remain the same.
+			</desc></dd>
+<dt>
+<a name="binf_randstr"></a>randstr(n)</dt>
+<dd><desc>
+			Generates a string of n space separated numbers.
+			</desc></dd>
+<dt>
+<a name="binf_randstrnk"></a>randstrnk(n,k)</dt>
+<dd><desc>
+			Generates a string of n space separated numbers with k being the number of bits of value 1.
+			</desc></dd>
+<dt>
+<a name="binf_randstrnkand"></a>randstrnkand(str,k)</dt>
+<dd><desc>
+			Provided a string of space separated numbers, this function will generate a string of space separated numbers with k bits set to 1 with these k bits occuring in places where there are bits set to 1 in the input string.
+			</desc></dd>
+<dt>
+<a name="binf_randstrnkxor"></a>randstrnkxor(str,k)</dt>
+<dd><desc>
+			Provided a string of space separated numbers, this function will generate a string of space separated numbers with k bits set to 1 with these k bits not occuring in places where there are bits set to 1 in the input string.
+			</desc></dd>
+<dt>
+<a name="binf_rotbin"></a>rotbin(str,n)</dt>
+<dd><desc>
+			Rotates the bits in a number string.
+			</desc></dd>
+<dt>
+<a name="binf_seqtostr"></a>seqtostr(s)</dt>
+<dd><desc>
+			Generates a string of numbers with bits at values contained in the sequence. The largest value determines the length of the string. For example, with Bpn set to 8 and the sequence seq(0,2,5,7) it would return A5. Add 8 at the end of the sequence and you get A5 80.
+			</desc></dd>
+<dt>
+<a name="binf_xpstr"></a>xpstr(bytes,power,fill, shift)</dt>
+<dd><desc>
+			"Expands" a string of numbers. Each bit becomes 2^power bits. If fill is set to 1, the new bits will be set to 1 otherwise 0. Every 2^power bits is rotated according to shift which may or may not be a sequence.
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_combinatorics"></a>Combinatorics functions (file combinatorics.k)</h3>
+<dl>
+<dt>
+<a name="combinatorics_binomial"></a>binomial(n,k)</dt>
+<dd><desc>
+			Returns the binomial coefficient n choose k. n must be greater or equal to k.
+			</desc></dd>
+<dt>
+<a name="combinatorics_cycles"></a>cycles(s,cycle1[, cycle2,..., cycleN])</dt>
+<dd>
+<desc>
+			Permutes sequence s using disjoint cycles. Cycles are expressed as sequences. Note that the validity of the parameters aren't verified so if your cycles are not disjoint or if they refer to indexes greater or equal to the size of s, it will give chaotic results.
+			</desc><p><strong>External link(s):</strong><ul><li><a href="http://en.wikipedia.org/wiki/Permutation#Notation" target="_blank">http://en.wikipedia.org/wiki/Permutation#Notation</a></li></ul></p>
+</dd>
+<dt>
+<a name="combinatorics_factorial"></a>factorial(n)</dt>
+<dd><desc>
+			Returns the factorial of n, that is n!.
+			</desc></dd>
+<dt>
+<a name="combinatorics_full_cycle"></a>full_cycle(s,cycle1[, cycle2,..., cycleN])</dt>
+<dd>
+<desc>The permutation is applied to s k times where k is the least common multiple of the cycles' lengths. No error-checking so be careful.</desc><p><strong>Internal link(s):</strong><ul><li><a href="#combinatorics_cycles">cycles</a></li></ul></p>
+</dd>
+<dt>
+<a name="combinatorics_gen_kncomb"></a>gen_kncomb(k,n)</dt>
+<dd><desc>
+			Generates all k-combinations of n elements.
+			</desc></dd>
+<dt>
+<a name="combinatorics_gen_permu"></a>gen_permu(k)</dt>
+<dd><desc>
+			Generates all permutations of k elements in lexicographic order so there are k! elements in the resulting array.
+			</desc></dd>
+<dt>
+<a name="combinatorics_next_permu"></a>next_permu(permu)</dt>
+<dd><desc>
+			Generates the next permutation in lexicographic order. Algorithm taken from Discrete mathematics and its applications' by Kenneth H. Rosen.
+			</desc></dd>
+<dt>
+<a name="combinatorics_raise"></a>raise(s,k)</dt>
+<dd><desc>
+			Let's say you juxtapose n permutations of k elements. All values in the sequence will range from 0 to k-1. This function raises every permutation k above the preceding one starting from 0. So if you have 4 juxtaposed permutations of 5 elements in sequence s and apply raise(s,5), the first one will range from 0 to 4, the second one from 5 to 9, the third from 10 to 14, the fourth from 15 to 19.
+			</desc></dd>
+<dt>
+<a name="combinatorics_randkncomb"></a>randkncomb(k,n)</dt>
+<dd><desc>
+			Generates a random combination of n choose k elements.
+			</desc></dd>
+<dt>
+<a name="combinatorics_randkncomp"></a>randkncomp(k,n)</dt>
+<dd><desc>
+			Generates a random composition of n with k elements.
+			</desc></dd>
+<dt>
+<a name="combinatorics_randpermu"></a>randpermu(k)</dt>
+<dd><desc>
+			Generates a random permutation of k elements.
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_ctlf"></a>Control functions (file ctlf.k)</h3>
+<desc>
+				<p>Functions that generate controller messages or tempo messages.</p>
+			</desc><dl>
+<dt>
+<a name="ctlf_gate"></a>gate(monoph, ch)</dt>
+<dd><desc>
+			Uses a monophonic phrase to generate a gate phrase on channel ch. A controller 7 (volume) of the velocity of the note will be written for every noteon. A controller 7 of value 0 will be written at every noteoff.
+			</desc></dd>
+<dt>
+<a name="ctlf_seqtobpm"></a>seqtobpm(s [,rate])</dt>
+<dd><desc>
+			Generates a tempo phrase using the values of sequence s as bpm. If a rate is provided, only every 'rate'th value will be used.
+			</desc></dd>
+<dt>
+<a name="ctlf_seqtoctl"></a>seqtoctl(ch, cn, s [,rate])</dt>
+<dd><desc>
+			Takes a channel number, a controller number, a sequence of numbers and an optional rate. For every value of sequence s, a controller message of number cn will be written to channel ch. The index of the sequence specifies the time in clicks. If a rate is provided, only every 'rate'th value will be used.
+			</desc></dd>
+<dt>
+<a name="ctlf_seqtopbend"></a>seqtopbend(ch, s [,rate])</dt>
+<dd><desc>
+			Takes a channel number, a sequence of numbers and an optional rate. For every value of sequence s, a pitchbend message will be written to channel ch. The index of the sequence specifies the time in clicks. If a rate is provided, only every 'rate'th value will be used.
+			</desc></dd>
+<dt>
+<a name="ctlf_swing"></a>swing(bpm, percent, len)</dt>
+<dd><desc>
+			Generates swinging (also sometimes called shuffle or groove) that is it makes the bpm alternates between 2 values. It can be more complex but this function is pretty simple. Provide the average bpm, the percentage of swinging (0 to 99) and the length of the swinging phrase in ticks. It adds a funky feeling.
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_phrasef"></a>Phrase functions (file phrasef.k)</h3>
+<desc>
+      <p>All lengths are specified in ticks. A tick is any number of clicks. The number or clicks in a tick is set in a global variable named Td (tick duration). My default is to set it to 24 (sixteenth) in the keylocal.k file.</p>
+      <p>Functions marked with a * also work with sequences.</p>
+      
+      
+      </desc><dl>
+<dt>
+<a name="phrasef_arp"></a>arp(ph,l,typ,oct[,shuffle])</dt>
+<dd><desc>
+				An arpeggiator. ph is the chord phrase, l is the duration in ticks of each note outputted, type is 0 for up, 1 for down, 2 for updown, 3 for downup, oct is the number of octaves traversed. shuffle is an optional parameter; if anything it will shuffle the arpeggio sequence (using shuffseq). 
+				</desc></dd>
+<dt>
+<a name="phrasef_chop"></a>chop(ph,ln,[start])*</dt>
+<dd><desc>
+				Chops a phrase or a sequence. ln is length (in ticks for phrases). start (optional) is where to begin.
+				</desc></dd>
+<dt>
+<a name="phrasef_chopl"></a>chopl(ph,l)*</dt>
+<dd><desc>
+				Chops a phrase (or sequence) in chunks of l ticks, returns the sequence of chunks. l should divide the length of the phrase in ticks. 
+				</desc></dd>
+<dt>
+<a name="phrasef_chopn"></a>chopn(ph,n)*</dt>
+<dd><desc>
+				Chops a phrase (or sequence) in n chunks of equal length, returns the sequence of chunks. n should divide the length of the phrase in ticks. 
+				</desc></dd>
+<dt>
+<a name="phrasef_filter"></a>filter(ph,f,t)</dt>
+<dd><desc>
+				Phrase filter. f is filter as a sequence, t is type; "p" is pitch, "n" is note number, "t" is time in steps, "d" is duration in steps, "s" is place in sequence (see phtoseq), "o" is pitch class (that is notes within an octave as number from 0 to 11). The function returns an array. At index 0 is the notes selected by the filter, at index 1 is the rest of the phrase.
+				</desc></dd>
+<dt>
+<a name="phrasef_info"></a>info(ph)</dt>
+<dd><desc>
+				Prints useful informations about a phrase.
+				</desc></dd>
+<dt>
+<a name="phrasef_inv"></a>inv(ph,n)</dt>
+<dd><desc>
+				Inverts a phrase in the spirit of chord inversion. n is the inversion number; if your phrase has x distinct pitches, n can range from -x to x. 0 doesn't change a thing, [1 to x] puts the n lowest values higher, [-1 to -x] puts the n highest values lower. The extremes (x and -x) are mere transpositions rather than inversions. Notes need not to be simultaneous.
+				</desc></dd>
+<dt>
+<a name="phrasef_map_oct"></a>map_oct(ph[, m])</dt>
+<dd>
+<desc>
+				Octave map. without map : returns an ordered sequence of distinct pitch class numbers. With map : applies new pitches [a=x, b=y, c=z]. 
+				</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_map_seq">map_seq</a></li></ul></p>
+</dd>
+<dt>
+<a name="phrasef_map_oct_rnd"></a>map_oct_rnd(ph)</dt>
+<dd><desc>
+				Remaps with map_oct randomly.
+				</desc></dd>
+<dt>
+<a name="phrasef_map_pch"></a>map_pch(ph[, m])</dt>
+<dd>
+<desc>
+				Pitch map. without map : returns an ordered sequence of distinct pitch numbers. With map : applies new pitches [a=x, b=y, c=z]. 
+				</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_map_seq">map_seq</a></li></ul></p>
+</dd>
+<dt>
+<a name="phrasef_map_pch_rnd"></a>map_pch_rnd(ph)</dt>
+<dd><desc>
+				Remaps with map_pch randomly.
+				</desc></dd>
+<dt>
+<a name="phrasef_mel_time"></a>mel_time(mel_ph,time_ph)</dt>
+<dd><desc>
+				Combines the timing (time, duration) of time_ph with the melodic content of mel_ph. The sequences of the phrases are used so simultaneous notes in mel_ph will remain simultaneous in the result. 
+				</desc></dd>
+<dt>
+<a name="phrasef_mergeph"></a>mergeph(l, ph1, ph2, ..., phx)</dt>
+<dd><desc>
+				Merges phrases using chunks of l ticks. Phrases need not be of same size in wich case shorter phrases will be repeated to match longest phrase. l needs to divide the length of the longest phrase.
+				</desc></dd>
+<dt>
+<a name="phrasef_octint"></a>octint(monoph)</dt>
+<dd><desc>
+				Takes a monophonic phrase as a parameter and maps all intervals within an octave; no interval in the result will be greater than an octave up or down.
+				</desc></dd>
+<dt>
+<a name="phrasef_overwrite"></a>overwrite(a,b,pos)*</dt>
+<dd><desc>
+				Overwrites phrase or sequence a with phrase or sequence b at position pos.
+				</desc></dd>
+<dt>
+<a name="phrasef_phns"></a>phns(ph,n,s)</dt>
+<dd><desc>
+				Chops a phrase in n equal chunks and pastes it back together using sequence s.
+				</desc></dd>
+<dt>
+<a name="phrasef_phtoseq"></a>phtoseq(ph)</dt>
+<dd><desc>
+				Turns a phrase into a sequence of smaller phrases using starting times as a basis.
+				</desc></dd>
+<dt>
+<a name="phrasef_prio"></a>prio(a,b)</dt>
+<dd><desc>
+				Phrase a gets priority over phrase b; notes in b with notes in a at the same time get erased.
+				</desc></dd>
+<dt>
+<a name="phrasef_randchopn"></a>randchopn(ph,n)</dt>
+<dd>
+<desc>
+				Chops a phrase into n parts of random lengths in ticks.
+				</desc><p><strong>Internal link(s):</strong><ul><li><a href="#combinatorics_randkncomp">randkncomp</a></li></ul></p>
+</dd>
+<dt>
+<a name="phrasef_retr"></a>retr(ph,cl,n)</dt>
+<dd><desc>
+				Applies retrigger to a phrase. Each subphrase (it uses phtoseq) is repeated n times at time intervals of cl clicks.
+				</desc></dd>
+<dt>
+<a name="phrasef_rot"></a>rot(a,len)*</dt>
+<dd><desc>
+				Rotates sequence or phrase.
+				</desc></dd>
+<dt>
+<a name="phrasef_seqtoph"></a>seqtoph(seq)</dt>
+<dd><desc>
+				Pastes a sequence of phrases one after the other. 
+				</desc></dd>
+<dt>
+<a name="phrasef_shuffl"></a>shuffl(ph,l)</dt>
+<dd><desc>
+				Shuffles a phrase using chunks of l ticks.
+				</desc></dd>
+<dt>
+<a name="phrasef_strum"></a>strum(ph,ncl,dir)</dt>
+<dd><desc>
+				Strums a phrase's simultaneous notes. Notes are separated by ncl clicks and it follows the direction specified by dir (0 is down, 1 is up). Down really is up and up down if you take the pitch as a reference.
+				</desc></dd>
+<dt>
+<a name="phrasef_voices"></a>voices(ph)</dt>
+<dd>
+<desc>
+				Separates a phrase into a sequence of separate voices based on pitches.
+				</desc><p><strong>Internal link(s):</strong><ul><li><a href="#revisedf_mono2">mono2</a></li></ul></p>
+</dd>
+<dt>
+<a name="phrasef_wr"></a>wr(ph,a,b)</dt>
+<dd><desc>
+				Window resize. Chops a phrase in chunks of a ticks and pastes it back together as if chunks were b ticks long.
+				</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_revisedf"></a>Revised functions (file revisedf.k)</h3>
+<dl>
+<dt>
+<a name="revisedf_bpm2"></a>bpm2(bpm)</dt>
+<dd><desc>
+			Sets bpm and returns a tempo message using the bpm.
+			</desc></dd>
+<dt>
+<a name="revisedf_flip2"></a>flip2(ph)</dt>
+<dd>
+<desc>
+			Uses the flip method of the scale class with a scale containing all pitches.
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#scale_flip">flip</a></li></ul></p>
+</dd>
+<dt>
+<a name="revisedf_legato2"></a>legato2(ph)</dt>
+<dd><desc>
+			Legato that modifies the duration of the last note using the length of ph.
+			</desc></dd>
+<dt>
+<a name="revisedf_mono2"></a>mono2(ph,type)</dt>
+<dd><desc>
+			Generates a monophonic phrase from a polyphonic phrase. Type is 0 for highest note, 1 for lowest note, 2 for random. The difference with the function mono from the core Keykit library is that mono2 uses phtoseq.
+			</desc></dd>
+<dt>
+<a name="revisedf_quantize2"></a>quantize2(phrase, quant [,limit ])</dt>
+<dd><desc>
+			An exact copy of the core Keykit library function quantize. The only difference is that the phrase's length is preserved.
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_seqf"></a>Sequence functions (file seqf.k)</h3>
+<desc>
+				<p>Functions to manipulate and generate various types of sequences.</p>
+			
+				<p>Some functions categorized in phrasef.k not listed here also manipulate sequences (chop, chopn, chopl, overwrite, rot).</p>
+			</desc><dl>
+<dt>
+<a name="seqf_bounceseq"></a>bounceseq(inp, mini, amp)</dt>
+<dd><desc>
+			Sequence's values are bounced into limits. mini is the minimum value, amp is the amplitude of allowed values. For example, bounceseq(seq(1,2,3,4),1,3) returns seq(1,2,3,2).
+			</desc></dd>
+<dt>
+<a name="seqf_diff"></a>diff(s)</dt>
+<dd><desc>
+			Differentiate the sequence. The result is a sequence of equal length - 1 containing the differences between the elements. For example : diff(seq(1,4,3)) returns seq(3,-1). 
+			</desc></dd>
+<dt>
+<a name="seqf_"></a>eq_brac</dt>
+<dd><desc>
+      Tests the equality of two sequences under rotation and inversion (bracelet).
+      </desc></dd>
+<dt>
+<a name="seqf_"></a>eq_neck</dt>
+<dd><desc>
+      Tests the equality of two sequences under rotation (necklace).
+      </desc></dd>
+<dt>
+<a name="seqf_"></a>eq_seq</dt>
+<dd><desc>
+      Tests the equality of two sequences.      
+      </desc></dd>
+<dt>
+<a name="seqf_flipseq"></a>flipseq(s)</dt>
+<dd><desc>
+			Flips a sequence upside down. seq(1,2,3) becomes seq(3,2,1). Recursive.
+			</desc></dd>
+<dt>
+<a name="seqf_inte"></a>inte(a,k)</dt>
+<dd><desc>
+			"Integrates" a sequence using k as initial value. The opposite of diff(). The name provided may not be exact for this operation.
+			</desc></dd>
+<dt>
+<a name="seqf_invseq"></a>invseq(s,r,n)</dt>
+<dd><desc>
+			Inverts a sequence in the spirit of chord inversion. s is the sequence, r would be the number of note in an octave (or the number of notes per octave in your scale). n is the inversion number; if your sequence has x distinct values, n can range from -x to x. 0 doesn't change a thing, [1 to x] puts the n lowest values higher, [-1 to -x] puts the n highest values lower.
+			</desc></dd>
+<dt>
+<a name="seqf_juxt"></a>juxt(s1,s2,...,sn)</dt>
+<dd><desc>
+			Juxtaposes content of sequences.
+			</desc></dd>
+<dt>
+<a name="seqf_kisins"></a>kisins(k,s)</dt>
+<dd><desc>
+			Returns true if k is in sequence s.
+			</desc></dd>
+<dt>
+<a name="seqf_line"></a>line(v1, t1, v2, ...)</dt>
+<dd><desc>
+			Linearly interpolates between values for specified numbers of steps (t1...). You can specify as many values as you need as long as there is one more value than numbers of steps.
+			</desc></dd>
+<dt>
+<a name="seqf_map_seq"></a>map_seq(s[,m])</dt>
+<dd><desc>
+			Sequence map. without map : returns an ordered sequence of distinct values . With map : applies map [a=x, b=y, c=z].
+			For example map_seq(seq(4,5,6),[4=1,5=2,6=3]) would return seq(1,2,3). Recursive.
+			<ilink href="phrasef_map_pch"></ilink>
+			<ilink href="phrasef_map_oct"></ilink>
+			</desc></dd>
+<dt>
+<a name="seqf_mergeseq"></a>mergeseq(n, s1, s2, ..., sn)</dt>
+<dd><desc>
+			Merge sequences using chunks of n elements. Phrase need not be of same size in which case shorter sequences will be repeated to match the longest. n needs to divide the length of the longest sequence.
+			</desc></dd>
+<dt>
+<a name="seqf_mods"></a>mods(m1, m2,..., mn)</dt>
+<dd>
+<desc>
+			Takes moduli numbers as parameters. Returns a numerical sequence whose length is the largest of the moduli. #x=x%m0%m1... of course moduli are applied to the index in decreasing order. For example mods(8,3) returns seq(0,1,2,0,1,2,0,1).
+			</desc><p><strong>External link(s):</strong><ul><li><a href="http://en.wikipedia.org/wiki/Modular_arithmetic" target="_blank">http://en.wikipedia.org/wiki/Modular_arithmetic</a></li></ul></p>
+</dd>
+<dt>
+<a name="seqf_modsf"></a>modsf(m1,m2,...,mn)</dt>
+<dd>
+<desc>
+			The index value of every zeros in the result given by mods is put in a sequence. The largest moduli is added at the end. Meant to generate sequence to be used as a filters (see function filt) for syncopation and such.
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_mods">mods</a></li></ul></p>
+</dd>
+<dt>
+<a name="seqf_norepseq"></a>norepseq(s)</dt>
+<dd>
+<desc>
+			Eliminates repetition from a sequence by replacing repeating values with another one as close as possible in the alphabet of the input (uses function map_seq). 
+      Items may be numbers or tuples. Repetition between last and first items is also checked.
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#scale_norep">norep</a></li></ul></p>
+</dd>
+<dt>
+<a name="seqf_randseq0"></a>randseq0(n, min, amp)</dt>
+<dd><desc>
+			Random sequence 0 : simple random sequence ranging from minimum to minimum + amp.
+			</desc></dd>
+<dt>
+<a name="seqf_randseq1"></a>randseq1(n, min, amp, [nodup])</dt>
+<dd><desc>
+			Random sequence 1 : no successive repetition (even if the sequence is repeated; the first and last element won't be equal). If you want a sequence with no duplicates give 1 as 4th argument and make sure amp is greater than n.
+			</desc></dd>
+<dt>
+<a name="seqf_randseq2"></a>randseq2(n, min, amp, minabsdiff, diffrangeamp, [illegaldiff])</dt>
+<dd><desc>
+			Random sequence 2 : computed values range from min to min+amp. Differences between successive values will range from minabsdiff to minabsdiff+diffrangeamp or from -minabsdiff to -(minabsdiff+diffrangeamp). An optional parameter illegaldiff is an illegal difference that will not appear in the sequence.
+			</desc></dd>
+<dt>
+<a name="seqf_randseq3"></a>randseq3(min, amp, s, k)</dt>
+<dd><desc>
+			Random sequence 3 : a random sequence of the same size as sequence s ranging from min to min+amp is computed. Every value is then multiplied with its counterpart in s. s is an integer sequence usually ranging from -1 to 1. The result is integrated (function inte) using k. The idea behind this is to specify an overall direction to the phrase while the values remain random.
+			</desc></dd>
+<dt>
+<a name="seqf_removeat"></a>removeat(s,i)</dt>
+<dd><desc>
+			Returns a sequence that is s with all indexes specified by i removed. 'i' may be a sequence or an integer.
+			</desc></dd>
+<dt>
+<a name="seqf_repseq"></a>repseq(s,n)</dt>
+<dd><desc>
+			Repeats sequence s n times. s may also be something else. In that case, a sequence of whatever input was supplied repeated n times will be returned.
+			</desc></dd>
+<dt>
+<a name="seqf_reptest"></a>reptest(s)</dt>
+<dd><desc>
+			Returns true if there are two successive identical values in a sequence. Whether the last and first values are equal is also tested.
+			</desc></dd>
+<dt>
+<a name="seqf_revseq"></a>revseq(arr)</dt>
+<dd><desc>
+			Reverses sequence.
+			</desc></dd>
+<dt>
+<a name="seqf_saddk"></a>saddk(s, k)</dt>
+<dd><desc>
+			Adds k to sequence s. If k is a sequence then the result is the juxtaposition of saddk(a,k[0]), saddk(a,k[1]) ... Sequence s may contain other sequence since the function is recursive. Of course the sequences must contain numbers.
+			</desc></dd>
+<dt>
+<a name="seqf_sadds"></a>sadds(s1, s2)</dt>
+<dd><desc>
+			Adds 2 sequences; each value in s1 is added to the value with the same index in s2. If the sequence are not of the same size, the result will have the size of the longer sequence and the function will loop in the smaller sequence. Input sequences can only contain numbers (not other arrays).
+			</desc></dd>
+<dt>
+<a name="seqf_scopy"></a>scopy(tg, src)</dt>
+<dd><desc>
+			Copies source array into target array. Recursive.
+			</desc></dd>
+<dt>
+<a name="seqf_seed"></a>seed()</dt>
+<dd><desc>
+			Seeds the random number generator with the current time.
+			</desc></dd>
+<dt>
+<a name="seqf_seq"></a>seq()</dt>
+<dd><desc>
+			Creates a sequence with values being the arguments.
+			</desc></dd>
+<dt>
+<a name="seqf_seqi"></a>seqi(s, i)</dt>
+<dd><desc>
+			Sequence and index sequence. For example seqi(seq(7,8,9),seq(2,1,0)) returns seq(9,8,7). Recursive.
+			</desc></dd>
+<dt>
+<a name="seqf_seqinsert"></a>seqinsert(s, index, item)</dt>
+<dd><desc>
+			Insert item (which may be a list in which case it will be inserted in the flow of the sequence) in a sequence s. 
+			</desc></dd>
+<dt>
+<a name="seqf_seqmax"></a>seqmax(s)</dt>
+<dd><desc>
+			Returns the maximum value of sequence s. Recursive.
+			</desc></dd>
+<dt>
+<a name="seqf_seqmin"></a>seqmin(s)</dt>
+<dd><desc>
+			Returns the minimum value of sequence s. Recursive.
+			</desc></dd>
+<dt>
+<a name="seqf_seqrem"></a>seqrem(s, n)</dt>
+<dd><desc>
+			Returns a sequence containing all values of s except n.
+			</desc></dd>
+<dt>
+<a name="seqf_shuffseq"></a>shuffseq(s)</dt>
+<dd><desc>
+			Shuffles a sequence. The principle is the same as the shuffle function in the keykit library.
+			</desc></dd>
+<dt>
+<a name="seqf_sigma"></a>sigma(k)</dt>
+<dd><desc>
+			Sum of all integers smaller or equal to k.
+			</desc></dd>
+<dt>
+<a name="seqf_sigmaseq"></a>sigmaseq(k)</dt>
+<dd><desc>
+			The best way to explain this one is with an example: sigmaseq(3) -&gt; seq(0,0,1,0,1,2), that is 0 then 0, 1 then 0, 1, 2. The number of elements in the sequence is equal to the sum of all integers smaller or equal to k.
+			</desc></dd>
+<dt>
+<a name="seqf_smulk"></a>smulk(s, k)</dt>
+<dd><desc>
+			Multiplies the items in sequence s by k. If k is a sequence then the result is the juxtaposition of smulk(a,k[0]), smulk(a,k[1]) .. Sequence s may contain other sequences since the function is recursive. Of course the sequences must contain numbers.
+			</desc></dd>
+<dt>
+<a name="seqf_stair"></a>stair(o, l, [d])</dt>
+<dd><desc>
+			Stair function. o is origin, l is length, d is delta. For example stair(2,4,4) would return seq(2,6,10,14). Similar to Python's range() function.
+			</desc></dd>
+<dt>
+<a name="seqf_sum"></a>sum(s)</dt>
+<dd><desc>
+			Returns the sum of the items in a sequence.
+			</desc></dd>
+<dt>
+<a name="seqf_tri"></a>tri(o, l [, d])</dt>
+<dd>
+<desc>
+			Triangle function; juxtaposes two stair sequences to form some sort of triangle. For example tri(0,4) returns seq(0,1,2,3,4,3,2,1).
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_stair">stair</a></li></ul></p>
+</dd>
+<dt>
+<a name="seqf_wrapseq"></a>wrapseq(inp, mini, amp)</dt>
+<dd><desc>
+			Sequence's values are wrapped into limits. mini is the minimum value, amp is the amplitude of allowed values. For example, wrapseq(seq(1,2,3,4),1,3) returns seq(1,2,3,1).
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="sublib_stringf"></a>String functions (file stringf.k)</h3>
+<dl>
+<dt>
+<a name="stringf_join"></a>join(s)</dt>
+<dd><desc>
+			The oposite of the split library function. Takes a sequence of elements and makes a string of these separated by spaces.
+			</desc></dd>
+<dt>
+<a name="stringf_repstr"></a>repstr(str,n)</dt>
+<dd><desc>
+			Concatenates string str n times.
+			</desc></dd>
+<dt>
+<a name="stringf_trim"></a>trim(str)</dt>
+<dd><desc>
+			Trims space at the beginning and end of a string.
+			</desc></dd>
+</dl>
+<hr>
+<h2>
+<a name="section_classes"></a>Classes</h2>
+<h3>
+<a name="class_maptron"></a>Maptron (class maptron in file maptron.k)
+	</h3>
+<desc>
+			<p>The idea behind this class is to map the times of a phrase according to a mathematical formula.</p>
+			<p>The formulas are saved in an associative array as strings of the form "Y=X" to be evaluated. X and Y must be in capital letters. </p>
+			<p>The length of the phrase is mapped to the interval that goes from 0 to 1. For example, Y=1-X reverses the phrase, no matter what length it is.</p>
+			
+			</desc><dl>
+<dt>
+<a name="maptron_apply"></a>apply(ph[,n])</dt>
+<dd><desc>
+				Applies the function to phrase ph. Optionally applied to n chunks of the phrase.
+				</desc></dd>
+<dt>
+<a name="maptron_set"></a>set(fn)</dt>
+<dd><desc>
+				I defined 4 basic functions in maptron.k : "halfsine", "pow2", "pow3" and "rev". Add your own!
+				</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="class_mlfo"></a>Midi lfo (class mlfo in file mlfo.k)
+	</h3>
+<desc>
+				<p>These shiny little objects let you generate periodic sequences. These periodic sequences can then be used to generate controller messages with seqtoctl, tempo messages with seqtobpm or whatever you want them to.</p>
+
+				<p>They can modulate each other in 3 ways: amplitude modulation, frequency modulation and addition.</p>
+
+				<p>The constructor need 5 parameters : shape, period, offset, amp, phase.</p>
+
+				<p>The shape is specified with a number:</p>
+				<ul>
+					<li>0 : sine</li>
+					<li>1 : square</li>
+					<li>2 : triangle</li>
+					<li>3 : sawtooth</li>
+					<li>4 : reverse sawtooth</li>
+					<li>5 : random (a new value is computed every time the phase crosses 0)</li>
+				</ul>
+				<p>The period is the inverse of the frequency. It should be a number of clicks if you want to generate controller messages.</p>
+
+				<p>The offset is a value that is added to the result.</p>
+
+				<p>amp is the amplitude of the wave. Values will range from (offset-amp) to (offset+amp).</p>
+
+				<p>The phase is specified as a real number from 0 to 1.</p>
+
+				<p>You can set every parameter using the appropriate methods.</p>
+			</desc><dl>
+<dt>
+<a name="mlfo_calc"></a>calc(n)</dt>
+<dd><desc>
+			Calculates n values. All connected lfos will also be computed to generate the result. Note that mlfo objects do not keep track of the phase state between calls to calc.
+			</desc></dd>
+<dt>
+<a name="mlfo_setAM"></a>setAM(mlfo_object)</dt>
+<dd><desc>
+			Sets the lfo to modulate the amplitude. The amplitude is multiplied by the modulator.
+			</desc></dd>
+<dt>
+<a name="mlfo_setAdd"></a>setAdd(mlfo_object)</dt>
+<dd><desc>
+			Sets the lfo to be added to the current lfo.
+			</desc></dd>
+<dt>
+<a name="mlfo_setAmp"></a>setAmp(amp)</dt>
+<dd><desc>
+			Sets amplitude.
+			</desc></dd>
+<dt>
+<a name="mlfo_setFM"></a>setFM(mlfo_object)</dt>
+<dd><desc>
+			Sets the lfo to modulate the frequency. I found that modulating the period gives erratic results. It's more appropriate to modulate the frequency. The frequency is multiplied by the modulator.
+			</desc></dd>
+<dt>
+<a name="mlfo_setOffset"></a>setOffset(offset)</dt>
+<dd><desc>
+			Sets the offset.
+			</desc></dd>
+<dt>
+<a name="mlfo_setPeriod"></a>setPeriod(period)</dt>
+<dd><desc>
+			Sets the period.
+			</desc></dd>
+<dt>
+<a name="mlfo_setPhase"></a>setPhase(phase)</dt>
+<dd><desc>
+			Sets phase.
+			</desc></dd>
+<dt>
+<a name="mlfo_setShape"></a>setShape(shape)</dt>
+<dd><desc>
+			Sets the shape number. Look above for accepted values and their corresponding shape.
+			</desc></dd>
+<dt>
+<a name="mlfo_unsetAdd"></a>unsetAdd()</dt>
+<dd><desc>
+			Unset the lfo added to the current lfo.
+			</desc></dd>
+<dt>
+<a name="mlfo_unsetAm"></a>unsetAm()</dt>
+<dd><desc>
+			Unset the amplitude modulation lfo.
+			</desc></dd>
+<dt>
+<a name="mlfo_unsetFM"></a>unsetFM()</dt>
+<dd><desc>
+			Unset the frequency modulation lfo.
+			</desc></dd>
+</dl>
+<hr>
+<h3>
+<a name="class_scale"></a>Scale (class scale in file scale.k)
+	</h3>
+<desc>
+				<p>The purpose of this class is to generate and manipulate phrases in a specified scale.</p>
+
+				<p>The constructor of a scale object accepts the same parameters as the set() method documented below.</p>
+
+				<p>The scale object methods use a sequence of all the midi notes that are on it's scale : the pitch map. Pitches refer to the index in the pitch map.</p>
+
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#appendix_scales">scales</a></li></ul></p>
+<dl>
+<dt>
+<a name="scale_bounce"></a>bounce(inp,mini,amp)</dt>
+<dd><desc>
+			Bounces pitches on the scale.
+			</desc></dd>
+<dt>
+<a name="scale_decluster"></a>decluster(ph)</dt>
+<dd>
+<desc>
+			Takes an on-scale polyphonic phrase as input. Minor seconds are dissonant. This function eliminates simultaneous consecutive tones by transposition on the scale. 
+			</desc><p><strong>External link(s):</strong><ul><li><a href="http://en.wikipedia.org/wiki/Tone_clusters" target="_blank">http://en.wikipedia.org/wiki/Tone_clusters</a></li></ul></p>
+</dd>
+<dt>
+<a name="scale_flip"></a>flip(ph)</dt>
+<dd><desc>
+			Flips the phrase on scale. The phrase should be on scale, otherwise it may give erratic results. 
+      The phrase is flipped using the average pitch of the phrase (in relation to the scale) as the axis; lowest become highest, highest becomes lowest.
+			</desc></dd>
+<dt>
+<a name="scale_gen"></a>gen(p,d)</dt>
+<dd><desc>
+			Generates a phrase using a pitch sequence (in scale steps), a duration sequence (in ticks). p and d may be single values (if they are, they will be reused). 
+      If both parameters are sequences, the number of notes generated will be equal to the number of elements in the longest sequence. 
+      The pitch sequence may contain sequences; they will be interpreted as simultaneous notes (chords).
+			</desc></dd>
+<dt>
+<a name="scale_norep"></a>norep(monoph)</dt>
+<dd>
+<desc>
+			Eliminates repetition from a phrase by changing notes and chords. It works with monophonic and polyphonic phrases.
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#seqf_norepseq">norepseq</a></li></ul></p>
+</dd>
+<dt>
+<a name="scale_play"></a>play()</dt>
+<dd><desc>
+			Plays the scale.
+			</desc></dd>
+<dt>
+<a name="scale_set"></a>set()</dt>
+<dd>
+<desc>
+			Set scale. Forms: set(scale abbreviation, root as number from 0 to 11), set(non repeating sequence of numbers from 0 to 11), set(phrase) .
+			</desc><p><strong>Internal link(s):</strong><ul><li><a href="#appendix_scales">scales</a></li></ul></p>
+</dd>
+<dt>
+<a name="scale_trans"></a>trans(ph, s [, nb_iteration, chromatic_switch])</dt>
+<dd><desc>
+			Transposes a phrase by s scale steps. s may be a sequence and if so, you can specify the number of times you want the sequence repeated (nb_ite). 
+      If the chromatic_switch parameter is set to 1, the input phrase need not be on scale, otherwise it has to. 
+      In the case of chromatic transposition : shift_in_semitones=pitch_map[s].  
+			</desc></dd>
+<dt>
+<a name="scale_wrap"></a>wrap(inp,mini,amp)</dt>
+<dd><desc>
+			Wraps pitches on the scale. mini and amp are indexes of notes on scale.
+			</desc></dd>
+</dl>
+<hr>
+<h2>
+<a name="section_appendix"></a>Appendix</h2>
+<h3>
+<a name="appendix_scales"></a>Scales</h3>
+<div style="text-align:center;"><table id="scales">
+<th>Full name</th>
+<th>Short name</th>
+<th>Pitch classes</th>
+<th>Intervals</th>
+<tr>
+<td>Harmonic minor</td>
+<td>harmin</td>
+<td>0,2,3,5,7,8,11</td>
+<td>2,1,2,2,1,3,1</td>
+</tr>
+<tr>
+<td>Melodic minor</td>
+<td>melmin</td>
+<td>0,2,3,5,7,9,11</td>
+<td>2,1,2,2,2,2,1</td>
+</tr>
+<tr>
+<td>Hungarian minor scale</td>
+<td>hung</td>
+<td>0,2,3,6,7,8,11</td>
+<td>2,1,3,1,1,3,1</td>
+</tr>
+<tr>
+<td>Oriental</td>
+<td>orient</td>
+<td>0,2,4,7,9</td>
+<td>2,2,3,2,3</td>
+</tr>
+<tr>
+<td>Pentatonic</td>
+<td>pent</td>
+<td>0,2,4,7,11</td>
+<td>2,2,3,4,1</td>
+</tr>
+<tr>
+<td>Jazz</td>
+<td>jazz</td>
+<td>0,3,5,6,7,10</td>
+<td>3,2,1,1,3,2</td>
+</tr>
+<tr>
+<td>Major</td>
+<td>maj</td>
+<td>0,2,4,5,7,9,11</td>
+<td>2,2,1,2,2,2,1</td>
+</tr>
+<tr>
+<td>Octatonic</td>
+<td>oct</td>
+<td>0,2,3,5,6,8,9,11</td>
+<td>2,1,2,1,2,1,2,1</td>
+</tr>
+<tr>
+<td>1-1</td>
+<td>1-1</td>
+<td>0</td>
+<td>12</td>
+</tr>
+<tr>
+<td>2-1</td>
+<td>2-1</td>
+<td>0,1</td>
+<td>1,11</td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>2-2</td>
+<td>0,2</td>
+<td>2,10</td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>2-3</td>
+<td>0,3</td>
+<td>3,9</td>
+</tr>
+<tr>
+<td>2-4</td>
+<td>2-4</td>
+<td>0,4</td>
+<td>4,8</td>
+</tr>
+<tr>
+<td>2-5</td>
+<td>2-5</td>
+<td>0,5</td>
+<td>5,7</td>
+</tr>
+<tr>
+<td>2-6</td>
+<td>2-6</td>
+<td>0,6</td>
+<td>6,6</td>
+</tr>
+<tr>
+<td>3-1</td>
+<td>3-1</td>
+<td>0,1,2</td>
+<td>1,1,10</td>
+</tr>
+<tr>
+<td>3-2A</td>
+<td>3-2A</td>
+<td>0,1,3</td>
+<td>1,2,9</td>
+</tr>
+<tr>
+<td>3-2B</td>
+<td>3-2B</td>
+<td>0,2,3</td>
+<td>2,1,9</td>
+</tr>
+<tr>
+<td>3-3A</td>
+<td>3-3A</td>
+<td>0,1,4</td>
+<td>1,3,8</td>
+</tr>
+<tr>
+<td>3-3B</td>
+<td>3-3B</td>
+<td>0,3,4</td>
+<td>3,1,8</td>
+</tr>
+<tr>
+<td>3-4A</td>
+<td>3-4A</td>
+<td>0,1,5</td>
+<td>1,4,7</td>
+</tr>
+<tr>
+<td>3-4B</td>
+<td>3-4B</td>
+<td>0,4,5</td>
+<td>4,1,7</td>
+</tr>
+<tr>
+<td>3-5A</td>
+<td>3-5A</td>
+<td>0,1,6</td>
+<td>1,5,6</td>
+</tr>
+<tr>
+<td>3-5B</td>
+<td>3-5B</td>
+<td>0,5,6</td>
+<td>5,1,6</td>
+</tr>
+<tr>
+<td>3-6</td>
+<td>3-6</td>
+<td>0,2,4</td>
+<td>2,2,8</td>
+</tr>
+<tr>
+<td>3-7A</td>
+<td>3-7A</td>
+<td>0,2,5</td>
+<td>2,3,7</td>
+</tr>
+<tr>
+<td>3-7B</td>
+<td>3-7B</td>
+<td>0,3,5</td>
+<td>3,2,7</td>
+</tr>
+<tr>
+<td>3-8A</td>
+<td>3-8A</td>
+<td>0,2,6</td>
+<td>2,4,6</td>
+</tr>
+<tr>
+<td>3-8B</td>
+<td>3-8B</td>
+<td>0,4,6</td>
+<td>4,2,6</td>
+</tr>
+<tr>
+<td>3-9</td>
+<td>3-9</td>
+<td>0,2,7</td>
+<td>2,5,5</td>
+</tr>
+<tr>
+<td>3-10</td>
+<td>3-10</td>
+<td>0,3,6</td>
+<td>3,3,6</td>
+</tr>
+<tr>
+<td>3-11A</td>
+<td>3-11A</td>
+<td>0,3,7</td>
+<td>3,4,5</td>
+</tr>
+<tr>
+<td>3-11B</td>
+<td>3-11B</td>
+<td>0,4,7</td>
+<td>4,3,5</td>
+</tr>
+<tr>
+<td>3-12</td>
+<td>3-12</td>
+<td>0,4,8</td>
+<td>4,4,4</td>
+</tr>
+<tr>
+<td>4-1</td>
+<td>4-1</td>
+<td>0,1,2,3</td>
+<td>1,1,1,9</td>
+</tr>
+<tr>
+<td>4-2A</td>
+<td>4-2A</td>
+<td>0,1,2,4</td>
+<td>1,1,2,8</td>
+</tr>
+<tr>
+<td>4-2B</td>
+<td>4-2B</td>
+<td>0,2,3,4</td>
+<td>2,1,1,8</td>
+</tr>
+<tr>
+<td>4-3</td>
+<td>4-3</td>
+<td>0,1,3,4</td>
+<td>1,2,1,8</td>
+</tr>
+<tr>
+<td>4-4A</td>
+<td>4-4A</td>
+<td>0,1,2,5</td>
+<td>1,1,3,7</td>
+</tr>
+<tr>
+<td>4-4B</td>
+<td>4-4B</td>
+<td>0,3,4,5</td>
+<td>3,1,1,7</td>
+</tr>
+<tr>
+<td>4-5A</td>
+<td>4-5A</td>
+<td>0,1,2,6</td>
+<td>1,1,4,6</td>
+</tr>
+<tr>
+<td>4-5B</td>
+<td>4-5B</td>
+<td>0,4,5,6</td>
+<td>4,1,1,6</td>
+</tr>
+<tr>
+<td>4-6</td>
+<td>4-6</td>
+<td>0,1,2,7</td>
+<td>1,1,5,5</td>
+</tr>
+<tr>
+<td>4-7</td>
+<td>4-7</td>
+<td>0,1,4,5</td>
+<td>1,3,1,7</td>
+</tr>
+<tr>
+<td>4-8</td>
+<td>4-8</td>
+<td>0,1,5,6</td>
+<td>1,4,1,6</td>
+</tr>
+<tr>
+<td>4-9</td>
+<td>4-9</td>
+<td>0,1,6,7</td>
+<td>1,5,1,5</td>
+</tr>
+<tr>
+<td>4-10</td>
+<td>4-10</td>
+<td>0,2,3,5</td>
+<td>2,1,2,7</td>
+</tr>
+<tr>
+<td>4-11A</td>
+<td>4-11A</td>
+<td>0,1,3,5</td>
+<td>1,2,2,7</td>
+</tr>
+<tr>
+<td>4-11B</td>
+<td>4-11B</td>
+<td>0,2,4,5</td>
+<td>2,2,1,7</td>
+</tr>
+<tr>
+<td>4-12A</td>
+<td>4-12A</td>
+<td>0,2,3,6</td>
+<td>2,1,3,6</td>
+</tr>
+<tr>
+<td>4-12B</td>
+<td>4-12B</td>
+<td>0,3,4,6</td>
+<td>3,1,2,6</td>
+</tr>
+<tr>
+<td>4-13A</td>
+<td>4-13A</td>
+<td>0,1,3,6</td>
+<td>1,2,3,6</td>
+</tr>
+<tr>
+<td>4-13B</td>
+<td>4-13B</td>
+<td>0,3,5,6</td>
+<td>3,2,1,6</td>
+</tr>
+<tr>
+<td>4-14A</td>
+<td>4-14A</td>
+<td>0,2,3,7</td>
+<td>2,1,4,5</td>
+</tr>
+<tr>
+<td>4-14B</td>
+<td>4-14B</td>
+<td>0,4,5,7</td>
+<td>4,1,2,5</td>
+</tr>
+<tr>
+<td>4-z15A</td>
+<td>4-z15A</td>
+<td>0,1,4,6</td>
+<td>1,3,2,6</td>
+</tr>
+<tr>
+<td>4-z15B</td>
+<td>4-z15B</td>
+<td>0,2,5,6</td>
+<td>2,3,1,6</td>
+</tr>
+<tr>
+<td>4-16A</td>
+<td>4-16A</td>
+<td>0,1,5,7</td>
+<td>1,4,2,5</td>
+</tr>
+<tr>
+<td>4-16B</td>
+<td>4-16B</td>
+<td>0,2,6,7</td>
+<td>2,4,1,5</td>
+</tr>
+<tr>
+<td>4-17</td>
+<td>4-17</td>
+<td>0,3,4,7</td>
+<td>3,1,3,5</td>
+</tr>
+<tr>
+<td>4-18A</td>
+<td>4-18A</td>
+<td>0,1,4,7</td>
+<td>1,3,3,5</td>
+</tr>
+<tr>
+<td>4-18B</td>
+<td>4-18B</td>
+<td>0,3,6,7</td>
+<td>3,3,1,5</td>
+</tr>
+<tr>
+<td>4-19A</td>
+<td>4-19A</td>
+<td>0,1,4,8</td>
+<td>1,3,4,4</td>
+</tr>
+<tr>
+<td>4-19B</td>
+<td>4-19B</td>
+<td>0,3,4,8</td>
+<td>3,1,4,4</td>
+</tr>
+<tr>
+<td>4-20</td>
+<td>4-20</td>
+<td>0,1,5,8</td>
+<td>1,4,3,4</td>
+</tr>
+<tr>
+<td>4-21</td>
+<td>4-21</td>
+<td>0,2,4,6</td>
+<td>2,2,2,6</td>
+</tr>
+<tr>
+<td>4-22A</td>
+<td>4-22A</td>
+<td>0,2,4,7</td>
+<td>2,2,3,5</td>
+</tr>
+<tr>
+<td>4-22B</td>
+<td>4-22B</td>
+<td>0,3,5,7</td>
+<td>3,2,2,5</td>
+</tr>
+<tr>
+<td>4-23</td>
+<td>4-23</td>
+<td>0,2,5,7</td>
+<td>2,3,2,5</td>
+</tr>
+<tr>
+<td>4-24</td>
+<td>4-24</td>
+<td>0,2,4,8</td>
+<td>2,2,4,4</td>
+</tr>
+<tr>
+<td>4-25</td>
+<td>4-25</td>
+<td>0,2,6,8</td>
+<td>2,4,2,4</td>
+</tr>
+<tr>
+<td>4-26</td>
+<td>4-26</td>
+<td>0,3,5,8</td>
+<td>3,2,3,4</td>
+</tr>
+<tr>
+<td>4-27A</td>
+<td>4-27A</td>
+<td>0,2,5,8</td>
+<td>2,3,3,4</td>
+</tr>
+<tr>
+<td>4-27B</td>
+<td>4-27B</td>
+<td>0,3,6,8</td>
+<td>3,3,2,4</td>
+</tr>
+<tr>
+<td>4-28</td>
+<td>4-28</td>
+<td>0,3,6,9</td>
+<td>3,3,3,3</td>
+</tr>
+<tr>
+<td>4-z29A</td>
+<td>4-z29A</td>
+<td>0,1,3,7</td>
+<td>1,2,4,5</td>
+</tr>
+<tr>
+<td>4-z29B</td>
+<td>4-z29B</td>
+<td>0,4,6,7</td>
+<td>4,2,1,5</td>
+</tr>
+<tr>
+<td>5-1</td>
+<td>5-1</td>
+<td>0,1,2,3,4</td>
+<td>1,1,1,1,8</td>
+</tr>
+<tr>
+<td>5-2A</td>
+<td>5-2A</td>
+<td>0,1,2,3,5</td>
+<td>1,1,1,2,7</td>
+</tr>
+<tr>
+<td>5-2B</td>
+<td>5-2B</td>
+<td>0,2,3,4,5</td>
+<td>2,1,1,1,7</td>
+</tr>
+<tr>
+<td>5-3A</td>
+<td>5-3A</td>
+<td>0,1,2,4,5</td>
+<td>1,1,2,1,7</td>
+</tr>
+<tr>
+<td>5-3B</td>
+<td>5-3B</td>
+<td>0,1,3,4,5</td>
+<td>1,2,1,1,7</td>
+</tr>
+<tr>
+<td>5-4A</td>
+<td>5-4A</td>
+<td>0,1,2,3,6</td>
+<td>1,1,1,3,6</td>
+</tr>
+<tr>
+<td>5-4B</td>
+<td>5-4B</td>
+<td>0,3,4,5,6</td>
+<td>3,1,1,1,6</td>
+</tr>
+<tr>
+<td>5-5A</td>
+<td>5-5A</td>
+<td>0,1,2,3,7</td>
+<td>1,1,1,4,5</td>
+</tr>
+<tr>
+<td>5-5B</td>
+<td>5-5B</td>
+<td>0,4,5,6,7</td>
+<td>4,1,1,1,5</td>
+</tr>
+<tr>
+<td>5-6A</td>
+<td>5-6A</td>
+<td>0,1,2,5,6</td>
+<td>1,1,3,1,6</td>
+</tr>
+<tr>
+<td>5-6B</td>
+<td>5-6B</td>
+<td>0,1,4,5,6</td>
+<td>1,3,1,1,6</td>
+</tr>
+<tr>
+<td>5-7A</td>
+<td>5-7A</td>
+<td>0,1,2,6,7</td>
+<td>1,1,4,1,5</td>
+</tr>
+<tr>
+<td>5-7B</td>
+<td>5-7B</td>
+<td>0,1,5,6,7</td>
+<td>1,4,1,1,5</td>
+</tr>
+<tr>
+<td>5-8</td>
+<td>5-8</td>
+<td>0,2,3,4,6</td>
+<td>2,1,1,2,6</td>
+</tr>
+<tr>
+<td>5-9A</td>
+<td>5-9A</td>
+<td>0,1,2,4,6</td>
+<td>1,1,2,2,6</td>
+</tr>
+<tr>
+<td>5-9B</td>
+<td>5-9B</td>
+<td>0,2,4,5,6</td>
+<td>2,2,1,1,6</td>
+</tr>
+<tr>
+<td>5-10A</td>
+<td>5-10A</td>
+<td>0,1,3,4,6</td>
+<td>1,2,1,2,6</td>
+</tr>
+<tr>
+<td>5-10B</td>
+<td>5-10B</td>
+<td>0,2,3,5,6</td>
+<td>2,1,2,1,6</td>
+</tr>
+<tr>
+<td>5-11A</td>
+<td>5-11A</td>
+<td>0,2,3,4,7</td>
+<td>2,1,1,3,5</td>
+</tr>
+<tr>
+<td>5-11B</td>
+<td>5-11B</td>
+<td>0,3,4,5,7</td>
+<td>3,1,1,2,5</td>
+</tr>
+<tr>
+<td>5-z12</td>
+<td>5-z12</td>
+<td>0,1,3,5,6</td>
+<td>1,2,2,1,6</td>
+</tr>
+<tr>
+<td>5-13A</td>
+<td>5-13A</td>
+<td>0,1,2,4,8</td>
+<td>1,1,2,4,4</td>
+</tr>
+<tr>
+<td>5-13B</td>
+<td>5-13B</td>
+<td>0,2,3,4,8</td>
+<td>2,1,1,4,4</td>
+</tr>
+<tr>
+<td>5-14A</td>
+<td>5-14A</td>
+<td>0,1,2,5,7</td>
+<td>1,1,3,2,5</td>
+</tr>
+<tr>
+<td>5-14B</td>
+<td>5-14B</td>
+<td>0,2,5,6,7</td>
+<td>2,3,1,1,5</td>
+</tr>
+<tr>
+<td>5-15</td>
+<td>5-15</td>
+<td>0,1,2,6,8</td>
+<td>1,1,4,2,4</td>
+</tr>
+<tr>
+<td>5-16A</td>
+<td>5-16A</td>
+<td>0,1,3,4,7</td>
+<td>1,2,1,3,5</td>
+</tr>
+<tr>
+<td>5-16B</td>
+<td>5-16B</td>
+<td>0,3,4,6,7</td>
+<td>3,1,2,1,5</td>
+</tr>
+<tr>
+<td>5-z17</td>
+<td>5-z17</td>
+<td>0,1,3,4,8</td>
+<td>1,2,1,4,4</td>
+</tr>
+<tr>
+<td>5-z18A</td>
+<td>5-z18A</td>
+<td>0,1,4,5,7</td>
+<td>1,3,1,2,5</td>
+</tr>
+<tr>
+<td>5-z18B</td>
+<td>5-z18B</td>
+<td>0,2,3,6,7</td>
+<td>2,1,3,1,5</td>
+</tr>
+<tr>
+<td>5-19A</td>
+<td>5-19A</td>
+<td>0,1,3,6,7</td>
+<td>1,2,3,1,5</td>
+</tr>
+<tr>
+<td>5-19B</td>
+<td>5-19B</td>
+<td>0,1,4,6,7</td>
+<td>1,3,2,1,5</td>
+</tr>
+<tr>
+<td>5-20A</td>
+<td>5-20A</td>
+<td>0,1,5,6,8</td>
+<td>1,4,1,2,4</td>
+</tr>
+<tr>
+<td>5-20B</td>
+<td>5-20B</td>
+<td>0,2,3,7,8</td>
+<td>2,1,4,1,4</td>
+</tr>
+<tr>
+<td>5-21A</td>
+<td>5-21A</td>
+<td>0,1,4,5,8</td>
+<td>1,3,1,3,4</td>
+</tr>
+<tr>
+<td>5-21B</td>
+<td>5-21B</td>
+<td>0,3,4,7,8</td>
+<td>3,1,3,1,4</td>
+</tr>
+<tr>
+<td>5-22</td>
+<td>5-22</td>
+<td>0,1,4,7,8</td>
+<td>1,3,3,1,4</td>
+</tr>
+<tr>
+<td>5-23A</td>
+<td>5-23A</td>
+<td>0,2,3,5,7</td>
+<td>2,1,2,2,5</td>
+</tr>
+<tr>
+<td>5-23B</td>
+<td>5-23B</td>
+<td>0,2,4,5,7</td>
+<td>2,2,1,2,5</td>
+</tr>
+<tr>
+<td>5-24A</td>
+<td>5-24A</td>
+<td>0,1,3,5,7</td>
+<td>1,2,2,2,5</td>
+</tr>
+<tr>
+<td>5-24B</td>
+<td>5-24B</td>
+<td>0,2,4,6,7</td>
+<td>2,2,2,1,5</td>
+</tr>
+<tr>
+<td>5-25A</td>
+<td>5-25A</td>
+<td>0,2,3,5,8</td>
+<td>2,1,2,3,4</td>
+</tr>
+<tr>
+<td>5-25B</td>
+<td>5-25B</td>
+<td>0,3,5,6,8</td>
+<td>3,2,1,2,4</td>
+</tr>
+<tr>
+<td>5-26A</td>
+<td>5-26A</td>
+<td>0,2,4,5,8</td>
+<td>2,2,1,3,4</td>
+</tr>
+<tr>
+<td>5-26B</td>
+<td>5-26B</td>
+<td>0,3,4,6,8</td>
+<td>3,1,2,2,4</td>
+</tr>
+<tr>
+<td>5-27A</td>
+<td>5-27A</td>
+<td>0,1,3,5,8</td>
+<td>1,2,2,3,4</td>
+</tr>
+<tr>
+<td>5-27B</td>
+<td>5-27B</td>
+<td>0,3,5,7,8</td>
+<td>3,2,2,1,4</td>
+</tr>
+<tr>
+<td>5-28A</td>
+<td>5-28A</td>
+<td>0,2,3,6,8</td>
+<td>2,1,3,2,4</td>
+</tr>
+<tr>
+<td>5-28B</td>
+<td>5-28B</td>
+<td>0,2,5,6,8</td>
+<td>2,3,1,2,4</td>
+</tr>
+<tr>
+<td>5-29A</td>
+<td>5-29A</td>
+<td>0,1,3,6,8</td>
+<td>1,2,3,2,4</td>
+</tr>
+<tr>
+<td>5-29B</td>
+<td>5-29B</td>
+<td>0,2,5,7,8</td>
+<td>2,3,2,1,4</td>
+</tr>
+<tr>
+<td>5-30A</td>
+<td>5-30A</td>
+<td>0,1,4,6,8</td>
+<td>1,3,2,2,4</td>
+</tr>
+<tr>
+<td>5-30B</td>
+<td>5-30B</td>
+<td>0,2,4,7,8</td>
+<td>2,2,3,1,4</td>
+</tr>
+<tr>
+<td>5-31A</td>
+<td>5-31A</td>
+<td>0,1,3,6,9</td>
+<td>1,2,3,3,3</td>
+</tr>
+<tr>
+<td>5-31B</td>
+<td>5-31B</td>
+<td>0,2,3,6,9</td>
+<td>2,1,3,3,3</td>
+</tr>
+<tr>
+<td>5-32A</td>
+<td>5-32A</td>
+<td>0,1,4,6,9</td>
+<td>1,3,2,3,3</td>
+</tr>
+<tr>
+<td>5-32B</td>
+<td>5-32B</td>
+<td>0,3,5,8,9</td>
+<td>3,2,3,1,3</td>
+</tr>
+<tr>
+<td>5-33</td>
+<td>5-33</td>
+<td>0,2,4,6,8</td>
+<td>2,2,2,2,4</td>
+</tr>
+<tr>
+<td>5-34</td>
+<td>5-34</td>
+<td>0,2,4,6,9</td>
+<td>2,2,2,3,3</td>
+</tr>
+<tr>
+<td>5-35</td>
+<td>5-35</td>
+<td>0,2,4,7,9</td>
+<td>2,2,3,2,3</td>
+</tr>
+<tr>
+<td>5-z36A</td>
+<td>5-z36A</td>
+<td>0,1,2,4,7</td>
+<td>1,1,2,3,5</td>
+</tr>
+<tr>
+<td>5-z36B</td>
+<td>5-z36B</td>
+<td>0,3,5,6,7</td>
+<td>3,2,1,1,5</td>
+</tr>
+<tr>
+<td>5-z37</td>
+<td>5-z37</td>
+<td>0,3,4,5,8</td>
+<td>3,1,1,3,4</td>
+</tr>
+<tr>
+<td>5-z38A</td>
+<td>5-z38A</td>
+<td>0,1,2,5,8</td>
+<td>1,1,3,3,4</td>
+</tr>
+<tr>
+<td>5-z38B</td>
+<td>5-z38B</td>
+<td>0,3,6,7,8</td>
+<td>3,3,1,1,4</td>
+</tr>
+<tr>
+<td>6-1</td>
+<td>6-1</td>
+<td>0,1,2,3,4,5</td>
+<td>1,1,1,1,1,7</td>
+</tr>
+<tr>
+<td>6-2A</td>
+<td>6-2A</td>
+<td>0,1,2,3,4,6</td>
+<td>1,1,1,1,2,6</td>
+</tr>
+<tr>
+<td>6-2B</td>
+<td>6-2B</td>
+<td>0,2,3,4,5,6</td>
+<td>2,1,1,1,1,6</td>
+</tr>
+<tr>
+<td>6-z3A</td>
+<td>6-z3A</td>
+<td>0,1,2,3,5,6</td>
+<td>1,1,1,2,1,6</td>
+</tr>
+<tr>
+<td>6-z3B</td>
+<td>6-z3B</td>
+<td>0,1,3,4,5,6</td>
+<td>1,2,1,1,1,6</td>
+</tr>
+<tr>
+<td>6-z4</td>
+<td>6-z4</td>
+<td>0,1,2,4,5,6</td>
+<td>1,1,2,1,1,6</td>
+</tr>
+<tr>
+<td>6-5A</td>
+<td>6-5A</td>
+<td>0,1,2,3,6,7</td>
+<td>1,1,1,3,1,5</td>
+</tr>
+<tr>
+<td>6-5B</td>
+<td>6-5B</td>
+<td>0,1,4,5,6,7</td>
+<td>1,3,1,1,1,5</td>
+</tr>
+<tr>
+<td>6-z6</td>
+<td>6-z6</td>
+<td>0,1,2,5,6,7</td>
+<td>1,1,3,1,1,5</td>
+</tr>
+<tr>
+<td>6-7</td>
+<td>6-7</td>
+<td>0,1,2,6,7,8</td>
+<td>1,1,4,1,1,4</td>
+</tr>
+<tr>
+<td>6-8</td>
+<td>6-8</td>
+<td>0,2,3,4,5,7</td>
+<td>2,1,1,1,2,5</td>
+</tr>
+<tr>
+<td>6-9A</td>
+<td>6-9A</td>
+<td>0,1,2,3,5,7</td>
+<td>1,1,1,2,2,5</td>
+</tr>
+<tr>
+<td>6-9B</td>
+<td>6-9B</td>
+<td>0,2,4,5,6,7</td>
+<td>2,2,1,1,1,5</td>
+</tr>
+<tr>
+<td>6-z10A</td>
+<td>6-z10A</td>
+<td>0,1,3,4,5,7</td>
+<td>1,2,1,1,2,5</td>
+</tr>
+<tr>
+<td>6-z10B</td>
+<td>6-z10B</td>
+<td>0,2,3,4,6,7</td>
+<td>2,1,1,2,1,5</td>
+</tr>
+<tr>
+<td>6-z11A</td>
+<td>6-z11A</td>
+<td>0,1,2,4,5,7</td>
+<td>1,1,2,1,2,5</td>
+</tr>
+<tr>
+<td>6-z11B</td>
+<td>6-z11B</td>
+<td>0,2,3,5,6,7</td>
+<td>2,1,2,1,1,5</td>
+</tr>
+<tr>
+<td>6-z12A</td>
+<td>6-z12A</td>
+<td>0,1,2,4,6,7</td>
+<td>1,1,2,2,1,5</td>
+</tr>
+<tr>
+<td>6-z12B</td>
+<td>6-z12B</td>
+<td>0,1,3,5,6,7</td>
+<td>1,2,2,1,1,5</td>
+</tr>
+<tr>
+<td>6-z13</td>
+<td>6-z13</td>
+<td>0,1,3,4,6,7</td>
+<td>1,2,1,2,1,5</td>
+</tr>
+<tr>
+<td>6-14A</td>
+<td>6-14A</td>
+<td>0,1,3,4,5,8</td>
+<td>1,2,1,1,3,4</td>
+</tr>
+<tr>
+<td>6-14B</td>
+<td>6-14B</td>
+<td>0,3,4,5,7,8</td>
+<td>3,1,1,2,1,4</td>
+</tr>
+<tr>
+<td>6-15A</td>
+<td>6-15A</td>
+<td>0,1,2,4,5,8</td>
+<td>1,1,2,1,3,4</td>
+</tr>
+<tr>
+<td>6-15B</td>
+<td>6-15B</td>
+<td>0,3,4,6,7,8</td>
+<td>3,1,2,1,1,4</td>
+</tr>
+<tr>
+<td>6-16A</td>
+<td>6-16A</td>
+<td>0,1,4,5,6,8</td>
+<td>1,3,1,1,2,4</td>
+</tr>
+<tr>
+<td>6-16B</td>
+<td>6-16B</td>
+<td>0,2,3,4,7,8</td>
+<td>2,1,1,3,1,4</td>
+</tr>
+<tr>
+<td>6-z17A</td>
+<td>6-z17A</td>
+<td>0,1,2,4,7,8</td>
+<td>1,1,2,3,1,4</td>
+</tr>
+<tr>
+<td>6-z17B</td>
+<td>6-z17B</td>
+<td>0,1,4,6,7,8</td>
+<td>1,3,2,1,1,4</td>
+</tr>
+<tr>
+<td>6-18A</td>
+<td>6-18A</td>
+<td>0,1,2,5,7,8</td>
+<td>1,1,3,2,1,4</td>
+</tr>
+<tr>
+<td>6-18B</td>
+<td>6-18B</td>
+<td>0,1,3,6,7,8</td>
+<td>1,2,3,1,1,4</td>
+</tr>
+<tr>
+<td>6-z19A</td>
+<td>6-z19A</td>
+<td>0,1,3,4,7,8</td>
+<td>1,2,1,3,1,4</td>
+</tr>
+<tr>
+<td>6-z19B</td>
+<td>6-z19B</td>
+<td>0,1,4,5,7,8</td>
+<td>1,3,1,2,1,4</td>
+</tr>
+<tr>
+<td>6-20</td>
+<td>6-20</td>
+<td>0,1,4,5,8,9</td>
+<td>1,3,1,3,1,3</td>
+</tr>
+<tr>
+<td>6-21A</td>
+<td>6-21A</td>
+<td>0,2,3,4,6,8</td>
+<td>2,1,1,2,2,4</td>
+</tr>
+<tr>
+<td>6-21B</td>
+<td>6-21B</td>
+<td>0,2,4,5,6,8</td>
+<td>2,2,1,1,2,4</td>
+</tr>
+<tr>
+<td>6-22A</td>
+<td>6-22A</td>
+<td>0,1,2,4,6,8</td>
+<td>1,1,2,2,2,4</td>
+</tr>
+<tr>
+<td>6-22B</td>
+<td>6-22B</td>
+<td>0,2,4,6,7,8</td>
+<td>2,2,2,1,1,4</td>
+</tr>
+<tr>
+<td>6-z23</td>
+<td>6-z23</td>
+<td>0,2,3,5,6,8</td>
+<td>2,1,2,1,2,4</td>
+</tr>
+<tr>
+<td>6-z24A</td>
+<td>6-z24A</td>
+<td>0,1,3,4,6,8</td>
+<td>1,2,1,2,2,4</td>
+</tr>
+<tr>
+<td>6-z24B</td>
+<td>6-z24B</td>
+<td>0,2,4,5,7,8</td>
+<td>2,2,1,2,1,4</td>
+</tr>
+<tr>
+<td>6-z25A</td>
+<td>6-z25A</td>
+<td>0,1,3,5,6,8</td>
+<td>1,2,2,1,2,4</td>
+</tr>
+<tr>
+<td>6-z25B</td>
+<td>6-z25B</td>
+<td>0,2,3,5,7,8</td>
+<td>2,1,2,2,1,4</td>
+</tr>
+<tr>
+<td>6-z26</td>
+<td>6-z26</td>
+<td>0,1,3,5,7,8</td>
+<td>1,2,2,2,1,4</td>
+</tr>
+<tr>
+<td>6-27A</td>
+<td>6-27A</td>
+<td>0,1,3,4,6,9</td>
+<td>1,2,1,2,3,3</td>
+</tr>
+<tr>
+<td>6-27B</td>
+<td>6-27B</td>
+<td>0,3,5,6,8,9</td>
+<td>3,2,1,2,1,3</td>
+</tr>
+<tr>
+<td>6-z28</td>
+<td>6-z28</td>
+<td>0,1,3,5,6,9</td>
+<td>1,2,2,1,3,3</td>
+</tr>
+<tr>
+<td>6-z29</td>
+<td>6-z29</td>
+<td>0,2,3,6,7,9</td>
+<td>2,1,3,1,2,3</td>
+</tr>
+<tr>
+<td>6-30A</td>
+<td>6-30A</td>
+<td>0,1,3,6,7,9</td>
+<td>1,2,3,1,2,3</td>
+</tr>
+<tr>
+<td>6-30B</td>
+<td>6-30B</td>
+<td>0,2,3,6,8,9</td>
+<td>2,1,3,2,1,3</td>
+</tr>
+<tr>
+<td>6-31A</td>
+<td>6-31A</td>
+<td>0,1,4,5,7,9</td>
+<td>1,3,1,2,2,3</td>
+</tr>
+<tr>
+<td>6-31B</td>
+<td>6-31B</td>
+<td>0,2,4,5,8,9</td>
+<td>2,2,1,3,1,3</td>
+</tr>
+<tr>
+<td>6-32</td>
+<td>6-32</td>
+<td>0,2,4,5,7,9</td>
+<td>2,2,1,2,2,3</td>
+</tr>
+<tr>
+<td>6-33A</td>
+<td>6-33A</td>
+<td>0,2,3,5,7,9</td>
+<td>2,1,2,2,2,3</td>
+</tr>
+<tr>
+<td>6-33B</td>
+<td>6-33B</td>
+<td>0,2,4,6,7,9</td>
+<td>2,2,2,1,2,3</td>
+</tr>
+<tr>
+<td>6-34A</td>
+<td>6-34A</td>
+<td>0,1,3,5,7,9</td>
+<td>1,2,2,2,2,3</td>
+</tr>
+<tr>
+<td>6-34B</td>
+<td>6-34B</td>
+<td>0,2,4,6,8,9</td>
+<td>2,2,2,2,1,3</td>
+</tr>
+<tr>
+<td>6-35</td>
+<td>6-35</td>
+<td>0,2,4,6,8,10</td>
+<td>2,2,2,2,2,2</td>
+</tr>
+<tr>
+<td>6-z36A</td>
+<td>6-z36A</td>
+<td>0,1,2,3,4,7</td>
+<td>1,1,1,1,3,5</td>
+</tr>
+<tr>
+<td>6-z36B</td>
+<td>6-z36B</td>
+<td>0,3,4,5,6,7</td>
+<td>3,1,1,1,1,5</td>
+</tr>
+<tr>
+<td>6-z37</td>
+<td>6-z37</td>
+<td>0,1,2,3,4,8</td>
+<td>1,1,1,1,4,4</td>
+</tr>
+<tr>
+<td>6-z38</td>
+<td>6-z38</td>
+<td>0,1,2,3,7,8</td>
+<td>1,1,1,4,1,4</td>
+</tr>
+<tr>
+<td>6-z39A</td>
+<td>6-z39A</td>
+<td>0,2,3,4,5,8</td>
+<td>2,1,1,1,3,4</td>
+</tr>
+<tr>
+<td>6-z39B</td>
+<td>6-z39B</td>
+<td>0,3,4,5,6,8</td>
+<td>3,1,1,1,2,4</td>
+</tr>
+<tr>
+<td>6-z40A</td>
+<td>6-z40A</td>
+<td>0,1,2,3,5,8</td>
+<td>1,1,1,2,3,4</td>
+</tr>
+<tr>
+<td>6-z40B</td>
+<td>6-z40B</td>
+<td>0,3,5,6,7,8</td>
+<td>3,2,1,1,1,4</td>
+</tr>
+<tr>
+<td>6-z41A</td>
+<td>6-z41A</td>
+<td>0,1,2,3,6,8</td>
+<td>1,1,1,3,2,4</td>
+</tr>
+<tr>
+<td>6-z41B</td>
+<td>6-z41B</td>
+<td>0,2,5,6,7,8</td>
+<td>2,3,1,1,1,4</td>
+</tr>
+<tr>
+<td>6-z42</td>
+<td>6-z42</td>
+<td>0,1,2,3,6,9</td>
+<td>1,1,1,3,3,3</td>
+</tr>
+<tr>
+<td>6-z43A</td>
+<td>6-z43A</td>
+<td>0,1,2,5,6,8</td>
+<td>1,1,3,1,2,4</td>
+</tr>
+<tr>
+<td>6-z43B</td>
+<td>6-z43B</td>
+<td>0,2,3,6,7,8</td>
+<td>2,1,3,1,1,4</td>
+</tr>
+<tr>
+<td>6-z44A</td>
+<td>6-z44A</td>
+<td>0,1,2,5,6,9</td>
+<td>1,1,3,1,3,3</td>
+</tr>
+<tr>
+<td>6-z44B</td>
+<td>6-z44B</td>
+<td>0,3,4,7,8,9</td>
+<td>3,1,3,1,1,3</td>
+</tr>
+<tr>
+<td>6-z45</td>
+<td>6-z45</td>
+<td>0,2,3,4,6,9</td>
+<td>2,1,1,2,3,3</td>
+</tr>
+<tr>
+<td>6-z46A</td>
+<td>6-z46A</td>
+<td>0,1,2,4,6,9</td>
+<td>1,1,2,2,3,3</td>
+</tr>
+<tr>
+<td>6-z46B</td>
+<td>6-z46B</td>
+<td>0,3,5,7,8,9</td>
+<td>3,2,2,1,1,3</td>
+</tr>
+<tr>
+<td>6-z47A</td>
+<td>6-z47A</td>
+<td>0,1,2,4,7,9</td>
+<td>1,1,2,3,2,3</td>
+</tr>
+<tr>
+<td>6-z47B</td>
+<td>6-z47B</td>
+<td>0,2,5,7,8,9</td>
+<td>2,3,2,1,1,3</td>
+</tr>
+<tr>
+<td>6-z48</td>
+<td>6-z48</td>
+<td>0,1,2,5,7,9</td>
+<td>1,1,3,2,2,3</td>
+</tr>
+<tr>
+<td>6-z49</td>
+<td>6-z49</td>
+<td>0,1,3,4,7,9</td>
+<td>1,2,1,3,2,3</td>
+</tr>
+<tr>
+<td>6-z50</td>
+<td>6-z50</td>
+<td>0,1,4,6,7,9</td>
+<td>1,3,2,1,2,3</td>
+</tr>
+<tr>
+<td>7-1</td>
+<td>7-1</td>
+<td>0,1,2,3,4,5,6</td>
+<td>1,1,1,1,1,1,6</td>
+</tr>
+<tr>
+<td>7-2A</td>
+<td>7-2A</td>
+<td>0,1,2,3,4,5,7</td>
+<td>1,1,1,1,1,2,5</td>
+</tr>
+<tr>
+<td>7-2B</td>
+<td>7-2B</td>
+<td>0,2,3,4,5,6,7</td>
+<td>2,1,1,1,1,1,5</td>
+</tr>
+<tr>
+<td>7-3A</td>
+<td>7-3A</td>
+<td>0,1,2,3,4,5,8</td>
+<td>1,1,1,1,1,3,4</td>
+</tr>
+<tr>
+<td>7-3B</td>
+<td>7-3B</td>
+<td>0,3,4,5,6,7,8</td>
+<td>3,1,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-4A</td>
+<td>7-4A</td>
+<td>0,1,2,3,4,6,7</td>
+<td>1,1,1,1,2,1,5</td>
+</tr>
+<tr>
+<td>7-4B</td>
+<td>7-4B</td>
+<td>0,1,3,4,5,6,7</td>
+<td>1,2,1,1,1,1,5</td>
+</tr>
+<tr>
+<td>7-5A</td>
+<td>7-5A</td>
+<td>0,1,2,3,5,6,7</td>
+<td>1,1,1,2,1,1,5</td>
+</tr>
+<tr>
+<td>7-5B</td>
+<td>7-5B</td>
+<td>0,1,2,4,5,6,7</td>
+<td>1,1,2,1,1,1,5</td>
+</tr>
+<tr>
+<td>7-6A</td>
+<td>7-6A</td>
+<td>0,1,2,3,4,7,8</td>
+<td>1,1,1,1,3,1,4</td>
+</tr>
+<tr>
+<td>7-6B</td>
+<td>7-6B</td>
+<td>0,1,4,5,6,7,8</td>
+<td>1,3,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-7A</td>
+<td>7-7A</td>
+<td>0,1,2,3,6,7,8</td>
+<td>1,1,1,3,1,1,4</td>
+</tr>
+<tr>
+<td>7-7B</td>
+<td>7-7B</td>
+<td>0,1,2,5,6,7,8</td>
+<td>1,1,3,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-8</td>
+<td>7-8</td>
+<td>0,2,3,4,5,6,8</td>
+<td>2,1,1,1,1,2,4</td>
+</tr>
+<tr>
+<td>7-9A</td>
+<td>7-9A</td>
+<td>0,1,2,3,4,6,8</td>
+<td>1,1,1,1,2,2,4</td>
+</tr>
+<tr>
+<td>7-9B</td>
+<td>7-9B</td>
+<td>0,2,4,5,6,7,8</td>
+<td>2,2,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-10A</td>
+<td>7-10A</td>
+<td>0,1,2,3,4,6,9</td>
+<td>1,1,1,1,2,3,3</td>
+</tr>
+<tr>
+<td>7-10B</td>
+<td>7-10B</td>
+<td>0,2,3,4,5,6,9</td>
+<td>2,1,1,1,1,3,3</td>
+</tr>
+<tr>
+<td>7-11A</td>
+<td>7-11A</td>
+<td>0,1,3,4,5,6,8</td>
+<td>1,2,1,1,1,2,4</td>
+</tr>
+<tr>
+<td>7-11B</td>
+<td>7-11B</td>
+<td>0,2,3,4,5,7,8</td>
+<td>2,1,1,1,2,1,4</td>
+</tr>
+<tr>
+<td>7-z12</td>
+<td>7-z12</td>
+<td>0,1,2,3,4,7,9</td>
+<td>1,1,1,1,3,2,3</td>
+</tr>
+<tr>
+<td>7-13A</td>
+<td>7-13A</td>
+<td>0,1,2,4,5,6,8</td>
+<td>1,1,2,1,1,2,4</td>
+</tr>
+<tr>
+<td>7-13B</td>
+<td>7-13B</td>
+<td>0,2,3,4,6,7,8</td>
+<td>2,1,1,2,1,1,4</td>
+</tr>
+<tr>
+<td>7-14A</td>
+<td>7-14A</td>
+<td>0,1,2,3,5,7,8</td>
+<td>1,1,1,2,2,1,4</td>
+</tr>
+<tr>
+<td>7-14B</td>
+<td>7-14B</td>
+<td>0,1,3,5,6,7,8</td>
+<td>1,2,2,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-15</td>
+<td>7-15</td>
+<td>0,1,2,4,6,7,8</td>
+<td>1,1,2,2,1,1,4</td>
+</tr>
+<tr>
+<td>7-16A</td>
+<td>7-16A</td>
+<td>0,1,2,3,5,6,9</td>
+<td>1,1,1,2,1,3,3</td>
+</tr>
+<tr>
+<td>7-16B</td>
+<td>7-16B</td>
+<td>0,1,3,4,5,6,9</td>
+<td>1,2,1,1,1,3,3</td>
+</tr>
+<tr>
+<td>7-z17</td>
+<td>7-z17</td>
+<td>0,1,2,4,5,6,9</td>
+<td>1,1,2,1,1,3,3</td>
+</tr>
+<tr>
+<td>7-z18A</td>
+<td>7-z18A</td>
+<td>0,1,4,5,6,7,9</td>
+<td>1,3,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>7-z18B</td>
+<td>7-z18B</td>
+<td>0,1,4,6,7,8,9</td>
+<td>1,3,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>7-19A</td>
+<td>7-19A</td>
+<td>0,1,2,3,6,7,9</td>
+<td>1,1,1,3,1,2,3</td>
+</tr>
+<tr>
+<td>7-19B</td>
+<td>7-19B</td>
+<td>0,1,2,3,6,8,9</td>
+<td>1,1,1,3,2,1,3</td>
+</tr>
+<tr>
+<td>7-20A</td>
+<td>7-20A</td>
+<td>0,1,2,5,6,7,9</td>
+<td>1,1,3,1,1,2,3</td>
+</tr>
+<tr>
+<td>7-20B</td>
+<td>7-20B</td>
+<td>0,1,2,5,7,8,9</td>
+<td>1,1,3,2,1,1,3</td>
+</tr>
+<tr>
+<td>7-21A</td>
+<td>7-21A</td>
+<td>0,1,2,4,5,8,9</td>
+<td>1,1,2,1,3,1,3</td>
+</tr>
+<tr>
+<td>7-21B</td>
+<td>7-21B</td>
+<td>0,1,3,4,5,8,9</td>
+<td>1,2,1,1,3,1,3</td>
+</tr>
+<tr>
+<td>7-22</td>
+<td>7-22</td>
+<td>0,1,2,5,6,8,9</td>
+<td>1,1,3,1,2,1,3</td>
+</tr>
+<tr>
+<td>7-23A</td>
+<td>7-23A</td>
+<td>0,2,3,4,5,7,9</td>
+<td>2,1,1,1,2,2,3</td>
+</tr>
+<tr>
+<td>7-23B</td>
+<td>7-23B</td>
+<td>0,2,4,5,6,7,9</td>
+<td>2,2,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>7-24A</td>
+<td>7-24A</td>
+<td>0,1,2,3,5,7,9</td>
+<td>1,1,1,2,2,2,3</td>
+</tr>
+<tr>
+<td>7-24B</td>
+<td>7-24B</td>
+<td>0,2,4,6,7,8,9</td>
+<td>2,2,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>7-25A</td>
+<td>7-25A</td>
+<td>0,2,3,4,6,7,9</td>
+<td>2,1,1,2,1,2,3</td>
+</tr>
+<tr>
+<td>7-25B</td>
+<td>7-25B</td>
+<td>0,2,3,5,6,7,9</td>
+<td>2,1,2,1,1,2,3</td>
+</tr>
+<tr>
+<td>7-26A</td>
+<td>7-26A</td>
+<td>0,1,3,4,5,7,9</td>
+<td>1,2,1,1,2,2,3</td>
+</tr>
+<tr>
+<td>7-26B</td>
+<td>7-26B</td>
+<td>0,2,4,5,6,8,9</td>
+<td>2,2,1,1,2,1,3</td>
+</tr>
+<tr>
+<td>7-27A</td>
+<td>7-27A</td>
+<td>0,1,2,4,5,7,9</td>
+<td>1,1,2,1,2,2,3</td>
+</tr>
+<tr>
+<td>7-27B</td>
+<td>7-27B</td>
+<td>0,2,4,5,7,8,9</td>
+<td>2,2,1,2,1,1,3</td>
+</tr>
+<tr>
+<td>7-28A</td>
+<td>7-28A</td>
+<td>0,1,3,5,6,7,9</td>
+<td>1,2,2,1,1,2,3</td>
+</tr>
+<tr>
+<td>7-28B</td>
+<td>7-28B</td>
+<td>0,2,3,4,6,8,9</td>
+<td>2,1,1,2,2,1,3</td>
+</tr>
+<tr>
+<td>7-29A</td>
+<td>7-29A</td>
+<td>0,1,2,4,6,7,9</td>
+<td>1,1,2,2,1,2,3</td>
+</tr>
+<tr>
+<td>7-29B</td>
+<td>7-29B</td>
+<td>0,2,3,5,7,8,9</td>
+<td>2,1,2,2,1,1,3</td>
+</tr>
+<tr>
+<td>7-30A</td>
+<td>7-30A</td>
+<td>0,1,2,4,6,8,9</td>
+<td>1,1,2,2,2,1,3</td>
+</tr>
+<tr>
+<td>7-30B</td>
+<td>7-30B</td>
+<td>0,1,3,5,7,8,9</td>
+<td>1,2,2,2,1,1,3</td>
+</tr>
+<tr>
+<td>7-31A</td>
+<td>7-31A</td>
+<td>0,1,3,4,6,7,9</td>
+<td>1,2,1,2,1,2,3</td>
+</tr>
+<tr>
+<td>7-31B</td>
+<td>7-31B</td>
+<td>0,2,3,5,6,8,9</td>
+<td>2,1,2,1,2,1,3</td>
+</tr>
+<tr>
+<td>7-32A</td>
+<td>7-32A</td>
+<td>0,1,3,4,6,8,9</td>
+<td>1,2,1,2,2,1,3</td>
+</tr>
+<tr>
+<td>7-32B</td>
+<td>7-32B</td>
+<td>0,1,3,5,6,8,9</td>
+<td>1,2,2,1,2,1,3</td>
+</tr>
+<tr>
+<td>7-33</td>
+<td>7-33</td>
+<td>0,1,2,4,6,8,10</td>
+<td>1,1,2,2,2,2,2</td>
+</tr>
+<tr>
+<td>7-34</td>
+<td>7-34</td>
+<td>0,1,3,4,6,8,10</td>
+<td>1,2,1,2,2,2,2</td>
+</tr>
+<tr>
+<td>7-35</td>
+<td>7-35</td>
+<td>0,1,3,5,6,8,10</td>
+<td>1,2,2,1,2,2,2</td>
+</tr>
+<tr>
+<td>7-z36A</td>
+<td>7-z36A</td>
+<td>0,1,2,3,5,6,8</td>
+<td>1,1,1,2,1,2,4</td>
+</tr>
+<tr>
+<td>7-z36B</td>
+<td>7-z36B</td>
+<td>0,2,3,5,6,7,8</td>
+<td>2,1,2,1,1,1,4</td>
+</tr>
+<tr>
+<td>7-z37</td>
+<td>7-z37</td>
+<td>0,1,3,4,5,7,8</td>
+<td>1,2,1,1,2,1,4</td>
+</tr>
+<tr>
+<td>7-z38A</td>
+<td>7-z38A</td>
+<td>0,1,2,4,5,7,8</td>
+<td>1,1,2,1,2,1,4</td>
+</tr>
+<tr>
+<td>7-z38B</td>
+<td>7-z38B</td>
+<td>0,1,3,4,6,7,8</td>
+<td>1,2,1,2,1,1,4</td>
+</tr>
+<tr>
+<td>8-1</td>
+<td>8-1</td>
+<td>0,1,2,3,4,5,6,7</td>
+<td>1,1,1,1,1,1,1,5</td>
+</tr>
+<tr>
+<td>8-2A</td>
+<td>8-2A</td>
+<td>0,1,2,3,4,5,6,8</td>
+<td>1,1,1,1,1,1,2,4</td>
+</tr>
+<tr>
+<td>8-2B</td>
+<td>8-2B</td>
+<td>0,2,3,4,5,6,7,8</td>
+<td>2,1,1,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>8-3</td>
+<td>8-3</td>
+<td>0,1,2,3,4,5,6,9</td>
+<td>1,1,1,1,1,1,3,3</td>
+</tr>
+<tr>
+<td>8-4A</td>
+<td>8-4A</td>
+<td>0,1,2,3,4,5,7,8</td>
+<td>1,1,1,1,1,2,1,4</td>
+</tr>
+<tr>
+<td>8-4B</td>
+<td>8-4B</td>
+<td>0,1,3,4,5,6,7,8</td>
+<td>1,2,1,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>8-5A</td>
+<td>8-5A</td>
+<td>0,1,2,3,4,6,7,8</td>
+<td>1,1,1,1,2,1,1,4</td>
+</tr>
+<tr>
+<td>8-5B</td>
+<td>8-5B</td>
+<td>0,1,2,4,5,6,7,8</td>
+<td>1,1,2,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>8-6</td>
+<td>8-6</td>
+<td>0,1,2,3,5,6,7,8</td>
+<td>1,1,1,2,1,1,1,4</td>
+</tr>
+<tr>
+<td>8-7</td>
+<td>8-7</td>
+<td>0,1,2,3,4,5,8,9</td>
+<td>1,1,1,1,1,3,1,3</td>
+</tr>
+<tr>
+<td>8-8</td>
+<td>8-8</td>
+<td>0,1,2,3,4,7,8,9</td>
+<td>1,1,1,1,3,1,1,3</td>
+</tr>
+<tr>
+<td>8-9</td>
+<td>8-9</td>
+<td>0,1,2,3,6,7,8,9</td>
+<td>1,1,1,3,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-10</td>
+<td>8-10</td>
+<td>0,2,3,4,5,6,7,9</td>
+<td>2,1,1,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>8-11A</td>
+<td>8-11A</td>
+<td>0,1,2,3,4,5,7,9</td>
+<td>1,1,1,1,1,2,2,3</td>
+</tr>
+<tr>
+<td>8-11B</td>
+<td>8-11B</td>
+<td>0,2,4,5,6,7,8,9</td>
+<td>2,2,1,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-12A</td>
+<td>8-12A</td>
+<td>0,1,3,4,5,6,7,9</td>
+<td>1,2,1,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>8-12B</td>
+<td>8-12B</td>
+<td>0,2,3,4,5,6,8,9</td>
+<td>2,1,1,1,1,2,1,3</td>
+</tr>
+<tr>
+<td>8-13A</td>
+<td>8-13A</td>
+<td>0,1,2,3,4,6,7,9</td>
+<td>1,1,1,1,2,1,2,3</td>
+</tr>
+<tr>
+<td>8-13B</td>
+<td>8-13B</td>
+<td>0,2,3,5,6,7,8,9</td>
+<td>2,1,2,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-14A</td>
+<td>8-14A</td>
+<td>0,1,2,4,5,6,7,9</td>
+<td>1,1,2,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>8-14B</td>
+<td>8-14B</td>
+<td>0,2,3,4,5,7,8,9</td>
+<td>2,1,1,1,2,1,1,3</td>
+</tr>
+<tr>
+<td>8-z15A</td>
+<td>8-z15A</td>
+<td>0,1,2,3,4,6,8,9</td>
+<td>1,1,1,1,2,2,1,3</td>
+</tr>
+<tr>
+<td>8-z15B</td>
+<td>8-z15B</td>
+<td>0,1,3,5,6,7,8,9</td>
+<td>1,2,2,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-16A</td>
+<td>8-16A</td>
+<td>0,1,2,3,5,7,8,9</td>
+<td>1,1,1,2,2,1,1,3</td>
+</tr>
+<tr>
+<td>8-16B</td>
+<td>8-16B</td>
+<td>0,1,2,4,6,7,8,9</td>
+<td>1,1,2,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-17</td>
+<td>8-17</td>
+<td>0,1,3,4,5,6,8,9</td>
+<td>1,2,1,1,1,2,1,3</td>
+</tr>
+<tr>
+<td>8-18A</td>
+<td>8-18A</td>
+<td>0,1,2,3,5,6,8,9</td>
+<td>1,1,1,2,1,2,1,3</td>
+</tr>
+<tr>
+<td>8-18B</td>
+<td>8-18B</td>
+<td>0,1,3,4,6,7,8,9</td>
+<td>1,2,1,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>8-19A</td>
+<td>8-19A</td>
+<td>0,1,2,4,5,6,8,9</td>
+<td>1,1,2,1,1,2,1,3</td>
+</tr>
+<tr>
+<td>8-19B</td>
+<td>8-19B</td>
+<td>0,1,3,4,5,7,8,9</td>
+<td>1,2,1,1,2,1,1,3</td>
+</tr>
+<tr>
+<td>8-20</td>
+<td>8-20</td>
+<td>0,1,2,4,5,7,8,9</td>
+<td>1,1,2,1,2,1,1,3</td>
+</tr>
+<tr>
+<td>8-21</td>
+<td>8-21</td>
+<td>0,1,2,3,4,6,8,10</td>
+<td>1,1,1,1,2,2,2,2</td>
+</tr>
+<tr>
+<td>8-22A</td>
+<td>8-22A</td>
+<td>0,1,2,3,5,6,8,10</td>
+<td>1,1,1,2,1,2,2,2</td>
+</tr>
+<tr>
+<td>8-22B</td>
+<td>8-22B</td>
+<td>0,1,2,3,5,7,9,10</td>
+<td>1,1,1,2,2,2,1,2</td>
+</tr>
+<tr>
+<td>8-23</td>
+<td>8-23</td>
+<td>0,1,2,3,5,7,8,10</td>
+<td>1,1,1,2,2,1,2,2</td>
+</tr>
+<tr>
+<td>8-24</td>
+<td>8-24</td>
+<td>0,1,2,4,5,6,8,10</td>
+<td>1,1,2,1,1,2,2,2</td>
+</tr>
+<tr>
+<td>8-25</td>
+<td>8-25</td>
+<td>0,1,2,4,6,7,8,10</td>
+<td>1,1,2,2,1,1,2,2</td>
+</tr>
+<tr>
+<td>8-26</td>
+<td>8-26</td>
+<td>0,1,3,4,5,7,8,10</td>
+<td>1,2,1,1,2,1,2,2</td>
+</tr>
+<tr>
+<td>8-27A</td>
+<td>8-27A</td>
+<td>0,1,2,4,5,7,8,10</td>
+<td>1,1,2,1,2,1,2,2</td>
+</tr>
+<tr>
+<td>8-27B</td>
+<td>8-27B</td>
+<td>0,1,2,4,6,7,9,10</td>
+<td>1,1,2,2,1,2,1,2</td>
+</tr>
+<tr>
+<td>8-28</td>
+<td>8-28</td>
+<td>0,1,3,4,6,7,9,10</td>
+<td>1,2,1,2,1,2,1,2</td>
+</tr>
+<tr>
+<td>8-z29A</td>
+<td>8-z29A</td>
+<td>0,1,2,3,5,6,7,9</td>
+<td>1,1,1,2,1,1,2,3</td>
+</tr>
+<tr>
+<td>8-z29B</td>
+<td>8-z29B</td>
+<td>0,2,3,4,6,7,8,9</td>
+<td>2,1,1,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-1</td>
+<td>9-1</td>
+<td>0,1,2,3,4,5,6,7,8</td>
+<td>1,1,1,1,1,1,1,1,4</td>
+</tr>
+<tr>
+<td>9-2A</td>
+<td>9-2A</td>
+<td>0,1,2,3,4,5,6,7,9</td>
+<td>1,1,1,1,1,1,1,2,3</td>
+</tr>
+<tr>
+<td>9-2B</td>
+<td>9-2B</td>
+<td>0,2,3,4,5,6,7,8,9</td>
+<td>2,1,1,1,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-3A</td>
+<td>9-3A</td>
+<td>0,1,2,3,4,5,6,8,9</td>
+<td>1,1,1,1,1,1,2,1,3</td>
+</tr>
+<tr>
+<td>9-3B</td>
+<td>9-3B</td>
+<td>0,1,3,4,5,6,7,8,9</td>
+<td>1,2,1,1,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-4A</td>
+<td>9-4A</td>
+<td>0,1,2,3,4,5,7,8,9</td>
+<td>1,1,1,1,1,2,1,1,3</td>
+</tr>
+<tr>
+<td>9-4B</td>
+<td>9-4B</td>
+<td>0,1,2,4,5,6,7,8,9</td>
+<td>1,1,2,1,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-5A</td>
+<td>9-5A</td>
+<td>0,1,2,3,4,6,7,8,9</td>
+<td>1,1,1,1,2,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-5B</td>
+<td>9-5B</td>
+<td>0,1,2,3,5,6,7,8,9</td>
+<td>1,1,1,2,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>9-6</td>
+<td>9-6</td>
+<td>0,1,2,3,4,5,6,8,10</td>
+<td>1,1,1,1,1,1,2,2,2</td>
+</tr>
+<tr>
+<td>9-7A</td>
+<td>9-7A</td>
+<td>0,1,2,3,4,5,7,8,10</td>
+<td>1,1,1,1,1,2,1,2,2</td>
+</tr>
+<tr>
+<td>9-7B</td>
+<td>9-7B</td>
+<td>0,1,2,3,4,5,7,9,10</td>
+<td>1,1,1,1,1,2,2,1,2</td>
+</tr>
+<tr>
+<td>9-8A</td>
+<td>9-8A</td>
+<td>0,1,2,3,4,6,7,8,10</td>
+<td>1,1,1,1,2,1,1,2,2</td>
+</tr>
+<tr>
+<td>9-8B</td>
+<td>9-8B</td>
+<td>0,1,2,3,4,6,8,9,10</td>
+<td>1,1,1,1,2,2,1,1,2</td>
+</tr>
+<tr>
+<td>9-9</td>
+<td>9-9</td>
+<td>0,1,2,3,5,6,7,8,10</td>
+<td>1,1,1,2,1,1,1,2,2</td>
+</tr>
+<tr>
+<td>9-10</td>
+<td>9-10</td>
+<td>0,1,2,3,4,6,7,9,10</td>
+<td>1,1,1,1,2,1,2,1,2</td>
+</tr>
+<tr>
+<td>9-11A</td>
+<td>9-11A</td>
+<td>0,1,2,3,5,6,7,9,10</td>
+<td>1,1,1,2,1,1,2,1,2</td>
+</tr>
+<tr>
+<td>9-11B</td>
+<td>9-11B</td>
+<td>0,1,2,3,5,6,8,9,10</td>
+<td>1,1,1,2,1,2,1,1,2</td>
+</tr>
+<tr>
+<td>9-12</td>
+<td>9-12</td>
+<td>0,1,2,4,5,6,8,9,10</td>
+<td>1,1,2,1,1,2,1,1,2</td>
+</tr>
+<tr>
+<td>10-1</td>
+<td>10-1</td>
+<td>0,1,2,3,4,5,6,7,8,9</td>
+<td>1,1,1,1,1,1,1,1,1,3</td>
+</tr>
+<tr>
+<td>10-2</td>
+<td>10-2</td>
+<td>0,1,2,3,4,5,6,7,8,10</td>
+<td>1,1,1,1,1,1,1,1,2,2</td>
+</tr>
+<tr>
+<td>10-3</td>
+<td>10-3</td>
+<td>0,1,2,3,4,5,6,7,9,10</td>
+<td>1,1,1,1,1,1,1,2,1,2</td>
+</tr>
+<tr>
+<td>10-4</td>
+<td>10-4</td>
+<td>0,1,2,3,4,5,6,8,9,10</td>
+<td>1,1,1,1,1,1,2,1,1,2</td>
+</tr>
+<tr>
+<td>10-5</td>
+<td>10-5</td>
+<td>0,1,2,3,4,5,7,8,9,10</td>
+<td>1,1,1,1,1,2,1,1,1,2</td>
+</tr>
+<tr>
+<td>10-6</td>
+<td>10-6</td>
+<td>0,1,2,3,4,6,7,8,9,10</td>
+<td>1,1,1,1,2,1,1,1,1,2</td>
+</tr>
+<tr>
+<td>11-1</td>
+<td>11-1</td>
+<td>0,1,2,3,4,5,6,7,8,9,10</td>
+<td>1,1,1,1,1,1,1,1,1,1,2</td>
+</tr>
+<tr>
+<td>12-1</td>
+<td>12-1</td>
+<td>0,1,2,3,4,5,6,7,8,9,10,11</td>
+<td>1,1,1,1,1,1,1,1,1,1,1,1</td>
+</tr>
+</table></div>
+</div>
+</body>
+</html>
