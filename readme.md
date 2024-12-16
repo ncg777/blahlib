@@ -1,5 +1,5 @@
 # Installation
-You need KeyKit. Clone this repo wherever you want.
+You need KeyKit version 7.7; blahlib does not work with version 8. Clone this repo wherever you want.
 
 Make sure the KEYROOT environment variable is set to the root of your KeyKit directory and that your PATH environment variable contains the path to KeyKit's bin folder.
 
