@@ -17,6 +17,8 @@ class maptron
         "rp1"=reversePowerModel1(1.0),
         "rp2"=reversePowerModel1(2.0),
         "rp3"=reversePowerModel1(3.0),
+		"pow1over2"="Y=pow(T,1.0/2.0)",
+        "pow1over3"="Y=pow(T,1.0/3.0)",
         "pow2"="Y=pow(T,2.0)",
         "pow3"="Y=pow(T,3.0)",
 		"pow1over2"="Y=pow(T,1.0/2.0)",
