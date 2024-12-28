@@ -37,8 +37,7 @@ class maptron
 		"fm1"=fmModel1(0.25,8,3,0.125),
 		"fm2"=fmModel1(0.25,4,7,0.25),
 		"fm3"=fmModel1(0.25,16,4,0.125),
-		"fm4"=fmModel1(0.25,12,7,0.25),
-        "trance"="Y=abs(sin(4*PI*T))"
+		"fm4"=fmModel1(0.25,12,7,0.25)
 		]
               
     $.set(varg(argv(0,nargs())))
