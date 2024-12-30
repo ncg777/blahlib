@@ -499,7 +499,8 @@ function remspec(str)
 		}
 	}
 	str = join(lines2)
-	f = open("tmptxt.txt", "w")
+  fname = "___tmptxt.txt"
+	f = open(fname, "w")
 	str_len=sizeof(str)
 	c=1
 	while(c<=str_len)
@@ -518,13 +519,15 @@ function remspec(str)
 	}
 	close(f)
 	
-	f = open("tmptxt.txt", "r")
+	f = open(fname, "r")
 	output = ""
 	while((tmp=string(get(f)))!=Eof)
     {
 		output += tmp
 	}
 	close(f)
+  system("rm " + fname)
+  system("del " + fname)
 	return(output)
 }
 
@@ -649,37 +652,35 @@ function bsts(str)
   bflag=0
   if(substr(retval["mode"],1,1)=="X" || substr(retval["mode"],1,1)=="x" || substr(retval["mode"],1,1)=="o")
   {
-	if(substr(retval["mode"],1,1)=="X") {initBinGlobals(12)}
-	if(substr(retval["mode"],1,1)=="x") {initBinGlobals(8)}
-	if(substr(retval["mode"],1,1)=="o") {initBinGlobals(6)}
+      if(substr(retval["mode"],1,1)=="X") {initBinGlobals(12)}
+      if(substr(retval["mode"],1,1)=="x") {initBinGlobals(8)}
+      if(substr(retval["mode"],1,1)=="o") {initBinGlobals(6)}
+      
+      bflag=1
+      retval["mode"]=substr(retval["mode"],2,1)
+    }
+    retval["chan"]=decimal(z[1])
+    tmp=explode(z[2],"+")
+    tmp2=explode(z[2],"-")
     
-    bflag=1
-    retval["mode"]=substr(retval["mode"],2,1)
-  }
-  retval["chan"]=decimal(z[1])
-  tmp=explode(z[2],"+")
-  tmp2=explode(z[2],"-")
-  
-  if(sizeof(tmp2) == 2) {
-	start = decimal(tmp2[0])
-	end = decimal(tmp2[1])
-	if(end < start) {
-		coucou = start
-		start = end
-		end = coucou
-	}
-	
-	delta = end - start
-	
-	tmp[0] = string(start)
-	if(retval["mode"]!="s") {
-		for(i=1; i<delta;i++){tmp[i]="1"}
-	}
-	else {
-		for(i=1; i<delta;i++){tmp[i]=string(tmp[i-1]+1)}
-	}
-	
-	
+    if(sizeof(tmp2) == 2) {
+    start = decimal(tmp2[0])
+    end = decimal(tmp2[1])
+    if(end < start) {
+      coucou = start
+      start = end
+      end = coucou
+    }
+    
+    delta = end - start
+    
+    tmp[0] = string(start)
+    if(retval["mode"]!="s") {
+      for(i=1; i<delta;i++){tmp[i]="1"}
+    }
+    else {
+      for(i=1; i<delta;i++){tmp[i]=string(tmp[i-1]+1)}
+    }
   }
   
   if(retval["mode"]=="m")
@@ -689,21 +690,21 @@ function bsts(str)
 		  retval["init"]=[]
 		  for(i=0;i<sizeof(tmp);i++)
 		  {
-			retval["init"][i]=decimal(tmp[i])
+        retval["init"][i]=decimal(tmp[i])
 
-			if(i!=0)
-			{
-			  retval["init"][i]=retval["init"][i]+retval["init"][i-1]
-			}
-			if(i==1)
-			{
-			  retval["init"][i]-=retval["init"][0]
-			}
+        if(i!=0)
+        {
+          retval["init"][i]=retval["init"][i]+retval["init"][i-1]
+        }
+        if(i==1)
+        {
+          retval["init"][i]-=retval["init"][0]
+        }
 		  }
 	  }
 	  else
 	  {
-		retval["init"]=seq(decimal(z[2]))
+		  retval["init"]=seq(decimal(z[2]))
 	  }
   }
   if(retval["mode"]=="s"||retval["mode"]=="d")
@@ -1061,6 +1062,11 @@ function burst(bseq)
     legatoflag=0
     zz=explode(bseq[i]["period"],":")
     periods=explode(zz[0]," ")
+    
+    for(j=0;j<sizeof(periods);j++) {
+      eval("ZZZZTMPPP="+periods[j])
+      periods[j] = ZZZZTMPPP
+    }
 	
     szpr=sizeof(periods)
     szdr=0
@@ -1075,7 +1081,9 @@ function burst(bseq)
       if(tmp[2]!=""){rotat=float(tmp[2])}
 			if(tmp[3]!=""){transla=float(tmp[3])*Td}
   
-      for(j=0;j<szpr;j++){periods[j]=float(periods[j])*multi}
+      for(j=0;j<szpr;j++) {
+        periods[j]=float(periods[j])*multi
+      }
       periods=rot(periods,rotatint)
     }
 	
@@ -1097,10 +1105,13 @@ function burst(bseq)
       durees=explode(x0[0]," ")
       szdr=sizeof(durees)
 
-			for(j=0;j<szdr;j++){durees[j]=float(durees[j])*multi}
-      
-			for(j=szdr;j<szpr;j++){durees[j]=durees[j%szdr]}
-			durees=rot(durees,rotatint)
+      for(j=0;j<szdr;j++){
+        eval("ZZZZTMPPP="+durees[j])
+        durees[j]=ZZZZTMPPP*multi
+      }
+
+      for(j=szdr;j<szpr;j++){durees[j]=durees[j%szdr]}
+      durees=rot(durees,rotatint)
       for(j=0;j<n;j++)
       {
 				periods[j]=periods[j%szpr]
