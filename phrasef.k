@@ -112,7 +112,9 @@ function velseq(ph, strVelSeq) {
   if(typeof(strVelSeq) == "string"){strVelSeq = string_to_intseq(strVelSeq)}
   n = sizeof(strVelSeq)
   l = 1
-  if(nargs() == 3){l = argv(2)}
+  
+  if(nargs() == 3 && argv(2)!=""){l = argv(2)}
+  
   p = chopl(onlynotes(ph), l)
   for(i = 0; i<sizeof(p); i++) {
 	x=''
