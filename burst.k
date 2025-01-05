@@ -460,8 +460,6 @@ function readbst(fn)
   for(i=0;i<sizeof(completepath)-1;i++) filefolder+=completepath[i]
   if(sizeof(filefolder) == 0) filefolder="."
 
-
-  
   z=explode(retval,"%")
   startsWithPercent = (substr(trim(retval),1,1) == "%")
 
