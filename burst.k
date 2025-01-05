@@ -1234,7 +1234,6 @@ function burst(bseq)
 				tmp=''
 				for(j=0;j<n;j++)
 				{
-					#tmp+=phrase("'p" + string(p[j]) + "d" +string(periods[j]*Td) + "v" + string(const) + "'")
 					tmp=sc.gen(p,periods)
 					tmp.vol=const 
 				}
