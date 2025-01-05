@@ -25,51 +25,60 @@ function renderBST(fn) {
   return(u)
 }
 
-function subsmac(str,bmacros)
-{
-	dontloop=0
-	if(argv(2)!=""){dontloop=1}
-  output2=str
-  output1=""
-  changed=1
-
-  while(changed==1)
-  {
-    changed=0
-    for(n in bmacros)
-    {
-      szs=sizeof(output2)
-      output1=output2
-      output2=""
-      szm=sizeof(n)
-      for(i=1;i<=(szs-szm)+1;i++)
-      {
-        s=substr(output1,i,szm)
-        if(s==n)
-        {
-          output2+=bmacros[n]
-          i+=szm-1
-          changed=1
+function parseMacros(str) {
+    macros = []
+    lines = explode(str, "\n")
+    for (i = 0; i < sizeof(lines); i++) {
+        line = trim(lines[i])
+        if (substr(line, 1, 1) == "#") {
+            parts = explode(substr(line, 2), "=")
+            if (sizeof(parts) == 2) {
+                macros[trim(parts[0])] = trim(parts[1])
+            }
+        } else {
+            break
         }
-        else
-        {
-          if(i!=(szs-szm)+1)
-          {
-            output2+=substr(s,1,1)
-          }
-          else
-          {
-            output2+=s
-          }
-          
-        }
-        
-      } 
     }
-	if(dontloop==1){break}
-  }
-  
-  return(output2)
+    return(macros)
+}
+
+function subsmac(str, macros) {
+    dontloop = 0
+    if (argv(2) != "") {
+        dontloop = 1
+    }
+    output2 = str
+    output1 = ""
+    changed = 1
+
+    while (changed == 1) {
+        changed = 0
+        for (n in macros) {
+            szs = sizeof(output2)
+            output1 = output2
+            output2 = ""
+            szm = sizeof(n)
+            for (i = 1; i <= (szs - szm) + 1; i++) {
+                s = substr(output1, i, szm)
+                if (s == n) {
+                    output2 += macros[n]
+                    i += szm - 1
+                    changed = 1
+                } else {
+                    if (i != (szs - szm) + 1) {
+                        output2 += substr(s, 1, 1)
+                    } else {
+                        output2 += s
+                    }
+                }
+            }
+        }
+        if (dontloop == 1) {
+            break
+        }
+    }
+
+    return(output2)
 }
 
 function addincludes(str, path)
@@ -426,29 +435,52 @@ function evaluateVariations(str,parts)
 
 function readbst(fn)
 {
-	initBinGlobals(8)
-    bstseq=[]
-    chords=[]
-    bmacros=[]
-    
-    retval=""
-    
-    f=open(fn,"r")
-		print("Reading file")
-		
-    while((tmp=string(get(f)))!=Eof)
-    {
-		retval+=tmp+" "
-	}
+  initBinGlobals(8)
+  bstseq=[]
+  chords=[]
+  bmacros=[]
+  
+  retval=""
+  
+  f=open(fn,"r")
+  print("Reading file")
+  
+  while((tmp=string(get(f)))!=Eof)
+  {
+  retval+=tmp+" "
+  }
 	close(f)
 	
 	retval = remspec(retval)
-    print("Processing")
-    completepath=explode(fn,"/")
-    
-    z=explode(retval,"%")
-	
-    # Parsing scales
+
+  print("Processing")
+  completepath=explode(fn,"/")
+
+  filefolder = ""
+  for(i=0;i<sizeof(completepath)-1;i++) filefolder+=completepath[i]
+  if(sizeof(filefolder) == 0) filefolder="."
+
+
+  
+  z=explode(retval,"%")
+  startsWithPercent = (substr(trim(retval),1,1) == "%")
+
+  if(!startsWithPercent) {
+    print("Parsing includes")
+    retval = addincludes(retval,filefolder)
+
+    # Parse macros
+    print("Parsing macros")
+    macros = parseMacros(z[0])
+
+    z2 = seq()
+    for(i=1;i<sizeof(z);i++) {
+      z2[i-1] = subsmac(z[i], macros)
+    }
+    z = z2
+  }
+  
+  # Parsing scales
 	print("Parsing scales")
 	
 	chords = parseScales(z[1])
@@ -483,8 +515,6 @@ function readbst(fn)
 	print("Done")
 	return(retval)
 } 
-
-
 
 function remspec(str)
 {
