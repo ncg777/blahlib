@@ -1314,15 +1314,15 @@ function chopl(ph,l)
 }
 
 
-function rotl(ph,l, lens)
+function rotl(ph,l, rots)
 {
-	if(typeof(lens)=="string") {lens = string_to_intseq(lens)}
-	szlens = sizeof(lens)
+	if(typeof(rots)=="string") {rots = string_to_intseq(rots)}
+	szrots = sizeof(rots)
 	c = chopl(ph,l)
 	szc = sizeof(c)
 	
 	for(i=0;i<szc;i++) {
-		c[i]=rot(c[i],lens[i%szlens])
+		c[i]=rot(c[i],rots[i%szrots])
 	}
 	return(seqtoph(c))
 }
