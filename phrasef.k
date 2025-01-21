@@ -147,12 +147,13 @@ function vel5(ph, strVelSeq) {
 }
 
 function power_permutate(ph, c, p0) {
-  s = power_permutation(c,p0)
+  repetitions = 1
+  if(argv(3)!="") repetitions = argv(3)
+  s = repseq(power_permutation(c,p0),repetitions)
   return(phns(ph, sizeof(s), s))
 }
 
 function strat(len, vel, rhythms, pitches0, offset){
-initBinGlobals(argv(5),argv(6));
   pitches = pitches0
   
   for(i=0;i<sizeof(pitches);i++){
