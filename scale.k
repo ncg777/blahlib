@@ -1137,37 +1137,35 @@ class scale
 			retval+=$.scaleseq[k%sizeof($.scaleseq)].gen(seq(pa[j%szp]), seq(da[j%szd]))
 
 		}
-
     }
     else
     {
-          
   		retval=''
   		if(typeof(d)=="array")
   		{
   			szd=sizeof(d)
   			if(typeof(p)=="array")
   			{
-  				
   				szp=sizeof(p)
-  				for(a=0;a<(szd>szp?szd:szp);a++)
-  				{
-  					if(typeof(p[a%szp])=="array")
-  					{
-  					  
-  						c='' 
-  						for(b in p[a%szp])
-  						{ 
-  							c|=$.gen(p[a%szp][b],d[a%szd]) 
-  						}
-  						retval+=c
-  					}
-  					else
-  					{
-  						retval+=phrase("'p"+string($.pmap[p[a%szp]])+"d"+string(round(Td*d[a%szd]))+"'")
-  					}
-  				}
-  
+				
+				for(a=0;a<(szd>szp?szd:szp);a++)
+				{
+					if(typeof(p[a%szp])=="array")
+					{
+						c=''
+						c.length = d[a%szd]*Td
+						for(b in p[a%szp])
+						{ 
+							c|=$.gen(p[a%szp][b],d[a%szd]) 
+						}
+						retval+=c
+					}
+					else
+					{
+						retval+=phrase("'p"+string($.pmap[p[a%szp]])+"d"+string(round(Td*d[a%szd]))+"'")
+					}
+				}
+			
   			}
   			else
   			{
@@ -1182,25 +1180,30 @@ class scale
   			
   			if(typeof(p)=="array")
   			{
-  			
   				szp=sizeof(p)
-  				for(a=0;a<szp;a++)
-  				{
-  					if(typeof(p[a%szp])=="array")
+				if(szp==0) {
+					retval.length+=d*Td
+				} else {
+					for(a=0;a<szp;a++)
   					{
-  					
-  						c='' 
-  						for(b in p[a%szp])
-  						{ 
-  							c|=$.gen(p[a%szp][b],d) 
-  						}
-  						retval+=c
-  					}
-  					else
-  					{
-  						retval+=phrase("'p"+string($.pmap[p[a%szp]])+"d"+string(round(Td*d))+"'")
-  					}
-  				}
+						if(typeof(p[a%szp])=="array")
+						{
+						
+							c='' 
+							for(b in p[a%szp])
+							{ 
+								c|=$.gen(p[a%szp][b],d) 
+							}
+							retval+=c
+						}
+						else
+						{
+							retval+=phrase("'p"+string($.pmap[p[a%szp]])+"d"+string(round(Td*d))+"'")
+						}
+					}
+				}
+  				
+
   
   			}
   			else

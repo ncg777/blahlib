@@ -231,7 +231,7 @@ function generateParts(str)
 						parts[name]["___drum_part"]|=burst(bsts(b[j]))
 				}
 		
-				if(m=="m" || m=="s")
+				if(m=="m" || m=="s" || m=="b")
 				{
 						parts[name]["___melodic"]|=burst(bsts(b[j]),chrom)
 				}
@@ -703,7 +703,7 @@ function bsts(str)
     delta = end - start
     
     tmp[0] = string(start)
-    if(retval["mode"]!="s") {
+    if(retval["mode"]!="s" && retval["mode"]!="b") {
       for(i=1; i<delta;i++){tmp[i]="1"}
     }
     else {
@@ -735,7 +735,7 @@ function bsts(str)
 		  retval["init"]=seq(decimal(z[2]))
 	  }
   }
-  if(retval["mode"]=="s"||retval["mode"]=="d")
+  if(retval["mode"]=="b"||retval["mode"]=="s"||retval["mode"]=="d")
   {
     retval["init"]=[]
     
@@ -808,7 +808,7 @@ function bsts(str)
         c++
       }
       
-      if(szt>3 && retval["mode"]=="s")
+      if(szt>3 && (retval["mode"]=="s"||retval["mode"]=="b"))
       {
         ze_sequence= string_to_intseq(tmp[3])
       
@@ -1232,6 +1232,30 @@ function burst(bseq)
 				}
 			}
 	  
+      if(mode=="b")
+			{
+        p=[]
+        scopy(p, bseq[i]["sequence"])
+        for(j=0;j<sizeof(p);j++) {
+          pp = []
+          ttt = abs(p[j])
+          po2 = 1
+          while(ttt != 0) {
+            if(ttt&po2) {
+              ttt -= po2
+              pp[sizeof(pp)] = bseq["init"][log(po2)/log(2)]
+            }
+            po2 *= 2
+          }
+          p[j]=pp
+        }
+				qq=sizeof(p)
+				for(j=qq;j<n;j++)
+				{
+					p[j]=p[j%qq]
+				}
+			}
+
       szp=sizeof(p)
       
       if(szp != 0) {
@@ -1257,7 +1281,7 @@ function burst(bseq)
         }
 			}
 			
-			if(mode=="s")
+			if(mode=="s" || mode=="b")
 			{
 				tmp=''
 				for(j=0;j<n;j++)
