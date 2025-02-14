@@ -1281,14 +1281,10 @@ function burst(bseq)
         }
 			}
 			
-			if(mode=="s" || mode=="b")
+			if(mode=="m" || mode=="s" || mode=="b")
 			{
-				tmp=''
-				for(j=0;j<n;j++)
-				{
-					tmp=sc.gen(p,periods)
+				  tmp=sc.gen(p,periods)
 					tmp.vol=const 
-				}
 			}
 	  
       if(mode=="d")
@@ -1300,12 +1296,6 @@ function burst(bseq)
           tmp+=phrase("'p" + string(const) + "d" +string(periods[j]*Td) + "v" + string(bseq["init"][0]) + "'")
         }
            
-      }
-      
-      if(mode=="m")
-      {
-        tmp=sc.gen(p,periods)
-        tmp.vol=const 
       }
       
       if(mode == "r")
