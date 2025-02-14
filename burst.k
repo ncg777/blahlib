@@ -703,7 +703,7 @@ function bsts(str)
     delta = end - start
     
     tmp[0] = string(start)
-    if(retval["mode"]!="s" && retval["mode"]!="b") {
+    if(retval["mode"]!="s") {
       for(i=1; i<delta;i++){tmp[i]="1"}
     }
     else {
@@ -711,7 +711,7 @@ function bsts(str)
     }
   }
   
-  if(retval["mode"]=="m")
+  if(retval["mode"]=="m"||retval["mode"]=="b")
   {
 	  if(sizeof(tmp)!=1)
 	  {
@@ -735,7 +735,7 @@ function bsts(str)
 		  retval["init"]=seq(decimal(z[2]))
 	  }
   }
-  if(retval["mode"]=="b"||retval["mode"]=="s"||retval["mode"]=="d")
+  if(retval["mode"]=="s"||retval["mode"]=="d")
   {
     retval["init"]=[]
     
@@ -813,10 +813,10 @@ function bsts(str)
         ze_sequence= string_to_intseq(tmp[3])
       
         retval[c]=bst(bflag, float(tmp[0]),trim(tmp[1]),trim(tmp[2]), ze_sequence)
-          c++
+        c++
       }
       
-      if(szt>3 && retval["mode"]=="m")
+      if(szt>3 && (retval["mode"]=="m"))
       {
         intervals=combineIntervals(tmp[3],tmp[4])
         sas=[]
@@ -1243,7 +1243,7 @@ function burst(bseq)
           while(ttt != 0) {
             if(ttt&po2) {
               ttt -= po2
-              pp[sizeof(pp)] = bseq["init"][log(po2)/log(2)]
+              pp[sizeof(pp)] = bseq["init"][0]+(log(po2)/log(2))
             }
             po2 *= 2
           }
@@ -1351,7 +1351,7 @@ function burst(bseq)
 
   retval.chan=chan
 
-  if(mode=="m")
+  if(mode=="m" || mode=="b")
   {
     
     retval=sc.convert(retval)
