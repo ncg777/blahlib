@@ -1,7 +1,7 @@
 # 8 for hex, 6 for octal, 12 for tribble
 function initBinGlobals(val) {
 	if(val != "" && typeof(val) == "string" && !is_number(substr(val,1,1))) {
-		n=3
+		n=4
 		if(substr(val,1,1) == "x" || substr(val,1,1)=="X") Binprefix="0x"
 		if(substr(val,1,1) == "o" || substr(val,1,1)=="O") Binprefix="0"
 		
@@ -26,7 +26,8 @@ function initBinGlobals(val) {
 		}
 		mul = substr(val,1,1)=="X" ? 4 : 3
 		Bpn = mul*n
-		Td = Clicks/Bpn
+		if((Clicks*4)%(Bpn)!=0) Clicks=lcm(Clicks,Bpn)
+		Td = 4*Clicks/Bpn
 	} else if(val != "") {
 		Bpn = integer(val);
 		if(nargs() == 2 && argv(1)!="") {

@@ -160,8 +160,12 @@ function generateParts(str)
 				initBinGlobals(8)
 			}
 			if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
-				name = substr(name, 2, sizeof(name)-1); 
-				initBinGlobals(name)
+        u=2
+        while(is_number(substr(name,u,1))) u++
+        
+        initBinGlobals(name)
+        name = substr(name, u, sizeof(name)-1);
+        
 			}
 			print("Generating " + name)
 			len=-1
@@ -397,8 +401,11 @@ function evaluateVariations(str,parts)
 			initBinGlobals(8)
 		}
 		if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
-			name = substr(name, 2, sizeof(name)-1); 
+      u=2
+      while(is_number(substr(name,u,1))) u++
+			
 			initBinGlobals(name)
+      name = substr(name, u, sizeof(name)-1); 
 		}
 		partId = explode(b[0]," ")
 		len=-1
