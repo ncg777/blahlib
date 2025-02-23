@@ -1,6 +1,33 @@
 # 8 for hex, 6 for octal, 12 for tribble
 function initBinGlobals(val) {
-	if(val != "") {
+	if(val != "" && typeof(val) == "string" && !is_number(substr(val,1,1))) {
+		n=3
+		if(substr(val,1,1) == "x" || substr(val,1,1)=="X") Binprefix="0x"
+		if(substr(val,1,1) == "o" || substr(val,1,1)=="O") Binprefix="0"
+		
+		u = 1
+		while(u<sizeof(val) && is_number(substr(val,u+1,1))) u++;
+		if((substr(val,1,1)=="x" || substr(val,1,1)=="o") && u > 1) {
+			print("unsupported")
+			return(-1)
+		}
+		
+		if(substr(val,1,1)=="x") { 
+			Bpn=8
+			Td=24.0
+			return(1) 
+		} else if(substr(val,1,1)=="o") { 
+			Bpn=6
+			Td=32.0
+			return(1) 
+		}
+		if(u > 1) {
+			n = integer(substr(val,2,u-1))
+		}
+		mul = substr(val,1,1)=="X" ? 4 : 3
+		Bpn = mul*n
+		Td = Clicks/Bpn
+	} else if(val != "") {
 		Bpn = integer(val);
 		if(nargs() == 2 && argv(1)!="") {
 			Td = float(argv(1))
@@ -8,7 +35,8 @@ function initBinGlobals(val) {
 			if(val==12) {Td = Clicks/12}
 			else {Td = 2*Clicks/float(Bpn)}
 		}
-		
+		if(Bpn%3==0) Binprefix="0"
+		if(Bpn%4==0) Binprefix="0x"
 	}
 }
 
@@ -187,13 +215,11 @@ function nnbits(n, nbits)
 
 function ntobinseq(str)
 {
-	retval=[] c=[] scopy(c,split(str)) prefix=""
-	if(Bpn==6){ prefix="0" }
-	else if(Bpn==8 || Bpn==12){ prefix="0x" }
-	
+	retval=[] c=[] scopy(c,split(str))
+
 	for(n=0;n<sizeof(c);n++)
 	{ 
- 		c[n]=revseq(nnbits(integer(prefix+c[n]),Bpn)) 
+ 		c[n]=revseq(nnbits(integer(Binprefix+c[n]),Bpn)) 
 		scopy(retval, juxt(retval, c[n])) 
 	}
 	return(retval)

@@ -12,7 +12,7 @@
 function keylocal() {
 	colormix(0,0,0,0)
 	colormix(1,65535,65535,65535)
-	initBinGlobals(8)
+	initBinGlobals("x")
 	PI=3.1415926535897932
 	# inport("UA-100 MIDI 1")
 	# sca = outport("UA-100 MIDI 1")

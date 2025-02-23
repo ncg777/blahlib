@@ -159,9 +159,9 @@ function generateParts(str)
 				name = substr(name, 2, sizeof(name)-1); 
 				initBinGlobals(8)
 			}
-			if(substr(name,1,1) == "X"){
+			if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
 				name = substr(name, 2, sizeof(name)-1); 
-				initBinGlobals(12)
+				initBinGlobals(name)
 			}
 			print("Generating " + name)
 			len=-1
@@ -179,11 +179,13 @@ function generateParts(str)
 			{
 				m=substr(b[j],1,1)
 				
-				if(m=="X" || m=="x" || m=="o"){
-					if(m == "o") {initBinGlobals(6);}
-					if(m == "x") {initBinGlobals(8);}
-					if(m == "X") {initBinGlobals(12);}
-					m=substr(b[j],2,1)
+				if(m=="X" || m=="x" || m=="O" || m=="o"){
+          u=1
+          while(is_number(substr(b[j],u+1,1))) u++
+					if(m == "O" || m == "X") {initBinGlobals(substr(b[j],1,u))}
+					else if(m == "x") {initBinGlobals(8);}
+          else if(m == "o") {initBinGlobals(6);}
+					m=substr(b[j],u+1,1)
 				}
 				
 				if(m=="p"){
@@ -208,10 +210,10 @@ function generateParts(str)
 						rhythms = []
 						pitches = []
 						for(v=0;v<n_levels;v++){
-							rhythms[v]=items[v+1]
-							pitches[v]=string_to_intseq(items[v+1+n_levels])
+							rhythms[v]=trim(items[v+1])
+							pitches[v]=string_to_intseq(trim(items[v+1+n_levels]))
 						}
-
+            
 						concat += strat(len0, velocity, rhythms, pitches, offset)
 					}
 
@@ -394,9 +396,9 @@ function evaluateVariations(str,parts)
 			name = substr(name, 2, sizeof(name)-1); 
 			initBinGlobals(8)
 		}
-		if(substr(name,1,1) == "X"){
+		if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
 			name = substr(name, 2, sizeof(name)-1); 
-			initBinGlobals(12)
+			initBinGlobals(name)
 		}
 		partId = explode(b[0]," ")
 		len=-1
@@ -680,12 +682,14 @@ function bsts(str)
   bflag=0
   if(substr(retval["mode"],1,1)=="X" || substr(retval["mode"],1,1)=="x" || substr(retval["mode"],1,1)=="o")
   {
-      if(substr(retval["mode"],1,1)=="X") {initBinGlobals(12)}
+      if(substr(retval["mode"],1,1)=="X" || substr(retval["mode"],1,1)=="O") {initBinGlobals(retval["mode"])}
       if(substr(retval["mode"],1,1)=="x") {initBinGlobals(8)}
       if(substr(retval["mode"],1,1)=="o") {initBinGlobals(6)}
       
       bflag=1
-      retval["mode"]=substr(retval["mode"],2,1)
+      u=2
+      while(is_number(substr(retval["mode"],u,1))) u++
+      retval["mode"]=substr(retval["mode"],u,1)
     }
     retval["chan"]=decimal(z[1])
     tmp=explode(z[2],"+")
