@@ -892,9 +892,10 @@ class scale
 					c=0
 				}
 			}
-			if(typeof(argv(1))=="integer") {
-				while($.pmap[0]<argv(1)) {$.pmap = removeat($.pmap,0)}
-			}
+			#the following lines were a bad idea
+			#if(typeof(argv(1))=="integer") {
+			#	while($.pmap[0]<argv(1)) {$.pmap = removeat($.pmap,0)}
+			#}
 			
 			for(n in $.pmap)
 			{

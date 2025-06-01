@@ -155,11 +155,11 @@ function generateParts(str)
 				name = substr(name, 2, sizeof(name)-1); 
 				initBinGlobals(6)
 			}
-			if(substr(name,1,1) == "x"){
+			else if(substr(name,1,1) == "x"){
 				name = substr(name, 2, sizeof(name)-1); 
 				initBinGlobals(8)
 			}
-			if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
+			else if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
         u=2
         while(is_number(substr(name,u,1))) u++
         
@@ -184,11 +184,12 @@ function generateParts(str)
 				m=substr(b[j],1,1)
 				
 				if(m=="X" || m=="x" || m=="O" || m=="o"){
-          u=1
-          while(is_number(substr(b[j],u+1,1))) u++
-					if(m == "O" || m == "X") {initBinGlobals(substr(b[j],1,u))}
-					else if(m == "x") {initBinGlobals(8);}
-          else if(m == "o") {initBinGlobals(6);}
+					u=1
+					while(is_number(substr(b[j],u+1,1))) u++
+					
+					if(m == "x") {initBinGlobals(8);}
+					else if(m == "o") {initBinGlobals(6);}
+					else if(m == "O" || m == "X") {initBinGlobals(substr(b[j],1,u))}
 					m=substr(b[j],u+1,1)
 				}
 				
@@ -396,11 +397,11 @@ function evaluateVariations(str,parts)
 			name = substr(name, 2, sizeof(name)-1); 
 			initBinGlobals(6)
 		}
-		if(substr(name,1,1) == "x"){
+		else if(substr(name,1,1) == "x"){
 			name = substr(name, 2, sizeof(name)-1); 
 			initBinGlobals(8)
 		}
-		if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
+		else if(substr(name,1,1) == "X" || substr(name,1,1) == "O"){
       u=2
       while(is_number(substr(name,u,1))) u++
 			
@@ -690,8 +691,8 @@ function bsts(str)
   if(substr(retval["mode"],1,1)=="X" || substr(retval["mode"],1,1)=="x" || substr(retval["mode"],1,1)=="o")
   {
       if(substr(retval["mode"],1,1)=="X" || substr(retval["mode"],1,1)=="O") {initBinGlobals(retval["mode"])}
-      if(substr(retval["mode"],1,1)=="x") {initBinGlobals(8)}
-      if(substr(retval["mode"],1,1)=="o") {initBinGlobals(6)}
+      else if(substr(retval["mode"],1,1)=="x") {initBinGlobals(8)}
+      else if(substr(retval["mode"],1,1)=="o") {initBinGlobals(6)}
       
       bflag=1
       u=2
