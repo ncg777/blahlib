@@ -193,6 +193,9 @@ period_num ::= number ;
 offset_num ::= number ;
 amp_num ::= number ;
 phase_num ::= number ;
+# Waveshaping function is a raw expression string with no quotes in Burst.
+# It follows the KeyKit convention: a function of X with Y assigned, e.g. Y=cos(2*X).
+# Use only ASCII; commas and semicolons terminate the definition.
 waveshaping_fn ::= waveshaping_char { waveshaping_char } ;
 waveshaping_char ::= ? any char except ";" and "," ? ;
 
