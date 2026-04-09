@@ -26,8 +26,8 @@ function initBinGlobals(val) {
 		}
 		mul = substr(val,1,1)=="X" ? 4 : 3
 		Bpn = mul*n
-		if((Clicks*4)%(Bpn)!=0) Clicks=lcm(Clicks,Bpn)
-		Td = 4*Clicks/Bpn
+		if(Clicks%Bpn!=0) Clicks=lcm(Clicks,Bpn)
+		Td = Clicks/Bpn
 	} else if(val != "") {
 		Bpn = integer(val);
 		if(nargs() == 2 && argv(1)!="") {
