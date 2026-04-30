@@ -43,6 +43,22 @@ function fmModel1(amp,freq,modfreq,modindex) {
 	return(sprintf("Y=T+sin(PI*T)*%f*sin(%f*2*PI*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
 }
 
+function fmModel2(amp,freq,modfreq,modindex) {
+	return(sprintf("Y=T+pow(sin(PI*T),2.0)*%f*sin(%f*2*PI*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
+}
+
+function fmModel3(amp,freq,modfreq,modindex) {
+	return(sprintf("Y=T+(1.0-sin(PI*T))*%f*sin(%f*2*PI*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
+}
+
+function fmModel4(amp,freq,modfreq,modindex) {
+	return(sprintf("Y=T+sin(PI*T)*%f*triangle_wform(%f*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
+}
+
+function fmModel5(amp,freq,modfreq,modindex) {
+	return(sprintf("Y=T+sin(PI*T)*%f*saw_wform(%f*(T + %f*sin(%f*2*PI*T)))", amp,freq,modindex,modfreq))
+}
+
 function reversePowerModel1(exponent) {
 	return(sprintf("Y=pow(1.0-T,%f)", exponent))
 }
